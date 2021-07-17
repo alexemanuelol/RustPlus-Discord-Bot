@@ -1,10 +1,15 @@
 const Discord = require("discord.js");          /* Discord module. */
+const RustPlus = require("rustplus.js");        /* RustPlus module. */
 const fs = require("fs");                       /* Node file system module. */
 const config = require("./config.json");        /* Configuration file. */
+const devices = require("./devices.json");
 
 /* Create an instance of a discord client. */
 const bot = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 bot.commands = new Discord.Collection();
+
+/* Create an instance of RustPlus */
+var rustplus = new RustPlus(config.rustServerIp, config.rustAppPort, config.rustPlayerId, config.rustPlayerToken);
 
 /* Extract all the command files from the commands directory. */
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -32,7 +37,7 @@ bot.on("messageCreate", message => {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/);
 
     /* Obtain the actual command name. */
-    const command = args.shift().toLowerCase();
+    const command = args.shift();
 
     /* If the command does not exist, ignore. */
     if (!bot.commands.has(command)) return;
@@ -40,7 +45,7 @@ bot.on("messageCreate", message => {
     try
     {
         /* Execute the command. */
-        bot.commands.get(command).execute(message, args);
+        bot.commands.get(command).execute(message, args, bot, rustplus);
     }
     catch (error)
     {
@@ -49,5 +54,15 @@ bot.on("messageCreate", message => {
     }
 });
 
-/* Login to the discord bot */
+/* Login to the discord bot. */
 bot.login(config.discordToken);
+
+/* Wait until connected before sending commands. */
+rustplus.on('connected', () => {
+
+    /* Ready to send requests. */
+    rustplus.sendTeamMessage("Discord-Bot now enabled!");
+});
+
+/* Connect to the rust server */
+rustplus.connect();
