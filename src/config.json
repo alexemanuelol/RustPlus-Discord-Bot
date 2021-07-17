@@ -1,4 +1,8 @@
 {
-    "prefix" : "!",
-    "discordToken" : ""
+    "prefix": "!",
+    "discordToken": "",
+    "rustServerIp": "",
+    "rustAppPort": "",
+    "rustPlayerId": "",
+    "rustPlayerToken": ""
 }
