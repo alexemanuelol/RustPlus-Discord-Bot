@@ -27,10 +27,11 @@ module.exports = {
 
                         if (msg.response.hasOwnProperty("error"))
                         {
-                            console.log("Could not find device '" + arg + "'.")
+                            console.log("Some error occured, check response message above.");
                         }
                         else
                         {
+                            console.log("'" + arg + "' was turned on.");
                             message.reply("'" + arg + "' was turned on.");
                         }
                     });
@@ -42,10 +43,11 @@ module.exports = {
 
                         if (msg.response.hasOwnProperty("error"))
                         {
-                            console.log("Could not find device '" + arg + "'.")
+                            console.log("Some error occured, check response message above.");
                         }
                         else
                         {
+                            console.log("'" + arg + "' was turned on.");
                             message.reply("'" + arg + "' was turned on.");
                         }
                     });

@@ -17,7 +17,14 @@ module.exports = {
         rustplus.getMapMarkers((msg) => {
             console.log("getMapMarkers response message:\n" + JSON.stringify(msg));
 
-            /* TODO: Find a convenient way to display the information. */
+            if (msg.response.hasOwnProperty("error"))
+            {
+                console.log("Some error occured, check response message above.");
+            }
+            else
+            {
+                /* TODO: Find a convenient way to display the information. */
+            }
         });
 
         return true;

@@ -35,7 +35,15 @@ module.exports = {
                 rustplus.setEntityValue(parseInt(devices[device]), value, (msg) => {
                     console.log("setEntityValue response message:\n" + JSON.stringify(msg));
 
-                    message.reply("'" + device + "' entity status set to: **" + value + "**");
+                    if (msg.response.hasOwnProperty("error"))
+                    {
+                        console.log("Some error occured, check response message above.");
+                    }
+                    else
+                    {
+                        message.reply("'" + device + "' entity status set to: **" + value + "**");
+                    }
+
                     return true;
                 });
             }
@@ -44,7 +52,15 @@ module.exports = {
                 rustplus.setEntityValue(parseInt(device), value, (msg) => {
                     console.log("setEntityValue response message:\n" + JSON.stringify(msg));
 
-                    message.reply("'" + device + "' entity status set to: **" + value + "**");
+                    if (msg.response.hasOwnProperty("error"))
+                    {
+                        console.log("Some error occured, check response message above.");
+                    }
+                    else
+                    {
+                        message.reply("'" + device + "' entity status set to: **" + value + "**");
+                    }
+
                     return true;
                 });
             }

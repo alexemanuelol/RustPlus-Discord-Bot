@@ -16,11 +16,18 @@ module.exports = {
         rustplus.getMap((msg) => {
             console.log("getMap response message:\n" + JSON.stringify(msg));
 
-            /* TODO: not working correctly, might be because of BOT permissions(?) */
-            //fs.writeFileSync("123456.jpg", msg.response.map.jpgImage);
-            //const image = fs.readFileSync("./123456.jpg")
-            //const attachment = new Discord.MessageAttachment(image)
-            //message.reply("Server map:", attachment)
+            if (msg.response.hasOwnProperty("error"))
+            {
+                console.log("Some error occured, check response message above.");
+            }
+            else
+            {
+                /* TODO: not working correctly, might be because of BOT permissions(?) */
+                //fs.writeFileSync("123456.jpg", msg.response.map.jpgImage);
+                //const image = fs.readFileSync("./123456.jpg")
+                //const attachment = new Discord.MessageAttachment(image)
+                //message.reply("Server map:", attachment)
+            }
         });
 
         return true;

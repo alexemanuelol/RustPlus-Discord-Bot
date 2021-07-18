@@ -17,14 +17,21 @@ module.exports = {
         rustplus.getTime((msg) => {
             console.log("getTime response message:\n" + JSON.stringify(msg));
 
-            let time = msg["response"]["time"];
-            str += "**Current time:** " + time["time"] + "\n";
-            str += "**Total daylight (minutes):** " + time["dayLengthMinutes"] + "\n";
-            str += "**Sunrise:** " + time["sunrise"] + "\n";
-            str += "**Sunset:** " + time["sunset"];
+            if (msg.response.hasOwnProperty("error"))
+            {
+                console.log("Some error occured, check response message above.");
+            }
+            else
+            {
+                let time = msg.response.time;
+                str += "**Current time:** " + time.time + "\n";
+                str += "**Total daylight (minutes):** " + time.dayLengthMinutes + "\n";
+                str += "**Sunrise:** " + time.sunrise + "\n";
+                str += "**Sunset:** " + time.sunset;
 
-            console.log(str);
-            message.reply(str);
+                console.log(str);
+                message.reply(str);
+            }
         });
 
         return true;

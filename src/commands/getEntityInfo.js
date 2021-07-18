@@ -27,7 +27,7 @@ module.exports = {
 
                     if (msg.response.hasOwnProperty("error"))
                     {
-                        console.log("Some error occured, check response message above.")
+                        console.log("Some error occured, check response message above.");
                     }
                     else
                     {
@@ -45,7 +45,7 @@ module.exports = {
 
                     if (msg.response.hasOwnProperty("error"))
                     {
-                        console.log("Some error occured, check response message above.")
+                        console.log("Some error occured, check response message above.");
                     }
                     else
                     {

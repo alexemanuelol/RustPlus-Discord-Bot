@@ -17,18 +17,25 @@ module.exports = {
         rustplus.getTeamInfo((msg) => {
             console.log("getTeamInfo response message:\n" + JSON.stringify(msg));
 
-            let info = msg.response.teamInfo;
-            let members = info.members;
-
-            for (let member of members)
+            if (msg.response.hasOwnProperty("error"))
             {
-                str += "**Name:** " + member.name + ", ";
-                str += "**Online:** " + member.isOnline + ", ";
-                str += "**Alive:** " + member.isAlive + "\n";
+                console.log("Some error occured, check response message above.");
             }
+            else
+            {
+                let info = msg.response.teamInfo;
+                let members = info.members;
 
-            console.log(str);
-            message.reply(str);
+                for (let member of members)
+                {
+                    str += "**Name:** " + member.name + ", ";
+                    str += "**Online:** " + member.isOnline + ", ";
+                    str += "**Alive:** " + member.isAlive + "\n";
+                }
+
+                console.log(str);
+                message.reply(str);
+            }
         });
 
         return true;

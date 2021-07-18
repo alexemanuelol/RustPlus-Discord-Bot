@@ -17,19 +17,26 @@ module.exports = {
         rustplus.getInfo((msg) => {
             console.log("getInfo response message:\n" + JSON.stringify(msg));
 
-            let info = msg.response.info;
-            str += "**Server name:** " + info.name + "\n";
-            str += "**URL:** <" + info.url + ">\n";
-            str += "**Map:** " + info.map + "\n";
-            str += "**Map Size:** " + info.mapSize + "\n";
-            str += "**Wipe time:** " + info.wipeTime + "\n";
-            str += "**Online players:** (" + info.players + "/" + info.maxPlayers + ")\n";
-            str += "**Queued Players:** " + info.queuedPlayers + "\n";
-            str += "**Seed:** " + info.seed + "\n";
-            str += "**Salt:** " + info.salt;
+            if (msg.response.hasOwnProperty("error"))
+            {
+                console.log("Some error occured, check response message above.");
+            }
+            else
+            {
+                let info = msg.response.info;
+                str += "**Server name:** " + info.name + "\n";
+                str += "**URL:** <" + info.url + ">\n";
+                str += "**Map:** " + info.map + "\n";
+                str += "**Map Size:** " + info.mapSize + "\n";
+                str += "**Wipe time:** " + info.wipeTime + "\n";
+                str += "**Online players:** (" + info.players + "/" + info.maxPlayers + ")\n";
+                str += "**Queued Players:** " + info.queuedPlayers + "\n";
+                str += "**Seed:** " + info.seed + "\n";
+                str += "**Salt:** " + info.salt;
 
-            console.log(str);
-            message.reply(str);
+                console.log(str);
+                message.reply(str);
+            }
         });
 
         return true;
