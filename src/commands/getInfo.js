@@ -15,6 +15,8 @@ module.exports = {
         var str = "";
 
         rustplus.getInfo((msg) => {
+            console.log("getInfo response message:\n" + JSON.stringify(msg));
+
             let info = msg["response"]["info"];
             str += "**Server name:** " + info["name"] + "\n";
             str += "**URL:** <" + info["url"] + ">\n";

@@ -33,6 +33,8 @@ module.exports = {
             if (devices.hasOwnProperty(device))
             {
                 rustplus.setEntityValue(parseInt(devices[device]), value, (msg) => {
+                    console.log("setEntityValue response message:\n" + JSON.stringify(msg));
+
                     message.reply("'" + device + "' entity status set to: **" + value + "**");
                     return true;
                 });
@@ -40,6 +42,8 @@ module.exports = {
             else
             {
                 rustplus.setEntityValue(parseInt(device), value, (msg) => {
+                    console.log("setEntityValue response message:\n" + JSON.stringify(msg));
+
                     message.reply("'" + device + "' entity status set to: **" + value + "**");
                     return true;
                 });

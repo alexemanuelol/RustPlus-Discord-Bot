@@ -23,17 +23,15 @@ module.exports = {
 
             if (devices.hasOwnProperty(device))
             {
-                console.log("TBD");
-                /*rustplus.getCameraFrame(parseInt(devices[device]), frame,  (msg => {
-                    console.log(msg)
-                }));*/
+                rustplus.getCameraFrame(parseInt(devices[device]), frame,  (msg => {
+                    console.log("getCameraFrame response message:\n" + JSON.stringify(msg));
+                }));
             }
             else
             {
-                console.log("TBD");
-                /*rustplus.getCameraFrame(parseInt(device), frame,  (msg => {
-                    console.log(msg)
-                }));*/
+                rustplus.getCameraFrame(parseInt(device), frame,  (msg => {
+                    console.log("getCameraFrame response message:\n" + JSON.stringify(msg));
+                }));
             }
         });
 

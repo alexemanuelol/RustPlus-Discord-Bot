@@ -15,6 +15,8 @@ module.exports = {
         var str = "";
 
         rustplus.getTime((msg) => {
+            console.log("getTime response message:\n" + JSON.stringify(msg));
+
             let time = msg["response"]["time"];
             str += "**Current time:** " + time["time"] + "\n";
             str += "**Total daylight (minutes):** " + time["dayLengthMinutes"] + "\n";

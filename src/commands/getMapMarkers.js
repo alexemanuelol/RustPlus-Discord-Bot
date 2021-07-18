@@ -15,7 +15,8 @@ module.exports = {
         var str = "";
 
         rustplus.getMapMarkers((msg) => {
-            console.log("TBD");
+            console.log("getMapMarkers response message:\n" + JSON.stringify(msg));
+
             //console.log(msg["response"]["mapMarkers"]);
 
             /* TODO: Find a convenient way to display the information. */

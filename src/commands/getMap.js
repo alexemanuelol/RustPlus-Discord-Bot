@@ -14,6 +14,8 @@ module.exports = {
         }
 
         rustplus.getMap((msg) => {
+            console.log("getMap response message:\n" + JSON.stringify(msg));
+
             /* TODO: not working correctly, might be because of BOT permissions(?) */
             //fs.writeFileSync("123456.jpg", msg.response.map.jpgImage);
             //const image = fs.readFileSync("./123456.jpg")

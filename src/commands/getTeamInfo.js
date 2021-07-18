@@ -15,6 +15,8 @@ module.exports = {
         var str = "";
 
         rustplus.getTeamInfo((msg) => {
+            console.log("getTeamInfo response message:\n" + JSON.stringify(msg));
+
             let info = msg["response"]["teamInfo"];
             let members = info["members"];
 
