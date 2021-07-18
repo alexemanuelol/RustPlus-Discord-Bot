@@ -1,3 +1,5 @@
+![Rust+ Discord icon](images/rustplus_discord.png)
+
 # RustPlus-Discord-Bot
 This is an NodeJS Discord Bot that uses the rustplus.js library to interact with Smart Devices in the PC game [Rust](https://store.steampowered.com/app/252490/Rust/).
 
