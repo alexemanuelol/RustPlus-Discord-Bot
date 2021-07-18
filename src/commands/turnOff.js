@@ -25,7 +25,7 @@ module.exports = {
                     rustplus.turnSmartSwitchOff(parseInt(devices[arg]), (msg) => {
                         console.log("turnSmartSwitchOff response message: " + JSON.stringify(msg));
 
-                        if (msg["response"].hasOwnProperty("error"))
+                        if (msg.response.hasOwnProperty("error"))
                         {
                             console.log("Could not find device '" + arg + "'.")
                         }
@@ -40,7 +40,7 @@ module.exports = {
                     rustplus.turnSmartSwitchOff(parseInt(arg), (msg) => {
                         console.log("turnSmartSwitchOff response message: " + JSON.stringify(msg));
 
-                        if (msg["response"].hasOwnProperty("error"))
+                        if (msg.response.hasOwnProperty("error"))
                         {
                             console.log("Could not find device '" + arg + "'.")
                         }

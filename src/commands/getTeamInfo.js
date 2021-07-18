@@ -17,14 +17,14 @@ module.exports = {
         rustplus.getTeamInfo((msg) => {
             console.log("getTeamInfo response message:\n" + JSON.stringify(msg));
 
-            let info = msg["response"]["teamInfo"];
-            let members = info["members"];
+            let info = msg.response.teamInfo;
+            let members = info.members;
 
             for (let member of members)
             {
-                str += "**Name:** " + member["name"] + ", ";
-                str += "**Online:** " + member["isOnline"] + ", ";
-                str += "**Alive:** " + member["isAlive"] + "\n";
+                str += "**Name:** " + member.name + ", ";
+                str += "**Online:** " + member.isOnline + ", ";
+                str += "**Alive:** " + member.isAlive + "\n";
             }
 
             console.log(str);
