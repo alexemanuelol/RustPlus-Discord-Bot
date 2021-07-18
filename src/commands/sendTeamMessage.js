@@ -13,9 +13,11 @@ module.exports = {
         }
 
         msg = message.content.replace("!sendTeamMessage ", "");
+        author = message.author.username
 
-        console.log(message.content);
-        rustplus.sendTeamMessage(msg);
+        console.log("[" + author + "] sent a team message: " + msg);
+        rustplus.sendTeamMessage("[" + author + "] " + msg);
+        message.reply("Message '" + msg + "' was sent.");
 
         return true;
 	},
