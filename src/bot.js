@@ -9,7 +9,7 @@ const bot = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 bot.commands = new Discord.Collection();
 
 /* Create an instance of RustPlus */
-var rustplus = new RustPlus(config.rustServerIp, config.rustAppPort, config.rustPlayerId, config.rustPlayerToken);
+var rustplus = new RustPlus(config.rustServerIp, config.rustAppPort, config.steamId, config.rustPlayerToken);
 
 /* Extract all the command files from the commands directory. */
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));

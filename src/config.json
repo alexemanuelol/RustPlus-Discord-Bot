@@ -3,6 +3,6 @@
     "discordToken": "",
     "rustServerIp": "",
     "rustAppPort": "",
-    "rustPlayerId": "",
+    "steamId": "",
     "rustPlayerToken": ""
 }
