@@ -20,7 +20,7 @@ Install the required nodejs modules:
 
 To be able to run the bot there are a few configuration parameters that needs to be set in the config.json file located at *src/config.json*:
 
-1. **discordToken** - Follow ![this](https://realpython.com/how-to-make-a-discord-bot-python/) guide for how to setup an application, bot creation for the discord server and how to access the token.
+1. **discordToken** - Follow [this](https://realpython.com/how-to-make-a-discord-bot-python/) guide for how to setup an application, bot creation for the discord server and how to access the token.
 2. **rustServerIp** - The server IP address.
 3. **rustAppPort** - Rust app port for communicating via App WebSocket.
 4. **steamId** - Your steam ID.
