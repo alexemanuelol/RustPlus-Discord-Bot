@@ -23,16 +23,36 @@ module.exports = {
             if (devices.hasOwnProperty(device))
             {
                 rustplus.getEntityInfo(parseInt(devices[device]), (msg) => {
-                    console.log("'" + device + "' entity status: **" + msg["response"]["entityInfo"]["payload"]["value"] + "**");
-                    message.reply("'" + device + "' entity status: **" + msg["response"]["entityInfo"]["payload"]["value"] + "**");
+                    console.log("getEntityInfo response message:\n" + JSON.stringify(msg));
+
+                    if (msg.response.hasOwnProperty("error"))
+                    {
+                        console.log("Some error occured, check response message above.")
+                    }
+                    else
+                    {
+                        console.log("'" + device + "' entity status: **" + msg.response.entityInfo.payload.value + "**");
+                        message.reply("'" + device + "' entity status: **" + msg.response.entityInfo.payload.value + "**");
+                    }
+
                     return true;
                 });
             }
             else
             {
                 rustplus.getEntityInfo(parseInt(device), (msg) => {
-                    console.log("'" + device + "' entity status: **" + msg["response"]["entityInfo"]["payload"]["value"] + "**");
-                    message.reply("'" + device + "' entity status: **" + msg["response"]["entityInfo"]["payload"]["value"] + "**");
+                    console.log("getEntityInfo response message:\n" + JSON.stringify(msg));
+
+                    if (msg.response.hasOwnProperty("error"))
+                    {
+                        console.log("Some error occured, check response message above.")
+                    }
+                    else
+                    {
+                        console.log("'" + device + "' entity status: **" + msg.response.entityInfo.payload.value + "**");
+                        message.reply("'" + device + "' entity status: **" + msg.response.entityInfo.payload.value + "**");
+                    }
+
                     return true;
                 });
             }
