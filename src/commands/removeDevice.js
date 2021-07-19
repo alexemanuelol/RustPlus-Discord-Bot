@@ -3,9 +3,9 @@ const RustPlus = require("rustplus.js");
 const fs = require("fs");
 
 module.exports = {
-	name: "removeDevice",
-	description: "Removes a device from the devices.json file.",
-	execute(message, args, bot, rustplus) {
+    name: "removeDevice",
+    description: "Removes a device from the devices.json file.",
+    execute(message, args, bot, rustplus) {
         if (args.length != 1)
         {
             console.log("ERROR: 1 argument required. Example: !removeDevice @name");
@@ -40,5 +40,5 @@ module.exports = {
         });
 
         return true;
-	},
+    },
 };

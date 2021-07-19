@@ -3,9 +3,9 @@ const RustPlus = require("rustplus.js");
 const fs = require("fs");
 
 module.exports = {
-	name: "getEntityInfo",
-	description: "Get current state of a Smart Device.",
-	execute(message, args, bot, rustplus) {
+    name: "getEntityInfo",
+    description: "Get current state of a Smart Device.",
+    execute(message, args, bot, rustplus) {
         if (args.length != 1)
         {
             console.log("ERROR: 1 argument required. Example: !getEntityInfo @name/id");
@@ -59,5 +59,5 @@ module.exports = {
         });
 
         return true;
-	},
+    },
 };

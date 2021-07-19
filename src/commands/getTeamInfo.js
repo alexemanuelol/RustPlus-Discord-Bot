@@ -2,9 +2,9 @@ const Discord = require("discord.js");
 const RustPlus = require("rustplus.js");
 
 module.exports = {
-	name: "getTeamInfo",
-	description: "Get list of team members and positions on map.",
-	execute(message, args, bot, rustplus) {
+    name: "getTeamInfo",
+    description: "Get list of team members and positions on map.",
+    execute(message, args, bot, rustplus) {
         if (args.length != 0)
         {
             console.log("ERROR: No arguments required.");
@@ -39,5 +39,5 @@ module.exports = {
         });
 
         return true;
-	},
+    },
 };

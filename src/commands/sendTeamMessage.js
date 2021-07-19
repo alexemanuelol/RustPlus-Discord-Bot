@@ -2,9 +2,9 @@ const Discord = require("discord.js");
 const RustPlus = require("rustplus.js");
 
 module.exports = {
-	name: "sendTeamMessage",
-	description: "Sends a message to the team in-game.",
-	execute(message, args, bot, rustplus) {
+    name: "sendTeamMessage",
+    description: "Sends a message to the team in-game.",
+    execute(message, args, bot, rustplus) {
         if (args.length === 0)
         {
             console.log("ERROR: Empty message.");
@@ -20,5 +20,5 @@ module.exports = {
         message.reply("Message '" + msg + "' was sent.");
 
         return true;
-	},
+    },
 };

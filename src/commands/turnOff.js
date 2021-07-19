@@ -3,9 +3,9 @@ const RustPlus = require("rustplus.js");
 const fs = require("fs");
 
 module.exports = {
-	name: "turnOff",
-	description: "Turn off a Smart Switch.",
-	execute(message, args, bot, rustplus) {
+    name: "turnOff",
+    description: "Turn off a Smart Switch.",
+    execute(message, args, bot, rustplus) {
         if (args.length === 0)
         {
             console.log("ERROR: At least 1 argument is required. Example: !turnOff @name/id");
@@ -56,5 +56,5 @@ module.exports = {
         });
 
         return true;
-	},
+    },
 };

@@ -59,7 +59,6 @@ bot.login(config.discordToken);
 
 /* Wait until connected before sending commands. */
 rustplus.on('connected', () => {
-
     /* Ready to send requests. */
     rustplus.sendTeamMessage("Discord-Bot now enabled!");
 });

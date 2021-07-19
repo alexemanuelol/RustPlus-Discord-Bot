@@ -3,9 +3,9 @@ const RustPlus = require("rustplus.js");
 const fs = require("fs");
 
 module.exports = {
-	name: "setEntityValue",
-	description: "Set the value of a Smart Device.",
-	execute(message, args, bot, rustplus) {
+    name: "setEntityValue",
+    description: "Set the value of a Smart Device.",
+    execute(message, args, bot, rustplus) {
         if (args.length != 2)
         {
             console.log("ERROR: 2 arguments are required. Example: !setEntityValue @name @value");
@@ -67,5 +67,5 @@ module.exports = {
         });
 
         return true;
-	},
+    },
 };

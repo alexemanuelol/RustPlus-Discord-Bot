@@ -3,9 +3,9 @@ const RustPlus = require("rustplus.js");
 const fs = require("fs");
 
 module.exports = {
-	name: "getCameraFrame",
-	description: "Get a jpeg image from a CCTV Camera.",
-	execute(message, args, bot, rustplus) {
+    name: "getCameraFrame",
+    description: "Get a jpeg image from a CCTV Camera.",
+    execute(message, args, bot, rustplus) {
         if (args.length != 2)
         {
             console.log("ERROR: 2 arguments are required. Example: !getCameraFrame @name @frame");
@@ -54,5 +54,5 @@ module.exports = {
         });
 
         return true;
-	},
+    },
 };

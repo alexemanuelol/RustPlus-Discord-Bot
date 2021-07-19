@@ -2,9 +2,9 @@ const Discord = require("discord.js");
 const RustPlus = require("rustplus.js");
 
 module.exports = {
-	name: "getTime",
-	description: "Get the current in game time.",
-	execute(message, args, bot, rustplus) {
+    name: "getTime",
+    description: "Get the current in game time.",
+    execute(message, args, bot, rustplus) {
         if (args.length != 0)
         {
             console.log("ERROR: No arguments required.");
@@ -35,5 +35,5 @@ module.exports = {
         });
 
         return true;
-	},
+    },
 };

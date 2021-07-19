@@ -3,9 +3,9 @@ const RustPlus = require("rustplus.js");
 const fs = require("fs");
 
 module.exports = {
-	name: "getMap",
-	description: "Fetch map info, which includes a jpeg image.",
-	execute(message, args, bot, rustplus) {
+    name: "getMap",
+    description: "Fetch map info, which includes a jpeg image.",
+    execute(message, args, bot, rustplus) {
         if (args.length != 0)
         {
             console.log("ERROR: No arguments required.");
@@ -31,5 +31,5 @@ module.exports = {
         });
 
         return true;
-	},
+    },
 };

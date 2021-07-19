@@ -3,9 +3,9 @@ const RustPlus = require("rustplus.js");
 const fs = require("fs");
 
 module.exports = {
-	name: "addDevice",
-	description: "Add a new device to devices.json file.",
-	execute(message, args, bot, rustplus) {
+    name: "addDevice",
+    description: "Add a new device to devices.json file.",
+    execute(message, args, bot, rustplus) {
         if (args.length != 2)
         {
             console.log("ERROR: 2 arguments required. Example: !addDevice @name @id");
@@ -39,5 +39,5 @@ module.exports = {
         });
 
         return true;
-	},
+    },
 };
