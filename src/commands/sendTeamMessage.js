@@ -8,7 +8,14 @@ module.exports = {
         if (args.length === 0)
         {
             console.log("ERROR: Empty message.");
-            message.reply("ERROR: Empty message.");
+            const error1 = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("ERROR")
+                .setDescription("Empty message.");
+
+            message.channel.send(error1);
             return false;
         }
 
@@ -17,7 +24,14 @@ module.exports = {
 
         console.log("[" + author + "] sent a team message: " + msg);
         rustplus.sendTeamMessage("[" + author + "] " + msg);
-        message.reply("Message '" + msg + "' was sent.");
+        const embed = new Discord.MessageEmbed()
+            .setColor("#ce412b")
+            .setThumbnail("https://imgur.com/znQvBMi.png")
+            .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+            .setTitle("Successfully Sent")
+            .setDescription("Message '" + msg + "' was sent.");
+
+        message.channel.send(embed);
 
         return true;
     },
