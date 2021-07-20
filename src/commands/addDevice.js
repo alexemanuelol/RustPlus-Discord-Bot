@@ -9,7 +9,14 @@ module.exports = {
         if (args.length != 2)
         {
             console.log("ERROR: 2 arguments required. Example: !addDevice @name @id");
-            message.reply("ERROR: 2 arguments required. Example: !addDevice @name @id");
+            const error1 = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("ERROR")
+                .setDescription("2 arguments required. Example: !addDevice @name @id.");
+
+            message.channel.send(error1);
             return false;
         }
 
@@ -19,7 +26,14 @@ module.exports = {
         if (isNaN(value))
         {
             console.log("Could not convert '" + args[1] + "' to integer");
-            message.reply("Could not convert '" + args[1] + "' to integer");
+            const error2 = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("ERROR")
+                .setDescription("Could not convert '" + args[1] + "' to integer.");
+
+            message.channel.send(error2);
             return false;
         }
 
@@ -34,7 +48,14 @@ module.exports = {
                 if (err) throw err;
 
                 console.log("'" + key + " : " + value + "' was added to devices.");
-                message.reply("'" + key + " : " + value + "' was added to devices.");
+                const embed = new Discord.MessageEmbed()
+                    .setColor("#ce412b")
+                    .setThumbnail("https://imgur.com/znQvBMi.png")
+                    .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                    .setTitle("Command successful")
+                    .setDescription("'**" + key + " : " + value + "**' was added to devices.");
+
+                message.channel.send(embed);
             });
         });
 
