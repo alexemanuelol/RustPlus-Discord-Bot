@@ -8,11 +8,16 @@ module.exports = {
         if (args.length != 0)
         {
             console.log("ERROR: No arguments required.");
-            message.reply("ERROR: No arguments required.");
+            const error1 = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("ERROR")
+                .setDescription("No arguments required.");
+
+            message.channel.send(error1);
             return false;
         }
-
-        var str = "";
 
         rustplus.getTime((msg) => {
             console.log("getTime response message:\n" + JSON.stringify(msg));
@@ -23,14 +28,17 @@ module.exports = {
             }
             else
             {
-                let time = msg.response.time;
-                str += "**Current time:** " + time.time + "\n";
-                str += "**Total daylight (minutes):** " + time.dayLengthMinutes + "\n";
-                str += "**Sunrise:** " + time.sunrise + "\n";
-                str += "**Sunset:** " + time.sunset;
+                const embed = new Discord.MessageEmbed()
+                    .setColor("#ce412b")
+                    .setThumbnail("https://imgur.com/znQvBMi.png")
+                    .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                    .setTitle("Time Information")
+                    .setDescription("**Current time:** " + msg.response.time.time + "\n" +
+                                    "**Total daylight (minutes):** " + msg.response.time.dayLengthMinutes + "\n" +
+                                    "**Sunrise:** " + msg.response.time.sunrise + "\n" +
+                                    "**Sunset:** " + msg.response.time.sunset);
 
-                console.log(str);
-                message.reply(str);
+                message.channel.send(embed);
             }
         });
 
