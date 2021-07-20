@@ -9,7 +9,14 @@ module.exports = {
         if (args.length != 0)
         {
             console.log("ERROR: No arguments required.");
-            message.reply("ERROR: No arguments required.");
+            const error1 = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("ERROR")
+                .setDescription("No arguments required.");
+
+            message.channel.send(error1);
             return false;
         }
 
@@ -19,7 +26,14 @@ module.exports = {
             if (err) throw err;
 
             console.log("All devices were removed.");
-            message.reply("All devices were removed.");
+            const embed = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("Successfully Removed")
+                .setDescription("All devices were removed.");
+
+            message.channel.send(embed);
         });
 
         return true;
