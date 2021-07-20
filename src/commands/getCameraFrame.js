@@ -9,7 +9,14 @@ module.exports = {
         if (args.length != 2)
         {
             console.log("ERROR: 2 arguments are required. Example: !getCameraFrame @name @frame");
-            message.reply("ERROR: 2 arguments are required. Example: !getCameraFrame @name @frame");
+            const error1 = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("ERROR")
+                .setDescription("2 arguments required. Example: !getCameraFrame @name @frame.");
+
+            message.channel.send(error1);
             return false;
         }
 
