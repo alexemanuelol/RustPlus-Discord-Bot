@@ -29,41 +29,39 @@ module.exports = {
         fs.readFile("./devices.json", (err, data) => {
             if (err) throw err;
             let devices = JSON.parse(data);
+            let dev;
+
 
             if (devices.hasOwnProperty(device))
             {
-                rustplus.setEntityValue(parseInt(devices[device]), value, (msg) => {
-                    console.log("setEntityValue response message:\n" + JSON.stringify(msg));
-
-                    if (msg.response.hasOwnProperty("error"))
-                    {
-                        console.log("Some error occured, check response message above.");
-                    }
-                    else
-                    {
-                        message.reply("'" + device + "' entity status set to: **" + value + "**");
-                    }
-
-                    return true;
-                });
+                dev = parseInt(devices[device]);
             }
             else
             {
-                rustplus.setEntityValue(parseInt(device), value, (msg) => {
-                    console.log("setEntityValue response message:\n" + JSON.stringify(msg));
-
-                    if (msg.response.hasOwnProperty("error"))
-                    {
-                        console.log("Some error occured, check response message above.");
-                    }
-                    else
-                    {
-                        message.reply("'" + device + "' entity status set to: **" + value + "**");
-                    }
-
-                    return true;
-                });
+                dev = parseInt(device);
             }
+
+            rustplus.setEntityValue(dev, value, (msg) => {
+                console.log("setEntityValue response message:\n" + JSON.stringify(msg));
+
+                if (msg.response.hasOwnProperty("error"))
+                {
+                    console.log("Some error occured, check response message above.");
+                }
+                else
+                {
+                    const embed = new Discord.MessageEmbed()
+                        .setColor("#ce412b")
+                        .setThumbnail("https://imgur.com/znQvBMi.png")
+                        .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                        .setTitle("Successfully Set")
+                        .setDescription("'" + device + "' entity value set to: **" + value + "**");
+
+                    message.channel.send(embed);
+                }
+
+                return true;
+            });
         });
 
         return true;
