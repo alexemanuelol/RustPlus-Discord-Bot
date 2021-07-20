@@ -50,7 +50,15 @@ bot.on("message", message => {
     catch (error)
     {
         console.error(error);
-        message.reply("There was an error trying to execute that command!");
+
+        const embed = new Discord.MessageEmbed()
+            .setColor("#ce412b")
+            .setThumbnail("https://imgur.com/znQvBMi.png")
+            .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+            .setTitle("ERROR")
+            .setDescription("An error occured while trying to execute that command.");
+
+        message.channel.send(embed);
     }
 });
 
@@ -60,7 +68,7 @@ bot.login(config.discordToken);
 /* Wait until connected before sending commands. */
 rustplus.on('connected', () => {
     /* Ready to send requests. */
-    rustplus.sendTeamMessage("Discord-Bot now enabled!");
+    rustplus.sendTeamMessage("RustPlus-Discord-Bot now enabled!");
 });
 
 /* Connect to the rust server */
