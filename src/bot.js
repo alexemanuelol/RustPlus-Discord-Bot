@@ -5,7 +5,7 @@ const config = require("./config.json");        /* Configuration file. */
 const devices = require("./devices.json");
 
 /* Create an instance of a discord client. */
-const bot = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
+const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 
 /* Create an instance of RustPlus */
@@ -29,7 +29,7 @@ bot.on("ready", () => {
 });
 
 /* Called whenever a new message is sent in the guild. */
-bot.on("messageCreate", message => {
+bot.on("message", message => {
     /* If it does not start with the command prefix or if message comes from another bot, ignore. */
     if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 

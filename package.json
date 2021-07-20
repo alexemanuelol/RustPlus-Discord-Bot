@@ -17,7 +17,7 @@
     },
     "homepage": "https://github.com/alexemanuelol/RustPlus-Discord-Bot#readme",
     "dependencies": {
-        "discord.js": "github:discordjs/discord.js",
+        "discord.js": "^12.5.3",
         "rustplus.js": "github:liamcottle/rustplus.js"
     }
 }
