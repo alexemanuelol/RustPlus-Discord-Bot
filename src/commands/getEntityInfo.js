@@ -9,7 +9,14 @@ module.exports = {
         if (args.length != 1)
         {
             console.log("ERROR: 1 argument required. Example: !getEntityInfo @name/id");
-            message.reply("ERROR: 1 argument required. Example: !getEntityInfo @name/id");
+            const error1 = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("ERROR")
+                .setDescription("1 argument required. Example: !getEntityInfo @name/id.");
+
+            message.channel.send(error1);
             return false;
         }
 
@@ -19,43 +26,57 @@ module.exports = {
         fs.readFile("./devices.json", (err, data) => {
             if (err) throw err;
             let devices = JSON.parse(data);
+            let dev;
 
             if (devices.hasOwnProperty(device))
             {
-                rustplus.getEntityInfo(parseInt(devices[device]), (msg) => {
-                    console.log("getEntityInfo response message:\n" + JSON.stringify(msg));
-
-                    if (msg.response.hasOwnProperty("error"))
-                    {
-                        console.log("Some error occured, check response message above.");
-                    }
-                    else
-                    {
-                        console.log("'" + device + "' entity status: **" + msg.response.entityInfo.payload.value + "**");
-                        message.reply("'" + device + "' entity status: **" + msg.response.entityInfo.payload.value + "**");
-                    }
-
-                    return true;
-                });
+                dev = parseInt(devices[device])
             }
             else
             {
-                rustplus.getEntityInfo(parseInt(device), (msg) => {
-                    console.log("getEntityInfo response message:\n" + JSON.stringify(msg));
-
-                    if (msg.response.hasOwnProperty("error"))
-                    {
-                        console.log("Some error occured, check response message above.");
-                    }
-                    else
-                    {
-                        console.log("'" + device + "' entity status: **" + msg.response.entityInfo.payload.value + "**");
-                        message.reply("'" + device + "' entity status: **" + msg.response.entityInfo.payload.value + "**");
-                    }
-
-                    return true;
-                });
+                dev = parseInt(device)
             }
+
+            rustplus.getEntityInfo(dev, (msg) => {
+                console.log("getEntityInfo response message:\n" + JSON.stringify(msg));
+
+                if (msg.response.hasOwnProperty("error"))
+                {
+                    console.log("Some error occured, check response message above.");
+                }
+                else
+                {
+                    let deviceType = "";
+                    switch (msg.response.entityInfo.type)
+                    {
+                        case 1:
+                            deviceType = "Switch";
+                            break;
+                        case 2:
+                            deviceType = "Alarm";
+                            break;
+                        case 3:
+                            deviceType = "StorageMonitor";
+                            break;
+                        default:
+                            deviceType = "Unknown";
+                    }
+                    const embed = new Discord.MessageEmbed()
+                        .setColor("#ce412b")
+                        .setThumbnail("https://imgur.com/znQvBMi.png")
+                        .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                        .setTitle("Command Successful")
+                        .setDescription("**Type:** " + deviceType + "\n" +
+                                        "**Value:** " + msg.response.entityInfo.payload.value + "\n" +
+                                        "**Capacity:** " + msg.response.entityInfo.payload.capacity + "\n" +
+                                        "**HasProtection:** " + msg.response.entityInfo.payload.hasProtection + "\n" +
+                                        "**ProtectionExpiry:** " + msg.response.entityInfo.payload.protectionExpiry);
+
+                    message.channel.send(embed);
+                }
+
+                return true;
+            });
         });
 
         return true;
