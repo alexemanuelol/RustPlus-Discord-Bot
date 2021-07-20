@@ -19,8 +19,6 @@ module.exports = {
             return false;
         }
 
-        var str = "";
-
         rustplus.getMapMarkers((msg) => {
             console.log("getMapMarkers response message:\n" + JSON.stringify(msg));
 

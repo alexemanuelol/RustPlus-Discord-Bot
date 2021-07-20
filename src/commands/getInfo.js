@@ -8,7 +8,6 @@ module.exports = {
         if (args.length != 0)
         {
             console.log("ERROR: No arguments required.");
-            message.reply("ERROR: No arguments required.");
             const error1 = new Discord.MessageEmbed()
                 .setColor("#ce412b")
                 .setThumbnail("https://imgur.com/znQvBMi.png")
@@ -19,8 +18,6 @@ module.exports = {
             message.channel.send(error1);
             return false;
         }
-
-        var str = "";
 
         rustplus.getInfo((msg) => {
             console.log("getInfo response message:\n" + JSON.stringify(msg));

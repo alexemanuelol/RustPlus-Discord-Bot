@@ -27,37 +27,29 @@ module.exports = {
         fs.readFile("./devices.json", (err, data) => {
             if (err) throw err;
             let devices = JSON.parse(data);
+            let dev;
 
             if (devices.hasOwnProperty(device))
             {
-                rustplus.getCameraFrame(parseInt(devices[device]), frame,  (msg => {
-                    console.log("getCameraFrame response message:\n" + JSON.stringify(msg));
-
-                    if (msg.response.hasOwnProperty("error"))
-                    {
-                        console.log("Some error occured, check response message above.")
-                    }
-                    else
-                    {
-                        /* TBD */
-                    }
-                }));
+                dev = parseInt(devices[device]);
             }
             else
             {
-                rustplus.getCameraFrame(parseInt(device), frame,  (msg => {
-                    console.log("getCameraFrame response message:\n" + JSON.stringify(msg));
-
-                    if (msg.response.hasOwnProperty("error"))
-                    {
-                        console.log("Some error occured, check response message above.")
-                    }
-                    else
-                    {
-                        /* TBD */
-                    }
-                }));
+                dev = parseInt(device);
             }
+
+            rustplus.getCameraFrame(parseInt(devices[device]), frame,  (msg => {
+                console.log("getCameraFrame response message:\n" + JSON.stringify(msg));
+
+                if (msg.response.hasOwnProperty("error"))
+                {
+                    console.log("Some error occured, check response message above.");
+                }
+                else
+                {
+                    /* TBD */
+                }
+            }));
         });
 
         return true;

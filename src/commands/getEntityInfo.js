@@ -30,11 +30,11 @@ module.exports = {
 
             if (devices.hasOwnProperty(device))
             {
-                dev = parseInt(devices[device])
+                dev = parseInt(devices[device]);
             }
             else
             {
-                dev = parseInt(device)
+                dev = parseInt(device);
             }
 
             rustplus.getEntityInfo(dev, (msg) => {

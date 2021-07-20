@@ -8,11 +8,17 @@ module.exports = {
         if (args.length != 0)
         {
             console.log("ERROR: No arguments required.");
-            message.reply("ERROR: No arguments required.");
+            const error1 = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("ERROR")
+                .setDescription("No arguments required.");
+
+            message.channel.send(error1);
+
             return false;
         }
-
-        var str = "";
 
         rustplus.getTeamInfo((msg) => {
             console.log("getTeamInfo response message:\n" + JSON.stringify(msg));
@@ -23,18 +29,24 @@ module.exports = {
             }
             else
             {
-                let info = msg.response.teamInfo;
-                let members = info.members;
+                const embed = new Discord.MessageEmbed()
+                    .setColor("#ce412b")
+                    .setThumbnail("https://imgur.com/znQvBMi.png")
+                    .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                    .setTitle("Team Information");
 
-                for (let member of members)
+                for (let member of msg.response.teamInfo.members)
                 {
-                    str += "**Name:** " + member.name + ", ";
-                    str += "**Online:** " + member.isOnline + ", ";
-                    str += "**Alive:** " + member.isAlive + "\n";
+                    embed.addField("**" + member.name + "** (" + member.steamId + ")",
+                        "**IsOnline:** " + member.isOnline + "\n" +
+                        "**IsAlive:** " + member.isAlive + "\n" +
+                        "**SpawnTime:** " + member.spawnTime + "\n" +
+                        "**DeathTime:** " + member.deathTime + "\n" +
+                        "**X-cord:** " + member.x + "\n" +
+                        "**Y-cord:** " + member.y);
                 }
 
-                console.log(str);
-                message.reply(str);
+                message.channel.send(embed);
             }
         });
 
