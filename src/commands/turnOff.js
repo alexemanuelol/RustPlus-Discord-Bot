@@ -9,7 +9,14 @@ module.exports = {
         if (args.length === 0)
         {
             console.log("ERROR: At least 1 argument is required. Example: !turnOff @name/id");
-            message.reply("ERROR: At least 1 argument is required. Example: !turnOff @name/id");
+            const error1 = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("ERROR")
+                .setDescription("At least 1 argument is required. Example: !turnOff @name/id.");
+
+            message.channel.send(error1);
             return false;
         }
 
@@ -17,41 +24,38 @@ module.exports = {
         fs.readFile("./devices.json", (err, data) => {
             if (err) throw err;
             let devices = JSON.parse(data);
+            let dev;
 
             for (let arg of args)
             {
                 if (devices.hasOwnProperty(arg))
                 {
-                    rustplus.turnSmartSwitchOff(parseInt(devices[arg]), (msg) => {
-                        console.log("turnSmartSwitchOff response message: " + JSON.stringify(msg));
-
-                        if (msg.response.hasOwnProperty("error"))
-                        {
-                            console.log("Some error occured, check response message above.");
-                        }
-                        else
-                        {
-                            console.log("'" + arg + "' was turned off.");
-                            message.reply("'" + arg + "' was turned off.");
-                        }
-                    });
+                    dev = parseInt(devices[arg]);
                 }
                 else
                 {
-                    rustplus.turnSmartSwitchOff(parseInt(arg), (msg) => {
-                        console.log("turnSmartSwitchOff response message: " + JSON.stringify(msg));
-
-                        if (msg.response.hasOwnProperty("error"))
-                        {
-                            console.log("Some error occured, check response message above.");
-                        }
-                        else
-                        {
-                            console.log("'" + arg + "' was turned off.");
-                            message.reply("'" + arg + "' was turned off.");
-                        }
-                    });
+                    dev = parseInt(arg);
                 }
+
+                rustplus.turnSmartSwitchOff(dev, (msg) => {
+                    console.log("turnSmartSwitchOff response message: " + JSON.stringify(msg));
+
+                    if (msg.response.hasOwnProperty("error"))
+                    {
+                        console.log("Some error occured, check response message above.");
+                    }
+                    else
+                    {
+                        const embed = new Discord.MessageEmbed()
+                            .setColor("#ce412b")
+                            .setThumbnail("https://imgur.com/znQvBMi.png")
+                            .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                            .setTitle("Successfully Turned Off")
+                            .setDescription("'" + arg + "' was turned off.");
+
+                        message.channel.send(embed);
+                    }
+                });
             }
         });
 
