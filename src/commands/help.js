@@ -6,7 +6,7 @@ module.exports = {
     name: "help",
     description: "Displays a help message.",
     execute(message, args, bot, rustplus) {
-        let str = "Command prefix: **" + config.prefix + "**\n\n**Available commands**:\n";
+        let str = "";
 
         for (let command of bot.commands.keys())
         {
@@ -18,7 +18,8 @@ module.exports = {
             .setThumbnail("https://imgur.com/znQvBMi.png")
             .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
             .setTitle("Help Information")
-            .setDescription(str);
+            .setDescription("Command prefix: **" + config.prefix + "**")
+            .addField("**Available Commands:**", str);
 
         message.channel.send(embed);
 

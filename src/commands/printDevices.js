@@ -9,7 +9,14 @@ module.exports = {
         if (args.length != 0)
         {
             console.log("ERROR: No arguments required.");
-            message.reply("ERROR: No arguments required.");
+            const error1 = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("ERROR")
+                .setDescription("No arguments required.");
+
+            message.channel.send(error1);
             return false;
         }
 
@@ -17,15 +24,21 @@ module.exports = {
         fs.readFile("./devices.json", (err, data) => {
             if (err) throw err;
             let devices = JSON.parse(data);
-            let str = "**Devices:**\n";
+            let str = "";
 
             for (let key in devices)
             {
                 str += key + " : " + devices[key] + "\n";
             }
 
-            console.log(str);
-            message.reply(str);
+            const embed = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("Registered Devices")
+                .addField("**Devices**", str)
+
+            message.channel.send(embed);
         });
 
         return true;
