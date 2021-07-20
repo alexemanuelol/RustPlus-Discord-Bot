@@ -9,7 +9,14 @@ module.exports = {
         if (args.length != 1)
         {
             console.log("ERROR: 1 argument required. Example: !removeDevice @name");
-            message.reply("ERROR: 1 argument required. Example: !removeDevice @name");
+            const error1 = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("ERROR")
+                .setDescription("1 argument required. Example: !removeDevice @name.");
+
+            message.channel.send(error1);
             return false;
         }
 
@@ -29,7 +36,14 @@ module.exports = {
                     if (err) throw err;
 
                     console.log("'" + device + "' was removed from devices.");
-                    message.reply("'" + device + "' was removed from devices.");
+                    const embed = new Discord.MessageEmbed()
+                        .setColor("#ce412b")
+                        .setThumbnail("https://imgur.com/znQvBMi.png")
+                        .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                        .setTitle("Successfully Removed")
+                        .setDescription("'" + device + "' was removed from devices.");
+
+                    message.channel.send(embed);
                 });
             }
             else
