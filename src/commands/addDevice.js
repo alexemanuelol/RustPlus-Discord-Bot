@@ -52,7 +52,7 @@ module.exports = {
                     .setColor("#ce412b")
                     .setThumbnail("https://imgur.com/znQvBMi.png")
                     .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
-                    .setTitle("Command Successful")
+                    .setTitle("Successfully Added")
                     .setDescription("'**" + key + " : " + value + "**' was added to devices.");
 
                 message.channel.send(embed);

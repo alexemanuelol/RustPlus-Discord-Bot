@@ -9,6 +9,14 @@ module.exports = {
         {
             console.log("ERROR: No arguments required.");
             message.reply("ERROR: No arguments required.");
+            const error1 = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail("https://imgur.com/znQvBMi.png")
+                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setTitle("ERROR")
+                .setDescription("No arguments required.");
+
+            message.channel.send(error1);
             return false;
         }
 
@@ -24,18 +32,22 @@ module.exports = {
             else
             {
                 let info = msg.response.info;
-                str += "**Server name:** " + info.name + "\n";
-                str += "**URL:** <" + info.url + ">\n";
-                str += "**Map:** " + info.map + "\n";
-                str += "**Map Size:** " + info.mapSize + "\n";
-                str += "**Wipe time:** " + info.wipeTime + "\n";
-                str += "**Online players:** (" + info.players + "/" + info.maxPlayers + ")\n";
-                str += "**Queued Players:** " + info.queuedPlayers + "\n";
-                str += "**Seed:** " + info.seed + "\n";
-                str += "**Salt:** " + info.salt;
+                const embed = new Discord.MessageEmbed()
+                    .setColor("#ce412b")
+                    .setThumbnail("https://imgur.com/znQvBMi.png")
+                    .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                    .setTitle("Server Information")
+                    .setDescription("**Name:** " + info.name + "\n" +
+                                    "**URL:** " + info.url + "\n" +
+                                    "**Map:** " + info.map + "\n" +
+                                    "**Map Size:** " + info.mapSize + "\n" +
+                                    "**Wipe Time:** " + info.wipeTime + "\n" +
+                                    "**Online Players:** (" + info.players + "/" + info.maxPlayers + ")\n" +
+                                    "**Queued Players:** " + info.queuedPlayers + "\n" +
+                                    "**Seed:** " + info.seed + "\n" +
+                                    "**Salt:** " + info.salt);
 
-                console.log(str);
-                message.reply(str);
+                message.channel.send(embed);
             }
         });
 
