@@ -13,8 +13,14 @@ module.exports = {
             str += command + "\n";
         }
 
-        console.log(str);
-        message.reply(str);
+        const embed = new Discord.MessageEmbed()
+            .setColor("#ce412b")
+            .setThumbnail("https://imgur.com/znQvBMi.png")
+            .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+            .setTitle("Help Information")
+            .setDescription(str);
+
+        message.channel.send(embed);
 
         return true;
     },
