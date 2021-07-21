@@ -48,7 +48,7 @@ module.exports = {
             }
             else
             {
-                console.log("'" + device + "' does not exist in devices.json.");
+                console.log("'**" + device + "**' does not exist in devices.json.");
                 return false;
             }
         });

@@ -47,7 +47,7 @@ module.exports = {
             fs.writeFile("./devices.json", JSON.stringify(devices, null, 2), (err) => {
                 if (err) throw err;
 
-                console.log("'" + key + " : " + value + "' was added to devices.");
+                console.log("'**" + key + "** : " + value + "' was added to devices.");
                 const embed = new Discord.MessageEmbed()
                     .setColor("#ce412b")
                     .setThumbnail("https://imgur.com/znQvBMi.png")

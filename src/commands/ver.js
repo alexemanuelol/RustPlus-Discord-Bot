@@ -13,7 +13,7 @@ module.exports = {
             .setThumbnail("https://imgur.com/znQvBMi.png")
             .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot/releases/tag/v" + version)
             .setTitle("RustPlus-Discord-Bot Version")
-            .setDescription(version)
+            .setDescription("**" + version + "**")
             .setFooter("By Alexemanuelol");
 
         message.channel.send(embed);

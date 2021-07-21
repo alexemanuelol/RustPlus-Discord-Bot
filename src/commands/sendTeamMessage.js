@@ -29,7 +29,7 @@ module.exports = {
             .setThumbnail("https://imgur.com/znQvBMi.png")
             .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
             .setTitle("Successfully Sent")
-            .setDescription("Message '" + msg + "' was sent.");
+            .setDescription("Message '**" + msg + "**' was sent.");
 
         message.channel.send(embed);
 

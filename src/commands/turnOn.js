@@ -51,7 +51,7 @@ module.exports = {
                             .setThumbnail("https://imgur.com/znQvBMi.png")
                             .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
                             .setTitle("Successfully Turned On")
-                            .setDescription("'" + arg + "' was turned on.");
+                            .setDescription("'**" + arg + "**' was turned on.");
 
                         message.channel.send(embed);
                     }

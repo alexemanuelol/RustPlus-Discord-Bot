@@ -28,7 +28,7 @@ module.exports = {
 
             for (let key in devices)
             {
-                str += key + " : " + devices[key] + "\n";
+                str += "**" + key + "** : " + devices[key] + "\n";
             }
 
             const embed = new Discord.MessageEmbed()
