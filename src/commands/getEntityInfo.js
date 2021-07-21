@@ -66,7 +66,8 @@ module.exports = {
                         .setThumbnail("https://imgur.com/znQvBMi.png")
                         .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
                         .setTitle("Entity Information")
-                        .setDescription("**Type:** " + deviceType + "\n" +
+                        .setDescription("**Name:** " + device + "\n" +
+                                        "**Type:** " + deviceType + "\n" +
                                         "**Value:** " + msg.response.entityInfo.payload.value + "\n" +
                                         "**Capacity:** " + msg.response.entityInfo.payload.capacity + "\n" +
                                         "**HasProtection:** " + msg.response.entityInfo.payload.hasProtection + "\n" +
