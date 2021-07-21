@@ -37,6 +37,7 @@ When the fcm-listen is running, you simply pair up the smart devices you have in
 Default command prefix: **!**
 
 - **addDevice @name @id** - Add a device to the devices.json file.
+- **devices** - Print all registered devices in the devices.json file.
 - **getCameraFrame @name @frame** - Get a jpeg image from a CCTV Camera.
 - **getEntityInfo @name** - Get the current state of a Smart Device.
 - **getInfo** - Get info about the Rust Server.
@@ -45,7 +46,6 @@ Default command prefix: **!**
 - **getTeamInfo** - Get list of team members and positions on map.
 - **getTime** - Get the current in game time.
 - **help** - Print a help message.
-- **printDevices** - Print all registered devices in the devices.json file.
 - **removeAllDevices** - Remove all devices in the devices.json file.
 - **removeDevice @name** - Remove a device from the devices.json file.
 - **sendTeamMessage** - Send messages to Team Chat.
