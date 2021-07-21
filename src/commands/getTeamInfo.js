@@ -21,7 +21,7 @@ module.exports = {
         }
 
         rustplus.getTeamInfo((msg) => {
-            console.log("getTeamInfo response message:\n" + JSON.stringify(msg));
+            console.log("Response message: >> getTeamInfo <<\n" + JSON.stringify(msg));
 
             if (msg.response.hasOwnProperty("error"))
             {

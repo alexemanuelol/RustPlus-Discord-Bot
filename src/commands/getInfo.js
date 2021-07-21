@@ -20,7 +20,7 @@ module.exports = {
         }
 
         rustplus.getInfo((msg) => {
-            console.log("getInfo response message:\n" + JSON.stringify(msg));
+            console.log("Response message: >> getInfo <<\n" + JSON.stringify(msg));
 
             if (msg.response.hasOwnProperty("error"))
             {

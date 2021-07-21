@@ -21,7 +21,7 @@ module.exports = {
         }
 
         rustplus.getMap((msg) => {
-            console.log("getMap response message:\n" + JSON.stringify(msg));
+            console.log("Response message: >> getMap <<\n" + JSON.stringify(msg));
 
             if (msg.response.hasOwnProperty("error"))
             {

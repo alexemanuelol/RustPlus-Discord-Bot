@@ -20,7 +20,7 @@ module.exports = {
         }
 
         rustplus.getTime((msg) => {
-            console.log("getTime response message:\n" + JSON.stringify(msg));
+            console.log("Response message: >> getTime <<\n" + JSON.stringify(msg));
 
             if (msg.response.hasOwnProperty("error"))
             {

@@ -42,7 +42,7 @@ module.exports = {
             }
 
             rustplus.setEntityValue(dev, value, (msg) => {
-                console.log("setEntityValue response message:\n" + JSON.stringify(msg));
+                console.log("Response message: >> setEntityValue <<\n" + JSON.stringify(msg));
 
                 if (msg.response.hasOwnProperty("error"))
                 {

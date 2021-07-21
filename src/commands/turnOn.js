@@ -38,7 +38,7 @@ module.exports = {
                 }
 
                 rustplus.turnSmartSwitchOn(dev, (msg) => {
-                    console.log("turnSmartSwitchOn response message: " + JSON.stringify(msg));
+                    console.log("Response message: >> turnSmartSwitchOn <<\n" + JSON.stringify(msg));
 
                     if (msg.response.hasOwnProperty("error"))
                     {

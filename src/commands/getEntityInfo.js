@@ -38,7 +38,7 @@ module.exports = {
             }
 
             rustplus.getEntityInfo(dev, (msg) => {
-                console.log("getEntityInfo response message:\n" + JSON.stringify(msg));
+                console.log("Response message: >> getEntityInfo <<\n" + JSON.stringify(msg));
 
                 if (msg.response.hasOwnProperty("error"))
                 {

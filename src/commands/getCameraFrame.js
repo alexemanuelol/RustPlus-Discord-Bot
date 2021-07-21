@@ -39,7 +39,7 @@ module.exports = {
             }
 
             rustplus.getCameraFrame(parseInt(devices[device]), frame,  (msg => {
-                console.log("getCameraFrame response message:\n" + JSON.stringify(msg));
+                console.log("Response message: >> getCameraFrame <<\n" + JSON.stringify(msg));
 
                 if (msg.response.hasOwnProperty("error"))
                 {
