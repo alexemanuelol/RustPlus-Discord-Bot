@@ -21,7 +21,8 @@ module.exports = {
         }
 
         rustplus.getMap((msg) => {
-            console.log("Response message: >> getMap <<\n" + JSON.stringify(msg));
+            console.log("Response message: >> getMap <<");
+            console.log(msg)
 
             if (msg.response.hasOwnProperty("error"))
             {
@@ -29,11 +30,21 @@ module.exports = {
             }
             else
             {
-                /* TODO: not working correctly, might be because of BOT permissions(?) */
-                //fs.writeFileSync("123456.jpg", msg.response.map.jpgImage);
-                //const image = fs.readFileSync("./123456.jpg")
-                //const attachment = new Discord.MessageAttachment(image)
-                //message.reply("Server map:", attachment)
+                let tmpImg = "temp_map_image.jpg";
+                fs.writeFileSync(tmpImg, msg.response.map.jpgImage);
+                const image = fs.readFileSync("./" + tmpImg);
+                const attachment = new Discord.MessageAttachment(image);
+                message.channel.send("**Server Map:**", attachment);
+
+                /* Remove temp image file. */
+                try
+                {
+                    fs.unlinkSync("./" + tmpImg);
+                }
+                catch (err)
+                {
+                    console.error(err);
+                }
             }
         });
 
