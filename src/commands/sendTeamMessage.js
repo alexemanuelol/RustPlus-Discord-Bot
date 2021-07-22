@@ -1,3 +1,4 @@
+const Main = require("./../bot.js");
 const Discord = require("discord.js");
 const RustPlus = require("rustplus.js");
 
@@ -10,8 +11,8 @@ module.exports = {
             console.log("ERROR: Empty message.");
             const error1 = new Discord.MessageEmbed()
                 .setColor("#ce412b")
-                .setThumbnail("https://imgur.com/znQvBMi.png")
-                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setThumbnail(Main.THUMBNAIL_URL)
+                .setURL(Main.GITHUB_URL)
                 .setTitle("ERROR")
                 .setDescription("Empty message.");
 
@@ -26,8 +27,8 @@ module.exports = {
         rustplus.sendTeamMessage("[" + author + "] " + msg);
         const embed = new Discord.MessageEmbed()
             .setColor("#ce412b")
-            .setThumbnail("https://imgur.com/znQvBMi.png")
-            .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+            .setThumbnail(Main.THUMBNAIL_URL)
+            .setURL(Main.GITHUB_URL)
             .setTitle("Successfully Sent")
             .setDescription("Message '**" + msg + "**' was sent.");
 

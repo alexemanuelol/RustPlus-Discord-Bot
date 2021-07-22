@@ -4,6 +4,12 @@ const fs = require("fs");                       /* Node file system module. */
 const config = require("./config.json");        /* Configuration file. */
 const devices = require("./devices.json");
 
+/* Global variables */
+const THUMBNAIL_URL = "https://imgur.com/znQvBMi.png";
+const GITHUB_URL = "https://github.com/alexemanuelol/RustPlus-Discord-Bot";
+exports.THUMBNAIL_URL = THUMBNAIL_URL;
+exports.GITHUB_URL = GITHUB_URL;
+
 /* Create an instance of a discord client. */
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();

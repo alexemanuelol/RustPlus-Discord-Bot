@@ -1,3 +1,4 @@
+const Main = require("./../bot.js");
 const Discord = require("discord.js");
 const RustPlus = require("rustplus.js");
 const fs = require("fs");
@@ -11,8 +12,8 @@ module.exports = {
             console.log("ERROR: 1 argument required. Example: !removeDevice @name");
             const error1 = new Discord.MessageEmbed()
                 .setColor("#ce412b")
-                .setThumbnail("https://imgur.com/znQvBMi.png")
-                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setThumbnail(Main.THUMBNAIL_URL)
+                .setURL(Main.GITHUB_URL)
                 .setTitle("ERROR")
                 .setDescription("1 argument required. Example: !removeDevice @name.");
 
@@ -38,8 +39,8 @@ module.exports = {
                     console.log("'" + device + "' was removed from devices.");
                     const embed = new Discord.MessageEmbed()
                         .setColor("#ce412b")
-                        .setThumbnail("https://imgur.com/znQvBMi.png")
-                        .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                        .setThumbnail(Main.THUMBNAIL_URL)
+                        .setURL(Main.GITHUB_URL)
                         .setTitle("Successfully Removed")
                         .setDescription("'" + device + "' was removed from devices.");
 

@@ -1,3 +1,4 @@
+const Main = require("./../bot.js");
 const Discord = require("discord.js");
 const RustPlus = require("rustplus.js");
 const config = require("./../config.json");
@@ -15,8 +16,8 @@ module.exports = {
 
         const embed = new Discord.MessageEmbed()
             .setColor("#ce412b")
-            .setThumbnail("https://imgur.com/znQvBMi.png")
-            .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+            .setThumbnail(Main.THUMBNAIL_URL)
+            .setURL(Main.GITHUB_URL)
             .setTitle("Help Information")
             .setDescription("Command prefix: **" + config.prefix + "**")
             .addField("**Available Commands:**", str);

@@ -1,3 +1,4 @@
+const Main = require("./../bot.js");
 const Discord = require("discord.js");
 const RustPlus = require("rustplus.js");
 const fs = require("fs");
@@ -11,8 +12,8 @@ module.exports = {
             console.log("ERROR: 2 arguments required. Example: !addDevice @name @id");
             const error1 = new Discord.MessageEmbed()
                 .setColor("#ce412b")
-                .setThumbnail("https://imgur.com/znQvBMi.png")
-                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setThumbnail(Main.THUMBNAIL_URL)
+                .setURL(Main.GITHUB_URL)
                 .setTitle("ERROR")
                 .setDescription("2 arguments required. Example: !addDevice @name @id.");
 
@@ -28,8 +29,8 @@ module.exports = {
             console.log("Could not convert '" + args[1] + "' to integer");
             const error2 = new Discord.MessageEmbed()
                 .setColor("#ce412b")
-                .setThumbnail("https://imgur.com/znQvBMi.png")
-                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setThumbnail(Main.THUMBNAIL_URL)
+                .setURL(Main.GITHUB_URL)
                 .setTitle("ERROR")
                 .setDescription("Could not convert '" + args[1] + "' to integer.");
 
@@ -50,8 +51,8 @@ module.exports = {
                 console.log("'**" + key + "** : " + value + "' was added to devices.");
                 const embed = new Discord.MessageEmbed()
                     .setColor("#ce412b")
-                    .setThumbnail("https://imgur.com/znQvBMi.png")
-                    .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                    .setThumbnail(Main.THUMBNAIL_URL)
+                    .setURL(Main.GITHUB_URL)
                     .setTitle("Successfully Added")
                     .setDescription("'**" + key + " : " + value + "**' was added to devices.");
 

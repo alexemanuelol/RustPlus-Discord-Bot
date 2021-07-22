@@ -1,3 +1,4 @@
+const Main = require("./../bot.js");
 const Discord = require("discord.js");
 const RustPlus = require("rustplus.js");
 const fs = require("fs");
@@ -11,8 +12,8 @@ module.exports = {
             console.log("ERROR: At least 1 argument is required. Example: !turnOff @name/id");
             const error1 = new Discord.MessageEmbed()
                 .setColor("#ce412b")
-                .setThumbnail("https://imgur.com/znQvBMi.png")
-                .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                .setThumbnail(Main.THUMBNAIL_URL)
+                .setURL(Main.GITHUB_URL)
                 .setTitle("ERROR")
                 .setDescription("At least 1 argument is required. Example: !turnOff @name/id.");
 
@@ -48,8 +49,8 @@ module.exports = {
                     {
                         const embed = new Discord.MessageEmbed()
                             .setColor("#ce412b")
-                            .setThumbnail("https://imgur.com/znQvBMi.png")
-                            .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
+                            .setThumbnail(Main.THUMBNAIL_URL)
+                            .setURL(Main.GITHUB_URL)
                             .setTitle("Successfully Turned Off")
                             .setDescription("'**" + arg + "**' was turned off.");
 
