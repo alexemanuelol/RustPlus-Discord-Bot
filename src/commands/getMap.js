@@ -185,7 +185,7 @@ module.exports = {
                                         markerImage[MarkerType.Source].write(MarkerImagePath[MarkerType.Source], (err) => {
                                             const image = fs.readFileSync("./" + MarkerImagePath[MarkerType.Source]);
                                             const attachment = new Discord.MessageAttachment(image);
-                                            message.channel.send("**Server Map:**", attachment);
+                                            message.channel.send("Server '**" + info.response.info.name + "**' Map:", attachment);
 
                                             /* Remove temp image file. */
                                             try
