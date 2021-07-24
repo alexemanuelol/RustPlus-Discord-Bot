@@ -144,13 +144,9 @@ module.exports = {
 
                                     for (let marker of mapMarkers.response.mapMarkers.markers)
                                     {
-                                        var size = MarkerImageSize[marker.type];
                                         var x = marker.x * ((width - 2 * oceanMargin) / mapSize) + oceanMargin;
                                         var n = height - 2 * oceanMargin;
                                         var y = height - (marker.y * (n / mapSize) + oceanMargin);
-
-                                        /* Rotate */
-                                        markerImage[marker.type].rotate(marker.rotation);
 
                                         /* Compensate rotations */
                                         if (marker.type === MarkerType.CargoShip)
@@ -159,7 +155,19 @@ module.exports = {
                                             y -= 20;
                                         }
 
-                                        markerImage[MarkerType.Source].composite(markerImage[marker.type], x - (size / 2), y - (size / 2));
+                                        try
+                                        {
+                                            var size = MarkerImageSize[marker.type];
+
+                                            /* Rotate */
+                                            markerImage[marker.type].rotate(marker.rotation);
+
+                                            markerImage[MarkerType.Source].composite(markerImage[marker.type], x - (size / 2), y - (size / 2));
+                                        }
+                                        catch (err)
+                                        {
+                                            /* Ignore */
+                                        }
                                     }
 
                                     Jimp.loadFont("./fonts/PermanentMarker.fnt").then(function (font) {
@@ -169,16 +177,23 @@ module.exports = {
                                             var n = height - 2 * oceanMargin;
                                             var y = height - (monument.y * (n / mapSize) + oceanMargin);
 
+                                            try
+                                            {
                                             if (monument.token === "train_tunnel_display_name")
-                                            {
-                                                var size = MarkerImageSize[MarkerType.TrainTunnels];
-                                                markerImage[MarkerType.Source].composite(markerImage[MarkerType.TrainTunnels], x - (size / 2), y - (size / 2));
+                                                {
+                                                    var size = MarkerImageSize[MarkerType.TrainTunnels];
+                                                    markerImage[MarkerType.Source].composite(markerImage[MarkerType.TrainTunnels], x - (size / 2), y - (size / 2));
+                                                }
+                                                else
+                                                {
+                                                    /* Compensate for the text placement */
+                                                    var posCompensation = Monument[monument.token].length * 5;
+                                                    markerImage[MarkerType.Source].print(font, x - posCompensation, y - 10, Monument[monument.token]);
+                                                }
                                             }
-                                            else
+                                            catch (err)
                                             {
-                                                /* Compensate for the text placement */
-                                                var posCompensation = Monument[monument.token].length * 5;
-                                                markerImage[MarkerType.Source].print(font, x - posCompensation, y - 10, Monument[monument.token]);
+                                                /* Ignore */
                                             }
                                         }
 
