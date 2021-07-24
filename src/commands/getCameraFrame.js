@@ -24,34 +24,28 @@ module.exports = {
         var device = args[0];
         var frame = parseInt(args[1]);
 
-        /* Read the devices.json file. */
-        fs.readFile("./devices.json", (err, data) => {
-            if (err) throw err;
-            let devices = JSON.parse(data);
-            let dev;
+        rustplus.getCameraFrame(device, frame, (msg => {
+            console.log("Response message: >> getCameraFrame <<\n" + JSON.stringify(msg));
 
-            if (devices.hasOwnProperty(device))
+            if (msg.response.hasOwnProperty("error"))
             {
-                dev = parseInt(devices[device]);
+                console.log("Some error occured, check response message above.");
+                const error2 = new Discord.MessageEmbed()
+                    .setColor("#ce412b")
+                    .setThumbnail(Main.THUMBNAIL_URL)
+                    .setURL(Main.GITHUB_URL)
+                    .setTitle("ERROR")
+                    .setDescription("Feature not currently implemented. Might get a successful response if " +
+                        "server admin run the following command in F1 console:\n" +
+                        "**cctvrender.enabled true**");
+
+                message.channel.send(error2);
             }
             else
             {
-                dev = parseInt(device);
+                /* TBD */
             }
-
-            rustplus.getCameraFrame(parseInt(devices[device]), frame,  (msg => {
-                console.log("Response message: >> getCameraFrame <<\n" + JSON.stringify(msg));
-
-                if (msg.response.hasOwnProperty("error"))
-                {
-                    console.log("Some error occured, check response message above.");
-                }
-                else
-                {
-                    /* TBD */
-                }
-            }));
-        });
+        }));
 
         return true;
     },
