@@ -48,6 +48,14 @@ module.exports = {
                 if (msg.response.hasOwnProperty("error"))
                 {
                     console.log("Some error occured, check response message above.");
+                    const error2 = new Discord.MessageEmbed()
+                        .setColor("#ce412b")
+                        .setThumbnail(Main.THUMBNAIL_URL)
+                        .setURL(Main.GITHUB_URL)
+                        .setTitle("ERROR")
+                        .setDescription("'**" + dev + "**' invalid entity ID.");
+
+                    message.channel.send(error2);
                 }
                 else
                 {
