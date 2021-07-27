@@ -1,4 +1,4 @@
-const Main = require("./../bot.js");
+const Main = require("./../rustplusDiscordBot.js");
 const Discord = require("discord.js");
 const RustPlus = require("rustplus.js");
 const { version } = require("./../version.json");
