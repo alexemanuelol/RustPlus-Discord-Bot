@@ -13,6 +13,7 @@ exports.GITHUB_URL = GITHUB_URL;
 /* Create an instance of a discord client. */
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
+var notifications = [];
 
 /* Create an instance of RustPlus */
 var rustplus = new RustPlus(config.rustServerIp, config.rustAppPort, config.steamId, config.rustPlayerToken);
@@ -20,18 +21,42 @@ var rustplus = new RustPlus(config.rustServerIp, config.rustAppPort, config.stea
 /* Extract all the command files from the commands directory. */
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
+/* Extract all the notification files from the notifications directory. */
+const notificationFiles = fs.readdirSync("./notifications").filter(file => file.endsWith(".js"));
+
 /* Add a new item to the Collection. Key = command name, Value = the exported module. */
-for (const file of commandFiles)
-{
+for (const file of commandFiles) {
     const command = require("./commands/" + file);
     bot.commands.set(command.name, command);
 }
 
+for (const file of notificationFiles) {
+    const notification = require("./notifications/" + file);
+    notifications.push(notification);
+}
+
+function mapMarkerPolling() {
+    rustplus.getMapMarkers((msg) => {
+        if (msg.response.hasOwnProperty("error")) {
+            console.log("Some error occured, check response message above.");
+        }
+        else {
+            /* Update notifications */
+            for (const notification of notifications) {
+                notification.execute(msg, bot, rustplus);
+            }
+        }
+
+        setTimeout(mapMarkerPolling, 10000);
+    });
+}
+
+
 bot.on("ready", () => {
-    console.log("Logged in as " + bot.user.tag +"!");
+    console.log("Logged in as " + bot.user.tag + "!");
 
     /* Set the BOT activity text. */
-    bot.user.setActivity("commands!", {type: "LISTENING"});
+    bot.user.setActivity("commands!", { type: "LISTENING" });
 });
 
 /* Called whenever a new message is sent in the guild. */
@@ -48,13 +73,11 @@ bot.on("message", message => {
     /* If the command does not exist, ignore. */
     if (!bot.commands.has(command)) return;
 
-    try
-    {
+    try {
         /* Execute the command. */
         bot.commands.get(command).execute(message, args, bot, rustplus);
     }
-    catch (error)
-    {
+    catch (error) {
         console.error(error);
 
         const embed = new Discord.MessageEmbed()
@@ -79,3 +102,6 @@ rustplus.on('connected', () => {
 
 /* Connect to the rust server */
 rustplus.connect();
+
+/* Start the map marker polling */
+setTimeout(mapMarkerPolling, 10000);

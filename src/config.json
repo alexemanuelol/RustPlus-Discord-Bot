@@ -1,8 +1,10 @@
 {
-    "prefix": "!",
-    "discordToken": "",
-    "rustServerIp": "",
-    "rustAppPort": "",
-    "steamId": "",
-    "rustPlayerToken": ""
+  "prefix": "!",
+  "eventNotifications": "true",
+  "steamId": "",
+  "discordToken": "",
+  "discordNotificationChannel": "",
+  "rustServerIp": "",
+  "rustAppPort": "",
+  "rustPlayerToken": ""
 }
