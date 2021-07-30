@@ -1,28 +1,23 @@
-const Main = require("./../rustplusDiscordBot.js");
-const Discord = require("discord.js");
-const RustPlus = require("rustplus.js");
 const fs = require("fs");
+const Tools = require("../tools/tools.js");
 
 module.exports = {
     name: "setEntityValue",
     description: "Set the value of a Smart Device.",
-    execute(message, args, bot, rustplus) {
-        if (args.length != 2)
-        {
+    execute(message, args, discordBot, rustplus) {
+        if (args.length != 2) {
             console.log("ERROR: 2 arguments are required. Example: !setEntityValue @name @value");
-            message.reply("ERROR: 2 arguments are required. Example: !setEntityValue @name @value");
+            Tools.sendEmbed(message.channel, "ERROR", "2 arguments are required. Example: !setEntityValue @name @value.");
             return false;
         }
 
         var device = args[0];
         var value = false;
 
-        if (args[1].toLowerCase() === "false")
-        {
+        if (args[1].toLowerCase() === "false") {
             value = false;
         }
-        else
-        {
+        else {
             value = true;
         }
 
@@ -33,40 +28,22 @@ module.exports = {
             let dev;
 
 
-            if (devices.hasOwnProperty(device))
-            {
+            if (devices.hasOwnProperty(device)) {
                 dev = parseInt(devices[device]);
             }
-            else
-            {
+            else {
                 dev = parseInt(device);
             }
 
             rustplus.setEntityValue(dev, value, (msg) => {
                 console.log("Response message: >> setEntityValue <<\n" + JSON.stringify(msg));
 
-                if (msg.response.hasOwnProperty("error"))
-                {
+                if (msg.response.hasOwnProperty("error")) {
                     console.log("Some error occured, check response message above.");
-                    const error2 = new Discord.MessageEmbed()
-                        .setColor("#ce412b")
-                        .setThumbnail(Main.THUMBNAIL_URL)
-                        .setURL(Main.GITHUB_URL)
-                        .setTitle("ERROR")
-                        .setDescription("'**" + dev + "**' invalid entity ID.");
-
-                    message.channel.send(error2);
+                    Tools.sendEmbed(message.channel, "ERROR", "'**" + dev + "**' invalid entity ID.");
                 }
-                else
-                {
-                    const embed = new Discord.MessageEmbed()
-                        .setColor("#ce412b")
-                        .setThumbnail(Main.THUMBNAIL_URL)
-                        .setURL(Main.GITHUB_URL)
-                        .setTitle("Successfully Set")
-                        .setDescription("'**" + device + "**' entity value set to: **" + value + "**");
-
-                    message.channel.send(embed);
+                else {
+                    Tools.sendEmbed(message.channel, "Successfully Set", "'**" + device + "**' entity value set to: **" + value + "**");
                 }
 
                 return true;

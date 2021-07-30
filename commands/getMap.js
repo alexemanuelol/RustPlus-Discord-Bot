@@ -1,18 +1,17 @@
-const Main = require("./../rustplusDiscordBot.js");
 const Discord = require("discord.js");
-const RustPlus = require("rustplus.js");
 const Jimp = require("jimp");
 const fs = require("fs");
+const Tools = require("../tools/tools.js");
 
 const MarkerType = {
     Source: 0,
     Player: 1,
-	Explosion: 2,
-	VendingMachine: 3,
-	CH47: 4,
-	CargoShip: 5,
-	Crate: 6,
-	GenericRadius: 7,
+    Explosion: 2,
+    VendingMachine: 3,
+    CH47: 4,
+    CargoShip: 5,
+    Crate: 6,
+    GenericRadius: 7,
     TrainTunnels: 8,
 }
 
@@ -78,18 +77,10 @@ const Monument = {
 module.exports = {
     name: "getMap",
     description: "Fetch map info, which includes a jpeg image.",
-    execute(message, args, bot, rustplus) {
-        if (args.length != 0)
-        {
+    execute(message, args, discordBot, rustplus) {
+        if (args.length != 0) {
             console.log("ERROR: No arguments required.");
-            const error1 = new Discord.MessageEmbed()
-                .setColor("#ce412b")
-                .setThumbnail(Main.THUMBNAIL_URL)
-                .setURL(Main.GITHUB_URL)
-                .setTitle("ERROR")
-                .setDescription("No arguments required.");
-
-            message.channel.send(error1);
+            Tools.sendEmbed(message.channel, "ERROR", "No arguments required.");
             return false;
         }
 
@@ -97,66 +88,55 @@ module.exports = {
             console.log("Response message: >> getMap <<");
             console.log(msg)
 
-            if (msg.response.hasOwnProperty("error"))
-            {
+            if (msg.response.hasOwnProperty("error")) {
                 console.log("Some error occured, check response message above.");
             }
-            else
-            {
+            else {
                 /* Write the received image to a file. */
                 fs.writeFileSync(MarkerImagePath[MarkerType.Source], msg.response.map.jpgImage);
 
                 var jimps = [];
-                for (var i = 0; i < MarkerImagePath.length; i++)
-                {
+                for (var i = 0; i < MarkerImagePath.length; i++) {
                     jimps.push(Jimp.read(MarkerImagePath[i]));
                 }
 
-                Promise.all(jimps).then(function(markerImage) {
+                Promise.all(jimps).then(function (markerImage) {
                     return Promise.all(jimps);
-                }).then(function(markerImage) {
-                    for (var i = 1; i < markerImage.length; i++)
-                    {
+                }).then(function (markerImage) {
+                    for (var i = 1; i < markerImage.length; i++) {
                         var size = MarkerImageSize[i];
                         markerImage[i].resize(size, size);
                     }
 
                     rustplus.getInfo((info) => {
                         console.log("Response message: >> getMap => getInfo <<\n" + JSON.stringify(info));
-                        if (info.response.hasOwnProperty("error"))
-                        {
+                        if (info.response.hasOwnProperty("error")) {
                             console.log("Some error occured, check response message above.");
                         }
-                        else
-                        {
+                        else {
                             rustplus.getMapMarkers((mapMarkers) => {
                                 console.log("Response message: >> getMap => getMapMarkers <<\n" + JSON.stringify(mapMarkers));
-                                if (mapMarkers.response.hasOwnProperty("error"))
-                                {
+                                if (mapMarkers.response.hasOwnProperty("error")) {
                                     console.log("Some error occured, check response message above.");
                                 }
-                                else
-                                {
+                                else {
                                     let mapSize = info.response.info.mapSize;
                                     let width = msg.response.map.width;
                                     let height = msg.response.map.height;
                                     let oceanMargin = msg.response.map.oceanMargin;
 
-                                    for (let marker of mapMarkers.response.mapMarkers.markers)
-                                    {
+                                    for (let marker of mapMarkers.response.mapMarkers.markers) {
                                         var x = marker.x * ((width - 2 * oceanMargin) / mapSize) + oceanMargin;
                                         var n = height - 2 * oceanMargin;
                                         var y = height - (marker.y * (n / mapSize) + oceanMargin);
 
                                         /* Compensate rotations */
-                                        if (marker.type === MarkerType.CargoShip)
-                                        {
+                                        if (marker.type === MarkerType.CargoShip) {
                                             x -= 20;
                                             y -= 20;
                                         }
 
-                                        try
-                                        {
+                                        try {
                                             var size = MarkerImageSize[marker.type];
 
                                             /* Rotate */
@@ -164,35 +144,29 @@ module.exports = {
 
                                             markerImage[MarkerType.Source].composite(markerImage[marker.type], x - (size / 2), y - (size / 2));
                                         }
-                                        catch (err)
-                                        {
+                                        catch (err) {
                                             /* Ignore */
                                         }
                                     }
 
                                     Jimp.loadFont("./fonts/PermanentMarker.fnt").then(function (font) {
-                                        for (let monument of msg.response.map.monuments)
-                                        {
+                                        for (let monument of msg.response.map.monuments) {
                                             var x = monument.x * ((width - 2 * oceanMargin) / mapSize) + oceanMargin;
                                             var n = height - 2 * oceanMargin;
                                             var y = height - (monument.y * (n / mapSize) + oceanMargin);
 
-                                            try
-                                            {
-                                            if (monument.token === "train_tunnel_display_name")
-                                                {
+                                            try {
+                                                if (monument.token === "train_tunnel_display_name") {
                                                     var size = MarkerImageSize[MarkerType.TrainTunnels];
                                                     markerImage[MarkerType.Source].composite(markerImage[MarkerType.TrainTunnels], x - (size / 2), y - (size / 2));
                                                 }
-                                                else
-                                                {
+                                                else {
                                                     /* Compensate for the text placement */
                                                     var posCompensation = Monument[monument.token].length * 5;
                                                     markerImage[MarkerType.Source].print(font, x - posCompensation, y - 10, Monument[monument.token]);
                                                 }
                                             }
-                                            catch (err)
-                                            {
+                                            catch (err) {
                                                 /* Ignore */
                                             }
                                         }
@@ -203,12 +177,10 @@ module.exports = {
                                             message.channel.send("Server '**" + info.response.info.name + "**' Map:", attachment);
 
                                             /* Remove temp image file. */
-                                            try
-                                            {
+                                            try {
                                                 fs.unlinkSync("./" + MarkerImagePath[MarkerType.Source]);
                                             }
-                                            catch (err)
-                                            {
+                                            catch (err) {
                                                 console.error(err);
                                             }
                                         });

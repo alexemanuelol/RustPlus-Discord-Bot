@@ -1,28 +1,20 @@
-const Main = require("./../rustplusDiscordBot.js");
-const Discord = require("discord.js");
-const RustPlus = require("rustplus.js");
-const config = require("./../config.json");
+const Config = require("./../config.json");
+const Tools = require("./../tools/tools.js");
 
 module.exports = {
     name: "help",
     description: "Displays a help message.",
-    execute(message, args, bot, rustplus) {
+    execute(message, args, discordBot, rustplus) {
         let str = "";
 
-        for (let command of bot.commands.keys())
-        {
+        for (let command of discordBot.commands.keys()) {
             str += command + "\n";
         }
 
-        const embed = new Discord.MessageEmbed()
-            .setColor("#ce412b")
-            .setThumbnail(Main.THUMBNAIL_URL)
-            .setURL(Main.GITHUB_URL)
-            .setTitle("Help Information")
-            .setDescription("Command prefix: **" + config.prefix + "**")
-            .addField("**Available Commands:**", str);
-
-        message.channel.send(embed);
+        Tools.sendEmbed(message.channel,
+            "Help Information",
+            "Command prefix: **" + Config.prefix + "**",
+            ["**Available Commands:**", str]);
 
         return true;
     },

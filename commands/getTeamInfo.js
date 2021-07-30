@@ -1,43 +1,31 @@
 const Main = require("./../rustplusDiscordBot.js");
 const Discord = require("discord.js");
-const RustPlus = require("rustplus.js");
+const Tools = require("../tools/tools.js");
 
 module.exports = {
     name: "getTeamInfo",
     description: "Get list of team members and positions on map.",
-    execute(message, args, bot, rustplus) {
-        if (args.length != 0)
-        {
+    execute(message, args, discordBot, rustplus) {
+        if (args.length != 0) {
             console.log("ERROR: No arguments required.");
-            const error1 = new Discord.MessageEmbed()
-                .setColor("#ce412b")
-                .setThumbnail(Main.THUMBNAIL_URL)
-                .setURL(Main.GITHUB_URL)
-                .setTitle("ERROR")
-                .setDescription("No arguments required.");
-
-            message.channel.send(error1);
-
+            Tools.sendEmbed(message.channel, "ERROR", "No arguments required.");
             return false;
         }
 
         rustplus.getTeamInfo((msg) => {
             console.log("Response message: >> getTeamInfo <<\n" + JSON.stringify(msg));
 
-            if (msg.response.hasOwnProperty("error"))
-            {
+            if (msg.response.hasOwnProperty("error")) {
                 console.log("Some error occured, check response message above.");
             }
-            else
-            {
+            else {
                 const embed = new Discord.MessageEmbed()
                     .setColor("#ce412b")
                     .setThumbnail(Main.THUMBNAIL_URL)
                     .setURL(Main.GITHUB_URL)
                     .setTitle("Team Information");
 
-                for (let member of msg.response.teamInfo.members)
-                {
+                for (let member of msg.response.teamInfo.members) {
                     embed.addField("**" + member.name + "** (" + member.steamId + ")",
                         "**IsOnline:** " + member.isOnline + "\n" +
                         "**IsAlive:** " + member.isAlive + "\n" +

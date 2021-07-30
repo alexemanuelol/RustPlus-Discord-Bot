@@ -1,45 +1,27 @@
-const Main = require("./../rustplusDiscordBot.js");
-const Discord = require("discord.js");
-const RustPlus = require("rustplus.js");
+const Tools = require("../tools/tools.js");
 
 module.exports = {
     name: "getTime",
     description: "Get the current in game time.",
-    execute(message, args, bot, rustplus) {
-        if (args.length != 0)
-        {
+    execute(message, args, discordBot, rustplus) {
+        if (args.length != 0) {
             console.log("ERROR: No arguments required.");
-            const error1 = new Discord.MessageEmbed()
-                .setColor("#ce412b")
-                .setThumbnail(Main.THUMBNAIL_URL)
-                .setURL(Main.GITHUB_URL)
-                .setTitle("ERROR")
-                .setDescription("No arguments required.");
-
-            message.channel.send(error1);
+            Tools.sendEmbed(message.channel, "ERROR", "No arguments required.");
             return false;
         }
 
         rustplus.getTime((msg) => {
             console.log("Response message: >> getTime <<\n" + JSON.stringify(msg));
 
-            if (msg.response.hasOwnProperty("error"))
-            {
+            if (msg.response.hasOwnProperty("error")) {
                 console.log("Some error occured, check response message above.");
             }
-            else
-            {
-                const embed = new Discord.MessageEmbed()
-                    .setColor("#ce412b")
-                    .setThumbnail(Main.THUMBNAIL_URL)
-                    .setURL(Main.GITHUB_URL)
-                    .setTitle("Time Information")
-                    .setDescription("**Current time:** " + msg.response.time.time + "\n" +
-                                    "**Total daylight (minutes):** " + msg.response.time.dayLengthMinutes + "\n" +
-                                    "**Sunrise:** " + msg.response.time.sunrise + "\n" +
-                                    "**Sunset:** " + msg.response.time.sunset);
-
-                message.channel.send(embed);
+            else {
+                Tools.sendEmbed(message.channel, "Time Information",
+                    "**Current time:** " + msg.response.time.time + "\n" +
+                    "**Total daylight (minutes):** " + msg.response.time.dayLengthMinutes + "\n" +
+                    "**Sunrise:** " + msg.response.time.sunrise + "\n" +
+                    "**Sunset:** " + msg.response.time.sunset);
             }
         });
 

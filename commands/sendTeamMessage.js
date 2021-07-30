@@ -1,22 +1,12 @@
-const Main = require("./../rustplusDiscordBot.js");
-const Discord = require("discord.js");
-const RustPlus = require("rustplus.js");
+const Tools = require("../tools/tools.js");
 
 module.exports = {
     name: "sendTeamMessage",
     description: "Sends a message to the team in-game.",
-    execute(message, args, bot, rustplus) {
-        if (args.length === 0)
-        {
+    execute(message, args, discordBot, rustplus) {
+        if (args.length === 0) {
             console.log("ERROR: Empty message.");
-            const error1 = new Discord.MessageEmbed()
-                .setColor("#ce412b")
-                .setThumbnail(Main.THUMBNAIL_URL)
-                .setURL(Main.GITHUB_URL)
-                .setTitle("ERROR")
-                .setDescription("Empty message.");
-
-            message.channel.send(error1);
+            Tools.sendEmbed(message.channel, "ERROR", "Empty message.");
             return false;
         }
 
@@ -25,15 +15,7 @@ module.exports = {
 
         console.log("[" + author + "] sent a team message: " + msg);
         rustplus.sendTeamMessage("[" + author + "] " + msg);
-        const embed = new Discord.MessageEmbed()
-            .setColor("#ce412b")
-            .setThumbnail(Main.THUMBNAIL_URL)
-            .setURL(Main.GITHUB_URL)
-            .setTitle("Successfully Sent")
-            .setDescription("Message '**" + msg + "**' was sent.");
-
-        message.channel.send(embed);
-
+        Tools.sendEmbed(message.channel, "Successfully Sent", "Message '**" + msg + "**' was sent.");
         return true;
     },
 };

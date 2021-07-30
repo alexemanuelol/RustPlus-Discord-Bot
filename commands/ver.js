@@ -1,12 +1,11 @@
 const Main = require("./../rustplusDiscordBot.js");
 const Discord = require("discord.js");
-const RustPlus = require("rustplus.js");
 const { version } = require("./../version.json");
 
 module.exports = {
     name: "ver",
     description: "Obtain the bot version.",
-    execute(message, args, bot, rustplus) {
+    execute(message, args, discordBot, rustplus) {
         console.log(version);
 
         const embed = new Discord.MessageEmbed()
@@ -18,6 +17,5 @@ module.exports = {
             .setFooter("By Alexemanuelol");
 
         message.channel.send(embed);
-
     },
 };
