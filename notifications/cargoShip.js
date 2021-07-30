@@ -1,17 +1,5 @@
 const Tools = require("./../tools/tools.js");
 
-const MarkerType = {
-    Source: 0,
-    Player: 1,
-    Explosion: 2,
-    VendingMachine: 3,
-    CH47: 4,
-    CargoShip: 5,
-    Crate: 6,
-    GenericRadius: 7,
-    TrainTunnels: 8,
-}
-
 var cargoActive = false;
 
 module.exports = {
@@ -22,7 +10,7 @@ module.exports = {
 
         if (cargoActive === false) {
             for (let marker of message.response.mapMarkers.markers) {
-                if (marker.type === MarkerType.CargoShip) {
+                if (marker.type === Tools.MarkerType.CargoShip) {
                     cargoActive = true;
                     break;
                 }
@@ -39,7 +27,7 @@ module.exports = {
         else {
             let cargoLeft = true;
             for (let marker of message.response.mapMarkers.markers) {
-                if (marker.type === MarkerType.CargoShip) {
+                if (marker.type === Tools.MarkerType.CargoShip) {
                     cargoLeft = false;
                     break;
                 }

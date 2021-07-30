@@ -3,18 +3,6 @@ const Jimp = require("jimp");
 const fs = require("fs");
 const Tools = require("../tools/tools.js");
 
-const MarkerType = {
-    Source: 0,
-    Player: 1,
-    Explosion: 2,
-    VendingMachine: 3,
-    CH47: 4,
-    CargoShip: 5,
-    Crate: 6,
-    GenericRadius: 7,
-    TrainTunnels: 8,
-}
-
 const mapName = "temp_map_image.jpg";
 
 const MarkerImagePath = [
@@ -99,7 +87,7 @@ module.exports = {
             }
             else {
                 /* Write the received image to a file. */
-                fs.writeFileSync(MarkerImagePath[MarkerType.Source], msg.response.map.jpgImage);
+                fs.writeFileSync(MarkerImagePath[Tools.MarkerType.Source], msg.response.map.jpgImage);
 
                 var jimps = [];
                 for (var i = 0; i < MarkerImagePath.length; i++) {
@@ -148,7 +136,7 @@ module.exports = {
                                         var y = height - (marker.y * (n / mapSize) + oceanMargin);
 
                                         /* Compensate rotations */
-                                        if (marker.type === MarkerType.CargoShip) {
+                                        if (marker.type === Tools.MarkerType.CargoShip) {
                                             x -= 20;
                                             y -= 20;
                                         }
@@ -159,7 +147,7 @@ module.exports = {
                                             /* Rotate */
                                             markerImage[marker.type].rotate(marker.rotation);
 
-                                            markerImage[MarkerType.Source].composite(markerImage[marker.type], x - (size / 2), y - (size / 2));
+                                            markerImage[Tools.MarkerType.Source].composite(markerImage[marker.type], x - (size / 2), y - (size / 2));
                                         }
                                         catch (err) {
                                             /* Ignore */
@@ -174,13 +162,13 @@ module.exports = {
 
                                             try {
                                                 if (monument.token === "train_tunnel_display_name") {
-                                                    var size = MarkerImageSize[MarkerType.TrainTunnels];
-                                                    markerImage[MarkerType.Source].composite(markerImage[MarkerType.TrainTunnels], x - (size / 2), y - (size / 2));
+                                                    var size = MarkerImageSize[Tools.MarkerType.TrainTunnels];
+                                                    markerImage[Tools.MarkerType.Source].composite(markerImage[Tools.MarkerType.TrainTunnels], x - (size / 2), y - (size / 2));
                                                 }
                                                 else {
                                                     /* Compensate for the text placement */
                                                     var posCompensation = Monument[monument.token].length * 5;
-                                                    markerImage[MarkerType.Source].print(font, x - posCompensation, y - 10, Monument[monument.token]);
+                                                    markerImage[Tools.MarkerType.Source].print(font, x - posCompensation, y - 10, Monument[monument.token]);
                                                 }
                                             }
                                             catch (err) {
@@ -188,14 +176,14 @@ module.exports = {
                                             }
                                         }
 
-                                        markerImage[MarkerType.Source].write(MarkerImagePath[MarkerType.Source], (err) => {
-                                            const image = fs.readFileSync("./" + MarkerImagePath[MarkerType.Source]);
+                                        markerImage[Tools.MarkerType.Source].write(MarkerImagePath[Tools.MarkerType.Source], (err) => {
+                                            const image = fs.readFileSync("./" + MarkerImagePath[Tools.MarkerType.Source]);
                                             const attachment = new Discord.MessageAttachment(image);
                                             message.channel.send("Server '**" + info.response.info.name + "**' Map:", attachment);
 
                                             /* Remove temp image file. */
                                             try {
-                                                fs.unlinkSync("./" + MarkerImagePath[MarkerType.Source]);
+                                                fs.unlinkSync("./" + MarkerImagePath[Tools.MarkerType.Source]);
                                             }
                                             catch (err) {
                                                 console.error(err);
