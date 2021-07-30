@@ -7,16 +7,23 @@ module.exports = {
     description: "Get list of team members and positions on map.",
     execute(message, args, discordBot, rustplus) {
         if (args.length != 0) {
-            console.log("ERROR: No arguments required.");
-            Tools.sendEmbed(message.channel, "ERROR", "No arguments required.");
+            let title = "ERROR";
+            let description = "No arguments required.";
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
             return false;
         }
 
         rustplus.getTeamInfo((msg) => {
-            console.log("Response message: >> getTeamInfo <<\n" + JSON.stringify(msg));
+            console.log(">> Request : getTeamInfo <<");
 
             if (msg.response.hasOwnProperty("error")) {
-                console.log("Some error occured, check response message above.");
+                console.log(">> Response message : getTeamInfo <<\n" + JSON.stringify(msg));
+
+                let title = "ERROR";
+                let description = "Some error occured while sending the request to the server.";
+                console.log(title + ": " + description);
+                Tools.sendEmbed(message.channel, title, description);
             }
             else {
                 const embed = new Discord.MessageEmbed()
@@ -25,16 +32,23 @@ module.exports = {
                     .setURL(Main.GITHUB_URL)
                     .setTitle("Team Information");
 
+                let title = "Team Information";
+                let description = "";
+
                 for (let member of msg.response.teamInfo.members) {
-                    embed.addField("**" + member.name + "** (" + member.steamId + ")",
-                        "**IsOnline:** " + member.isOnline + "\n" +
+                    let field = "**" + member.name + "** (" + member.steamId + ")";
+                    let str = "**IsOnline:** " + member.isOnline + "\n" +
                         "**IsAlive:** " + member.isAlive + "\n" +
                         "**SpawnTime:** " + member.spawnTime + "\n" +
                         "**DeathTime:** " + member.deathTime + "\n" +
                         "**X-cord:** " + member.x + "\n" +
-                        "**Y-cord:** " + member.y);
+                        "**Y-cord:** " + member.y;
+
+                    description += field + "\n" + str + "\n";
+                    embed.addField(field, str);
                 }
 
+                console.log(title + ":\n" + description);
                 message.channel.send(embed);
             }
         });

@@ -5,17 +5,21 @@ module.exports = {
     description: "Sends a message to the team in-game.",
     execute(message, args, discordBot, rustplus) {
         if (args.length === 0) {
-            console.log("ERROR: Empty message.");
-            Tools.sendEmbed(message.channel, "ERROR", "Empty message.");
+            let title = "ERROR";
+            let description = "Empty message.";
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
             return false;
         }
 
         msg = message.content.replace("!sendTeamMessage ", "");
         author = message.author.username
 
-        console.log("[" + author + "] sent a team message: " + msg);
+        let title = "Successfully Sent";
+        let description = "[" + author + "] " + "sent the message '**" + msg + "**'.";
         rustplus.sendTeamMessage("[" + author + "] " + msg);
-        Tools.sendEmbed(message.channel, "Successfully Sent", "Message '**" + msg + "**' was sent.");
+        console.log(description);
+        Tools.sendEmbed(message.channel, title, description);
         return true;
     },
 };

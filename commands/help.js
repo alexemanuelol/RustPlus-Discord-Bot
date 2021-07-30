@@ -11,10 +11,10 @@ module.exports = {
             str += command + "\n";
         }
 
-        Tools.sendEmbed(message.channel,
-            "Help Information",
-            "Command prefix: **" + Config.prefix + "**",
-            ["**Available Commands:**", str]);
+        let title = "Help Information";
+        let description = "Command prefix: **" + Config.prefix + "**";
+        console.log(title + ":\n" + description + "\n**Available Commands:**\n" + str);
+        Tools.sendEmbed(message.channel, title, description, ["**Available Commands:**", str]);
 
         return true;
     },

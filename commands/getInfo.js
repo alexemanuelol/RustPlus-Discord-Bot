@@ -5,21 +5,28 @@ module.exports = {
     description: "Get info about the Rust Server.",
     execute(message, args, discordBot, rustplus) {
         if (args.length != 0) {
-            console.log("ERROR: No arguments required.");
-            Tools.sendEmbed(message.channel, "ERROR", "No arguments required.");
+            let title = "ERROR";
+            let description = "No arguments required.";
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
             return false;
         }
 
         rustplus.getInfo((msg) => {
-            console.log("Response message: >> getInfo <<\n" + JSON.stringify(msg));
+            console.log(">> Request : getInfo <<");
 
             if (msg.response.hasOwnProperty("error")) {
-                console.log("Some error occured, check response message above.");
+                console.log(">> Response message : getInfo <<\n" + JSON.stringify(msg));
+
+                let title = "ERROR";
+                let description = "Some error occured while sending the request to the server."
+                console.log(title + ": " + description);
+                Tools.sendEmbed(message.channel, title, description);
             }
             else {
                 let info = msg.response.info;
-                Tools.sendEmbed(message.channel, "Server Information",
-                    "**Name:** " + info.name + "\n" +
+                let title = "Server Information";
+                let description = "**Name:** " + info.name + "\n" +
                     "**URL:** " + info.url + "\n" +
                     "**Map:** " + info.map + "\n" +
                     "**Map Size:** " + info.mapSize + "\n" +
@@ -27,7 +34,9 @@ module.exports = {
                     "**Online Players:** (" + info.players + "/" + info.maxPlayers + ")\n" +
                     "**Queued Players:** " + info.queuedPlayers + "\n" +
                     "**Seed:** " + info.seed + "\n" +
-                    "**Salt:** " + info.salt);
+                    "**Salt:** " + info.salt;
+                console.log(title + ": " + description);
+                Tools.sendEmbed(message.channel, title, description);
             }
         });
 

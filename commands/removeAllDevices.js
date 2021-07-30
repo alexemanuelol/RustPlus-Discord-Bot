@@ -6,8 +6,10 @@ module.exports = {
     description: "Removes all devices from the devices.json file.",
     execute(message, args, discordBot, rustplus) {
         if (args.length != 0) {
-            console.log("ERROR: No arguments required.");
-            Tools.sendEmbed(message.channel, "ERROR", "No arguments, required.");
+            let title = "ERROR";
+            let description = "No arguments required.";
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
             return false;
         }
 
@@ -16,8 +18,10 @@ module.exports = {
         fs.writeFile("./devices.json", JSON.stringify(devices, null, 2), (err) => {
             if (err) throw err;
 
-            console.log("All devices were removed.");
-            Tools.sendEmbed(message.channel, "Successfully Removed", "All devices were removed.");
+            let title = "Successfullt Removed.";
+            let description = "All devices were removed.";
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
         });
 
         return true;

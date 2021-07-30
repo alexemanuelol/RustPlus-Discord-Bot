@@ -79,17 +79,23 @@ module.exports = {
     description: "Fetch map info, which includes a jpeg image.",
     execute(message, args, discordBot, rustplus) {
         if (args.length != 0) {
-            console.log("ERROR: No arguments required.");
-            Tools.sendEmbed(message.channel, "ERROR", "No arguments required.");
+            let title = "ERROR";
+            let description = "No arguments required.";
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
             return false;
         }
 
         rustplus.getMap((msg) => {
-            console.log("Response message: >> getMap <<");
-            console.log(msg)
+            console.log(">> Request : getMap <<");
 
             if (msg.response.hasOwnProperty("error")) {
-                console.log("Some error occured, check response message above.");
+                console.log(">> Response message : getMap <<\n" + JSON.stringify(msg));
+
+                let title = "ERROR";
+                let description = "Some error occured while sending the request to the server.";
+                console.log(title + ": " + description);
+                Tools.sendEmbed(message.channel, title, description);
             }
             else {
                 /* Write the received image to a file. */
@@ -109,15 +115,26 @@ module.exports = {
                     }
 
                     rustplus.getInfo((info) => {
-                        console.log("Response message: >> getMap => getInfo <<\n" + JSON.stringify(info));
+                        console.log(">> Request : getInfo <<");
+
                         if (info.response.hasOwnProperty("error")) {
-                            console.log("Some error occured, check response message above.");
+                            console.log(">> Response message : getMap => getInfo <<\n" + JSON.stringify(info));
+
+                            let title = "ERROR";
+                            let description = "Some erorr occured while sending the request to the server."
+                            console.log(title + ": " + description);
+                            Tools.sendEmbed(message.channel, title, description);
                         }
                         else {
                             rustplus.getMapMarkers((mapMarkers) => {
-                                console.log("Response message: >> getMap => getMapMarkers <<\n" + JSON.stringify(mapMarkers));
+                                console.log(">> Request : getMapMarkers <<");
                                 if (mapMarkers.response.hasOwnProperty("error")) {
-                                    console.log("Some error occured, check response message above.");
+                                    console.log(">> Response message : getMap => getMapMarkers <<\n" + JSON.stringify(mapMarkers));
+
+                                    let title = "ERROR";
+                                    let description = "Some error occured while sending the request to the server.";
+                                    console.log(title + ": " + description);
+                                    Tools.sendEmbed(message.channel, title, description);
                                 }
                                 else {
                                     let mapSize = info.response.info.mapSize;

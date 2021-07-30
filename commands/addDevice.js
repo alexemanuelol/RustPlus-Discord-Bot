@@ -6,8 +6,10 @@ module.exports = {
     description: "Add a new device to devices.json file.",
     execute(message, args, discordBot, rustplus) {
         if (args.length != 2) {
-            console.log("ERROR: 2 arguments required. Example: !addDevice @name @id");
-            Tools.sendEmbed(message.channel, "ERROR", "2 arguments required. Example: !addDevice @name @id.");
+            let title = "ERROR";
+            let description = "2 arguments required. Example: !addDevice @name @id.";
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
             return false;
         }
 
@@ -15,8 +17,10 @@ module.exports = {
         var value = parseInt(args[1]);
 
         if (isNaN(value)) {
-            console.log("Could not convert '" + args[1] + "' to integer");
-            Tools.sendEmbed(message.channel, "ERROR", "Could not convert '" + args[1] + "' to integer.");
+            let title = "ERROR";
+            let description = "Could not convert '" + args[1] + "' to integer";
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
             return false;
         }
 
@@ -30,8 +34,10 @@ module.exports = {
             fs.writeFile("./devices.json", JSON.stringify(devices, null, 2), (err) => {
                 if (err) throw err;
 
-                console.log("'**" + key + "** : " + value + "' was added to devices.");
-                Tools.sendEmbed(message.channel, "Successfully Added", "'**" + key + " : " + value + "**' was added to devices.");
+                let title = "Successfully Added";
+                let description = "'**" + key + " : " + value + "**' was added to devices.";
+                console.log(title + ": " + description);
+                Tools.sendEmbed(message.channel, title, description);
             });
         });
 

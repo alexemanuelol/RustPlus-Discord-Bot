@@ -6,8 +6,10 @@ module.exports = {
     description: "Get current state of a Smart Device.",
     execute(message, args, discordBot, rustplus) {
         if (args.length != 1) {
-            console.log("ERROR: 1 argument required. Example: !getEntityInfo @name/id");
-            Tools.sendEmbed(message.channel, "ERROR", "1 argument required. Example: !getEntityInfo @name/id.");
+            let title = "ERROR";
+            let description = "1 argument required. Example: !getEntityInfo @name/id."
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
             return false;
         }
 
@@ -27,11 +29,15 @@ module.exports = {
             }
 
             rustplus.getEntityInfo(dev, (msg) => {
-                console.log("Response message: >> getEntityInfo <<\n" + JSON.stringify(msg));
+                console.log(">> Request : getEntityInfo <<");
 
                 if (msg.response.hasOwnProperty("error")) {
-                    console.log("Some error occured, check response message above.");
-                    Tools.sendEmbed(message.channel, "ERROR", "'**" + dev + "**' invalid entity ID.");
+                    console.log(">> Response message : getEntityInfo <<\n" + JSON.stringify(msg));
+
+                    let title = "ERROR";
+                    let description = "'**" + dev + "**' invalid entity ID.";
+                    console.log(title + ": " + description);
+                    Tools.sendEmbed(message.channel, title, description);
                 }
                 else {
                     let deviceType = "";
@@ -48,13 +54,16 @@ module.exports = {
                         default:
                             deviceType = "Unknown";
                     }
-                    Tools.sendEmbed(message.channel, "Entity Information",
-                        "**Name:** " + device + "\n" +
+
+                    let title = "Entity Information";
+                    let description = "**Name:** " + device + "\n" +
                         "**Type:** " + deviceType + "\n" +
                         "**Value:** " + msg.response.entityInfo.payload.value + "\n" +
                         "**Capacity:** " + msg.response.entityInfo.payload.capacity + "\n" +
                         "**HasProtection:** " + msg.response.entityInfo.payload.hasProtection + "\n" +
-                        "**ProtectionExpiry:** " + msg.response.entityInfo.payload.protectionExpiry);
+                        "**ProtectionExpiry:** " + msg.response.entityInfo.payload.protectionExpiry;
+                    console.log(title + ": " + description);
+                    Tools.sendEmbed(message.channel, title, description);
                 }
 
                 return true;

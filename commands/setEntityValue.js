@@ -6,8 +6,10 @@ module.exports = {
     description: "Set the value of a Smart Device.",
     execute(message, args, discordBot, rustplus) {
         if (args.length != 2) {
-            console.log("ERROR: 2 arguments are required. Example: !setEntityValue @name @value");
-            Tools.sendEmbed(message.channel, "ERROR", "2 arguments are required. Example: !setEntityValue @name @value.");
+            let title = "ERROR";
+            let description = "2 arguments are required. Example: !setEntityValue @name @value.";
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
             return false;
         }
 
@@ -36,14 +38,21 @@ module.exports = {
             }
 
             rustplus.setEntityValue(dev, value, (msg) => {
-                console.log("Response message: >> setEntityValue <<\n" + JSON.stringify(msg));
+                console.log(">> Request : setEntityValue <<");
 
                 if (msg.response.hasOwnProperty("error")) {
-                    console.log("Some error occured, check response message above.");
-                    Tools.sendEmbed(message.channel, "ERROR", "'**" + dev + "**' invalid entity ID.");
+                    console.log(">> Response message : setEntityValue <<\n" + JSON.stringify(msg));
+
+                    let title = "ERROR";
+                    let description = "'**" + dev + "**' invalid entity ID.";
+                    console.log(title + ": " + description);
+                    Tools.sendEmbed(message.channel, title, description);
                 }
                 else {
-                    Tools.sendEmbed(message.channel, "Successfully Set", "'**" + device + "**' entity value set to: **" + value + "**");
+                    let title = "Successfully Set";
+                    let description = "'**" + device + "**' entity value set to: **" + value + "**";
+                    console.log(title + ": " + description);
+                    Tools.sendEmbed(message.channel, title, description);
                 }
 
                 return true;

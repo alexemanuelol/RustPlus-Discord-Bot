@@ -6,8 +6,10 @@ module.exports = {
     description: "Turn off a Smart Switch.",
     execute(message, args, discordBot, rustplus) {
         if (args.length === 0) {
-            console.log("ERROR: At least 1 argument is required. Example: !turnOff @name/id");
-            Tools.sendEmbed(message.channel, "ERROR", "At least 1 argument is required. Example: !turnOff @name/id.");
+            let title = "ERROR";
+            let description = "At least 1 argument is required. Example: !turnOff @name/id.";
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
             return false;
         }
 
@@ -26,14 +28,21 @@ module.exports = {
                 }
 
                 rustplus.turnSmartSwitchOff(dev, (msg) => {
-                    console.log("Response message: >> turnSmartSwitchOff <<\n" + JSON.stringify(msg));
+                    console.log(">> Request : turnSmartSwitchOff <<");
 
                     if (msg.response.hasOwnProperty("error")) {
-                        console.log("Some error occured, check response message above.");
-                        Tools.sendEmbed(message.channel, "ERROR", "'**" + dev + "**' invalid entity ID.");
+                        console.log(">> Response message : turnSmartSwitchOff <<\n" + JSON.stringify(msg));
+
+                        let title = "ERROR";
+                        let description = "'**" + dev + "**' invalid entity ID.";
+                        console.log(title + ": " + description);
+                        Tools.sendEmbed(message.channel, title, description);
                     }
                     else {
-                        Tools.sendEmbed(message.channel, "Successfully Turned Off", "'**" + arg + "**' was turned off.");
+                        let title = "Successfully Turned Off";
+                        let description = "'**" + arg + "**' was turned off.";
+                        console.log(title + ": " + description);
+                        Tools.sendEmbed(message.channel, title, description);
                     }
                 });
             }

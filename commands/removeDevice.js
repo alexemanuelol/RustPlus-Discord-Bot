@@ -6,8 +6,10 @@ module.exports = {
     description: "Removes a device from the devices.json file.",
     execute(message, args, discordBot, rustplus) {
         if (args.length != 1) {
-            console.log("ERROR: 1 argument required. Example: !removeDevice @name");
-            Tools.sendEmbed(message.channel, "ERROR", "1 argument required. Example: !removeDevice @name.");
+            let title = "ERROR";
+            let description = "1 argument required. Example: !removeDevice @name."
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
             return false;
         }
 
@@ -25,12 +27,17 @@ module.exports = {
                 fs.writeFile("./devices.json", JSON.stringify(devices, null, 2), (err) => {
                     if (err) throw err;
 
-                    console.log("'" + device + "' was removed from devices.");
-                    Tools.sendEmbed(message.channel, "Successfully Removed", "'**" + device + "**' was removed from devices.");
+                    let title = "Successfully Removed";
+                    let description = "'**" + device + "**' was removed from devices.";
+                    console.log(title + ": " + description);
+                    Tools.sendEmbed(message.channel, title, description);
                 });
             }
             else {
-                console.log("'**" + device + "**' does not exist in devices.json.");
+                let title = "ERROR";
+                let description = "'**" + device + "**' does not exist in devices.";
+                console.log(title + ": " + description);
+                Tools.sendEmbed(message.channel, title, description);
                 return false;
             }
         });

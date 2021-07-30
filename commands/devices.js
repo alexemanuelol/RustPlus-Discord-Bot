@@ -6,8 +6,10 @@ module.exports = {
     description: "Prints all the devices located in the devices.json file.",
     execute(message, args, discordBot, rustplus) {
         if (args.length != 0) {
-            console.log("ERROR: No arguments required.");
-            Tools.sendEmbed(message.channel, "ERROR", "No arguments required.");
+            let title = "ERROR";
+            let description = "No arguments required.";
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
             return false;
         }
 
@@ -21,7 +23,10 @@ module.exports = {
                 str += "**" + key + "** : " + devices[key] + "\n";
             }
 
-            Tools.sendEmbed(message.channel, "Registered Devices", "", ["**Devices**", str]);
+            let title = "Registered Devices";
+            let description = str;
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, "", ["**Devices**", description]);
         });
 
         return true;

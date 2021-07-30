@@ -34,8 +34,11 @@ module.exports = {
                     }
 
                     if (cargoActive) {
-                        console.log("Cargo Ship is active.");
-                        Tools.sendEmbed(discordBot.channels.cache.get(config.discordNotificationChannel), "NOTIFICATION", "**Cargo Ship** is active.");
+                        let title = "NOTIFICATION";
+                        let description = "**Cargo Ship** is active.";
+                        let channel = discordBot.channels.cache.get(config.discordNotificationChannel);
+                        console.log(title + ": " + description);
+                        Tools.sendEmbed(channel, title, description);
                     }
                 }
                 else {
@@ -49,8 +52,11 @@ module.exports = {
 
                     if (cargoLeft) {
                         cargoActive = false;
-                        console.log("Cargo Ship just despawned.");
-                        Tools.sendEmbed(discordBot.channels.cache.get(config.discordNotificationChannel), "NOTIFICATION", "**Cargo Ship** just despawned.");
+                        let title = "NOTIFICATION";
+                        let description = "**Cargo Ship** just despawned.";
+                        let channel = discordBot.channels.cache.get(config.discordNotificationChannel);
+                        console.log(title + ": " + description);
+                        Tools.sendEmbed(channel, title, description);
                     }
                 }
             }
