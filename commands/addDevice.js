@@ -1,40 +1,22 @@
-const Main = require("./../rustplusDiscordBot.js");
-const Discord = require("discord.js");
-const RustPlus = require("rustplus.js");
 const fs = require("fs");
+const Tools = require("./../tools/tools.js");
 
 module.exports = {
     name: "addDevice",
     description: "Add a new device to devices.json file.",
-    execute(message, args, bot, rustplus) {
-        if (args.length != 2)
-        {
+    execute(message, args, discordBot, rustplus) {
+        if (args.length != 2) {
             console.log("ERROR: 2 arguments required. Example: !addDevice @name @id");
-            const error1 = new Discord.MessageEmbed()
-                .setColor("#ce412b")
-                .setThumbnail(Main.THUMBNAIL_URL)
-                .setURL(Main.GITHUB_URL)
-                .setTitle("ERROR")
-                .setDescription("2 arguments required. Example: !addDevice @name @id.");
-
-            message.channel.send(error1);
+            Tools.sendEmbed(message.channel, "ERROR", "2 arguments required. Example: !addDevice @name @id.");
             return false;
         }
 
         var key = args[0];
         var value = parseInt(args[1]);
 
-        if (isNaN(value))
-        {
+        if (isNaN(value)) {
             console.log("Could not convert '" + args[1] + "' to integer");
-            const error2 = new Discord.MessageEmbed()
-                .setColor("#ce412b")
-                .setThumbnail(Main.THUMBNAIL_URL)
-                .setURL(Main.GITHUB_URL)
-                .setTitle("ERROR")
-                .setDescription("Could not convert '" + args[1] + "' to integer.");
-
-            message.channel.send(error2);
+            Tools.sendEmbed(message.channel, "ERROR", "Could not convert '" + args[1] + "' to integer.");
             return false;
         }
 
@@ -49,14 +31,7 @@ module.exports = {
                 if (err) throw err;
 
                 console.log("'**" + key + "** : " + value + "' was added to devices.");
-                const embed = new Discord.MessageEmbed()
-                    .setColor("#ce412b")
-                    .setThumbnail(Main.THUMBNAIL_URL)
-                    .setURL(Main.GITHUB_URL)
-                    .setTitle("Successfully Added")
-                    .setDescription("'**" + key + " : " + value + "**' was added to devices.");
-
-                message.channel.send(embed);
+                Tools.sendEmbed(message.channel, "Successfully Added", "'**" + key + " : " + value + "**' was added to devices.");
             });
         });
 

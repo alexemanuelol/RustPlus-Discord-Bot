@@ -2,13 +2,11 @@ const Discord = require("discord.js");          /* Discord module. */
 const RustPlus = require("rustplus.js");        /* RustPlus module. */
 const fs = require("fs");                       /* Node file system module. */
 const config = require("./config.json");        /* Configuration file. */
-const devices = require("./devices.json");
+const Tools = require("./tools/tools.js");
 
 /* Global variables */
-const THUMBNAIL_URL = "https://imgur.com/znQvBMi.png";
-const GITHUB_URL = "https://github.com/alexemanuelol/RustPlus-Discord-Bot";
-exports.THUMBNAIL_URL = THUMBNAIL_URL;
-exports.GITHUB_URL = GITHUB_URL;
+exports.THUMBNAIL_URL = "https://imgur.com/znQvBMi.png";
+exports.GITHUB_URL = "https://github.com/alexemanuelol/RustPlus-Discord-Bot";
 
 /* Create an instance of a discord client. */
 const bot = new Discord.Client();
@@ -80,14 +78,7 @@ bot.on("message", message => {
     catch (error) {
         console.error(error);
 
-        const embed = new Discord.MessageEmbed()
-            .setColor("#ce412b")
-            .setThumbnail("https://imgur.com/znQvBMi.png")
-            .setURL("https://github.com/alexemanuelol/RustPlus-Discord-Bot")
-            .setTitle("ERROR")
-            .setDescription("An error occured while trying to execute that command.");
-
-        message.channel.send(embed);
+        Tools.sendEmbed(message.channel, "ERROR", "An error occured while trying to execute that command.");
     }
 });
 

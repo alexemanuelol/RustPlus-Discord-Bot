@@ -1,34 +1,22 @@
-const Main = require("./../rustplusDiscordBot.js");
-const Discord = require("discord.js");
-const RustPlus = require("rustplus.js");
+const Tools = require("../tools/tools.js");
 
 module.exports = {
     name: "getMapMarkers",
     description: "Get map markers, such as vending machines and cargo/heli.",
-    execute(message, args, bot, rustplus) {
-        if (args.length != 0)
-        {
+    execute(message, args, discordBot, rustplus) {
+        if (args.length != 0) {
             console.log("ERROR: No arguments required.");
-            const error1 = new Discord.MessageEmbed()
-                .setColor("#ce412b")
-                .setThumbnail(Main.THUMBNAIL_URL)
-                .setURL(Main.GITHUB_URL)
-                .setTitle("ERROR")
-                .setDescription("No arguments required.");
-
-            message.channel.send(error1);
+            Tools.sendEmbed(message.channel, "ERROR", "No arguments required.");
             return false;
         }
 
         rustplus.getMapMarkers((msg) => {
             console.log("Response message: >> getMapMarkers <<\n" + JSON.stringify(msg));
 
-            if (msg.response.hasOwnProperty("error"))
-            {
+            if (msg.response.hasOwnProperty("error")) {
                 console.log("Some error occured, check response message above.");
             }
-            else
-            {
+            else {
                 /* TODO: Find a convenient way to display the information. */
             }
         });

@@ -1,51 +1,33 @@
-const Main = require("./../rustplusDiscordBot.js");
-const Discord = require("discord.js");
-const RustPlus = require("rustplus.js");
+const Tools = require("./../tools/tools.js");
 
 module.exports = {
     name: "getInfo",
     description: "Get info about the Rust Server.",
-    execute(message, args, bot, rustplus) {
-        if (args.length != 0)
-        {
+    execute(message, args, discordBot, rustplus) {
+        if (args.length != 0) {
             console.log("ERROR: No arguments required.");
-            const error1 = new Discord.MessageEmbed()
-                .setColor("#ce412b")
-                .setThumbnail(Main.THUMBNAIL_URL)
-                .setURL(Main.GITHUB_URL)
-                .setTitle("ERROR")
-                .setDescription("No arguments required.");
-
-            message.channel.send(error1);
+            Tools.sendEmbed(message.channel, "ERROR", "No arguments required.");
             return false;
         }
 
         rustplus.getInfo((msg) => {
             console.log("Response message: >> getInfo <<\n" + JSON.stringify(msg));
 
-            if (msg.response.hasOwnProperty("error"))
-            {
+            if (msg.response.hasOwnProperty("error")) {
                 console.log("Some error occured, check response message above.");
             }
-            else
-            {
+            else {
                 let info = msg.response.info;
-                const embed = new Discord.MessageEmbed()
-                    .setColor("#ce412b")
-                    .setThumbnail(Main.THUMBNAIL_URL)
-                    .setURL(Main.GITHUB_URL)
-                    .setTitle("Server Information")
-                    .setDescription("**Name:** " + info.name + "\n" +
-                                    "**URL:** " + info.url + "\n" +
-                                    "**Map:** " + info.map + "\n" +
-                                    "**Map Size:** " + info.mapSize + "\n" +
-                                    "**Wipe Time:** " + info.wipeTime + "\n" +
-                                    "**Online Players:** (" + info.players + "/" + info.maxPlayers + ")\n" +
-                                    "**Queued Players:** " + info.queuedPlayers + "\n" +
-                                    "**Seed:** " + info.seed + "\n" +
-                                    "**Salt:** " + info.salt);
-
-                message.channel.send(embed);
+                Tools.sendEmbed(message.channel, "Server Information",
+                    "**Name:** " + info.name + "\n" +
+                    "**URL:** " + info.url + "\n" +
+                    "**Map:** " + info.map + "\n" +
+                    "**Map Size:** " + info.mapSize + "\n" +
+                    "**Wipe Time:** " + info.wipeTime + "\n" +
+                    "**Online Players:** (" + info.players + "/" + info.maxPlayers + ")\n" +
+                    "**Queued Players:** " + info.queuedPlayers + "\n" +
+                    "**Seed:** " + info.seed + "\n" +
+                    "**Salt:** " + info.salt);
             }
         });
 
