@@ -29,4 +29,17 @@ module.exports = {
         discordChannel.send(embed);
     },
 
+    MarkerType: {
+        Source: 0,
+        Player: 1,
+        Explosion: 2,
+        VendingMachine: 3,
+        CH47: 4,
+        CargoShip: 5,
+        Crate: 6,
+        GenericRadius: 7,
+        TrainTunnels: 8,
+    }
+
+
 }
