@@ -39,6 +39,7 @@ module.exports = {
                         let channel = discordBot.channels.cache.get(config.discordNotificationChannel);
                         console.log(title + ": " + description);
                         Tools.sendEmbed(channel, title, description);
+                        rustplus.sendTeamMessage("[NOTIFICATION] Cargo Ship is active.");
                     }
                 }
                 else {
@@ -57,6 +58,7 @@ module.exports = {
                         let channel = discordBot.channels.cache.get(config.discordNotificationChannel);
                         console.log(title + ": " + description);
                         Tools.sendEmbed(channel, title, description);
+                        rustplus.sendTeamMessage("[NOTIFICATION] Cargo Ship just despawned.");
                     }
                 }
             }
