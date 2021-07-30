@@ -23,6 +23,10 @@ module.exports = {
                 str += "**" + key + "** : " + devices[key] + "\n";
             }
 
+            if (str === "") {
+                str = "No registered devices.";
+            }
+
             let title = "Registered Devices";
             let description = str;
             console.log(title + ": " + description);
