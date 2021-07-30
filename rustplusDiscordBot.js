@@ -39,9 +39,20 @@ function mapMarkerPolling() {
             console.log("Some error occured, check response message above.");
         }
         else {
-            /* Update notifications */
-            for (const notification of notifications) {
-                notification.execute(msg, bot, rustplus);
+            let config = Tools.readJSON("./config.json");
+
+            if (config.eventNotifications === "true") {
+                let channel = bot.channels.cache.get(config.discordNotificationChannel);
+                if (typeof (channel) === "undefined") {
+                    console.log("Discord Notification Channel is invalid in config.json");
+                }
+                else {
+                    /* Update notifications */
+                    for (const notification of notifications) {
+                        notification.execute(msg, channel, bot, rustplus);
+                    }
+                }
+
             }
         }
 
