@@ -52,7 +52,6 @@ function mapMarkerPolling() {
                         notification.execute(msg, channel, bot, rustplus);
                     }
                 }
-
             }
         }
 
@@ -100,6 +99,20 @@ bot.login(config.discordToken);
 rustplus.on('connected', () => {
     /* Ready to send requests. */
     rustplus.sendTeamMessage("RustPlus-Discord-Bot now enabled!");
+
+    /* Go through all devices in devices.json to enable broadcast. */
+    console.log("Go through devices.json and validate.");
+    let devices = Tools.readJSON("./devices.json");
+    for (let device in devices) {
+        rustplus.getEntityInfo(parseInt(devices[device]), (msg) => {
+            if (msg.response.hasOwnProperty("error")) {
+                console.log(device + " : " + parseInt(devices[device]) + " is INVALID.")
+            }
+            else {
+                console.log(device + " : " + parseInt(devices[device]) + " is VALID.")
+            }
+        });
+    }
 });
 
 /* Connect to the rust server */
