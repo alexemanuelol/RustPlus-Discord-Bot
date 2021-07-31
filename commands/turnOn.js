@@ -17,30 +17,55 @@ module.exports = {
         fs.readFile("./devices.json", (err, data) => {
             if (err) throw err;
             let devices = JSON.parse(data);
-            let dev;
 
+            let devs = [];
             for (let arg of args) {
                 if (devices.hasOwnProperty(arg)) {
-                    dev = parseInt(devices[arg]);
+                    devs.push([arg, parseInt(devices[arg])]);
+                }
+                else if (arg.includes("*")) {
+                    for (let d in devices) {
+                        if (Tools.wildcardMatch(d, arg)) {
+                            devs.push([d, parseInt(devices[d])]);
+                        }
+                    }
                 }
                 else {
-                    dev = parseInt(arg);
+                    devs.push([arg, parseInt(arg)]);
                 }
+            }
 
-                rustplus.turnSmartSwitchOn(dev, (msg) => {
+            let covered = [];
+            let finalDevices = [];
+            for (let dev of devs) {
+                if (!covered.includes(dev[0])) {
+                    finalDevices.push(dev);
+                    covered.push(dev[0]);
+                }
+            }
+
+            for (let device of finalDevices) {
+                rustplus.turnSmartSwitchOn(device[1], (msg) => {
                     console.log(">> Request : turnSmartSwitchOn <<");
 
                     if (msg.response.hasOwnProperty("error")) {
                         console.log(">> Response message : turnSmartSwitchOn <<\n" + JSON.stringify(msg));
 
                         let title = "ERROR";
-                        let description = "'**" + dev + "**' invalid entity ID.";
+                        let description = "";
+                        if (msg.response.error.error === "wrong_type") {
+                            description = "'**" + device[0] + " : " + device[1] + "**' invalid type, this is not a Switch.";
+                        }
+                        else {
+                            description = "'**" + device[0] + " : " + device[1] + "**' invalid entity ID.";
+                        }
+
                         console.log(title + ": " + description);
                         Tools.sendEmbed(message.channel, title, description);
                     }
                     else {
                         let title = "Successfully Turned On";
-                        let description = "'**" + arg + "**' was turned on.";
+                        let description = "'**" + device[0] + " : " + device[1] + "**' was turned on.";
                         console.log(title + ": " + description);
                         Tools.sendEmbed(message.channel, title, description);
                     }
