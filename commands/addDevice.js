@@ -23,11 +23,25 @@ module.exports = {
             return false;
         }
 
-        Tools.writeJSON("./devices.json", key, value);
-        let title = "Successfully Added";
-        let description = "'**" + key + " : " + value + "**' was added to devices.";
-        console.log(title + ": " + description);
-        Tools.sendEmbed(message.channel, title, description);
+        rustplus.getEntityInfo(value, (msg) => {
+            console.log(">> Request : getEntityInfo <<");
+
+            if (msg.response.hasOwnProperty("error")) {
+                console.log(">> Response message : getEntityInfo <<\n" + JSON.stringify(msg));
+
+                let title = "ERROR";
+                let description = "'**" + value + "**' invalid entity ID.";
+                console.log(title + ": " + description);
+                Tools.sendEmbed(message.channel, title, description);
+            }
+            else {
+                Tools.writeJSON("./devices.json", key, value);
+                let title = "Successfully Added";
+                let description = "'**" + key + " : " + value + "**' was added to devices.";
+                console.log(title + ": " + description);
+                Tools.sendEmbed(message.channel, title, description);
+            }
+        });
 
         return true;
     },
