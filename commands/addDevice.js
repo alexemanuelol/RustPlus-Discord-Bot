@@ -1,4 +1,3 @@
-const fs = require("fs");
 const Tools = require("./../tools/tools.js");
 
 module.exports = {
@@ -24,22 +23,11 @@ module.exports = {
             return false;
         }
 
-        /* Read the devices.json file. */
-        fs.readFile("./devices.json", (err, data) => {
-            if (err) throw err;
-            let devices = JSON.parse(data);
-            devices[key] = value;
-
-            /* Write to devices.json file. */
-            fs.writeFile("./devices.json", JSON.stringify(devices, null, 2), (err) => {
-                if (err) throw err;
-
-                let title = "Successfully Added";
-                let description = "'**" + key + " : " + value + "**' was added to devices.";
-                console.log(title + ": " + description);
-                Tools.sendEmbed(message.channel, title, description);
-            });
-        });
+        Tools.writeJSON("./devices.json", key, value);
+        let title = "Successfully Added";
+        let description = "'**" + key + " : " + value + "**' was added to devices.";
+        console.log(title + ": " + description);
+        Tools.sendEmbed(message.channel, title, description);
 
         return true;
     },

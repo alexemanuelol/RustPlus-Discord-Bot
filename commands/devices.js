@@ -1,4 +1,3 @@
-const fs = require("fs");
 const Tools = require("./../tools/tools.js");
 
 module.exports = {
@@ -14,24 +13,21 @@ module.exports = {
         }
 
         /* Read the devices.json file. */
-        fs.readFile("./devices.json", (err, data) => {
-            if (err) throw err;
-            let devices = JSON.parse(data);
-            let str = "";
+        let devices = Tools.readJSON("./devices.json");
+        let str = "";
 
-            for (let key in devices) {
-                str += "**" + key + "** : " + devices[key] + "\n";
-            }
+        for (let key in devices) {
+            str += "**" + key + "** : " + devices[key] + "\n";
+        }
 
-            if (str === "") {
-                str = "No registered devices.";
-            }
+        if (str === "") {
+            str = "No registered devices.";
+        }
 
-            let title = "Registered Devices";
-            let description = str;
-            console.log(title + ": " + description);
-            Tools.sendEmbed(message.channel, title, "", ["**Devices**", description]);
-        });
+        let title = "Registered Devices";
+        let description = str;
+        console.log(title + ": " + description);
+        Tools.sendEmbed(message.channel, title, "", ["**Devices**", description]);
 
         return true;
     },

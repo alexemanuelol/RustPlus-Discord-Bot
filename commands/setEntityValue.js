@@ -1,4 +1,3 @@
-const fs = require("fs");
 const Tools = require("../tools/tools.js");
 
 module.exports = {
@@ -23,40 +22,35 @@ module.exports = {
             value = true;
         }
 
-        /* Read the devices.json file. */
-        fs.readFile("./devices.json", (err, data) => {
-            if (err) throw err;
-            let devices = JSON.parse(data);
-            let dev;
+        let devices = Tools.readJSON("./devices.json");
+        let dev;
 
+        if (devices.hasOwnProperty(device)) {
+            dev = parseInt(devices[device]);
+        }
+        else {
+            dev = parseInt(device);
+        }
 
-            if (devices.hasOwnProperty(device)) {
-                dev = parseInt(devices[device]);
+        rustplus.setEntityValue(dev, value, (msg) => {
+            console.log(">> Request : setEntityValue <<");
+
+            if (msg.response.hasOwnProperty("error")) {
+                console.log(">> Response message : setEntityValue <<\n" + JSON.stringify(msg));
+
+                let title = "ERROR";
+                let description = "'**" + dev + "**' invalid entity ID.";
+                console.log(title + ": " + description);
+                Tools.sendEmbed(message.channel, title, description);
             }
             else {
-                dev = parseInt(device);
+                let title = "Successfully Set";
+                let description = "'**" + device + "**' entity value set to: **" + value + "**";
+                console.log(title + ": " + description);
+                Tools.sendEmbed(message.channel, title, description);
             }
 
-            rustplus.setEntityValue(dev, value, (msg) => {
-                console.log(">> Request : setEntityValue <<");
-
-                if (msg.response.hasOwnProperty("error")) {
-                    console.log(">> Response message : setEntityValue <<\n" + JSON.stringify(msg));
-
-                    let title = "ERROR";
-                    let description = "'**" + dev + "**' invalid entity ID.";
-                    console.log(title + ": " + description);
-                    Tools.sendEmbed(message.channel, title, description);
-                }
-                else {
-                    let title = "Successfully Set";
-                    let description = "'**" + device + "**' entity value set to: **" + value + "**";
-                    console.log(title + ": " + description);
-                    Tools.sendEmbed(message.channel, title, description);
-                }
-
-                return true;
-            });
+            return true;
         });
 
         return true;

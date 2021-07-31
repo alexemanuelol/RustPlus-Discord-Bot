@@ -15,32 +15,26 @@ module.exports = {
 
         var device = args[0];
 
-        /* Read the devices.json file. */
-        fs.readFile("./devices.json", (err, data) => {
-            if (err) throw err;
-            let devices = JSON.parse(data);
+        let devices = Tools.readJSON("./devices.json");
+        if (devices.hasOwnProperty(device)) {
+            delete devices[device];
 
-            if (devices.hasOwnProperty(device)) {
-                delete devices[device];
+            fs.writeFile("./devices.json", JSON.stringify(devices, null, 2), (err) => {
+                if (err) throw err;
 
-                /* Write to devices.json file. */
-                fs.writeFile("./devices.json", JSON.stringify(devices, null, 2), (err) => {
-                    if (err) throw err;
-
-                    let title = "Successfully Removed";
-                    let description = "'**" + device + "**' was removed from devices.";
-                    console.log(title + ": " + description);
-                    Tools.sendEmbed(message.channel, title, description);
-                });
-            }
-            else {
-                let title = "ERROR";
-                let description = "'**" + device + "**' does not exist in devices.";
+                let title = "Successfully Removed";
+                let description = "'**" + device + "**' was removed from devices.";
                 console.log(title + ": " + description);
                 Tools.sendEmbed(message.channel, title, description);
-                return false;
-            }
-        });
+            });
+        }
+        else {
+            let title = "ERROR";
+            let description = "'**" + device + "**' does not exist in devices.";
+            console.log(title + ": " + description);
+            Tools.sendEmbed(message.channel, title, description);
+            return false;
+        }
 
         return true;
     },

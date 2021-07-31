@@ -1,4 +1,3 @@
-const fs = require("fs");
 const Tools = require("../tools/tools.js");
 
 module.exports = {
@@ -13,65 +12,60 @@ module.exports = {
             return false;
         }
 
-        /* Read the devices.json file. */
-        fs.readFile("./devices.json", (err, data) => {
-            if (err) throw err;
-            let devices = JSON.parse(data);
-
-            let devs = [];
-            for (let arg of args) {
-                if (devices.hasOwnProperty(arg)) {
-                    devs.push([arg, parseInt(devices[arg])]);
-                }
-                else if (arg.includes("*")) {
-                    for (let d in devices) {
-                        if (Tools.wildcardMatch(d, arg)) {
-                            devs.push([d, parseInt(devices[d])]);
-                        }
+        let devices = Tools.readJSON("./devices.json");
+        let devs = [];
+        for (let arg of args) {
+            if (devices.hasOwnProperty(arg)) {
+                devs.push([arg, parseInt(devices[arg])]);
+            }
+            else if (arg.includes("*")) {
+                for (let d in devices) {
+                    if (Tools.wildcardMatch(d, arg)) {
+                        devs.push([d, parseInt(devices[d])]);
                     }
                 }
-                else {
-                    devs.push([arg, parseInt(arg)]);
-                }
             }
-
-            let covered = [];
-            let finalDevices = [];
-            for (let dev of devs) {
-                if (!covered.includes(dev[0])) {
-                    finalDevices.push(dev);
-                    covered.push(dev[0]);
-                }
+            else {
+                devs.push([arg, parseInt(arg)]);
             }
+        }
 
-            for (let device of finalDevices) {
-                rustplus.turnSmartSwitchOff(device[1], (msg) => {
-                    console.log(">> Request : turnSmartSwitchOff <<");
+        let covered = [];
+        let finalDevices = [];
+        for (let dev of devs) {
+            if (!covered.includes(dev[0])) {
+                finalDevices.push(dev);
+                covered.push(dev[0]);
+            }
+        }
 
-                    if (msg.response.hasOwnProperty("error")) {
-                        console.log(">> Response message : turnSmartSwitchOff <<\n" + JSON.stringify(msg));
+        for (let device of finalDevices) {
+            rustplus.turnSmartSwitchOff(device[1], (msg) => {
+                console.log(">> Request : turnSmartSwitchOff <<");
 
-                        let title = "ERROR";
-                        let description = "";
-                        if (msg.response.error.error === "wrong_type") {
-                            description = "'**" + device[0] + " : " + device[1] + "**' invalid type, this is not a Switch.";
-                        }
-                        else {
-                            description = "'**" + device[0] + " : " + device[1] + "**' invalid entity ID.";
-                        }
+                if (msg.response.hasOwnProperty("error")) {
+                    console.log(">> Response message : turnSmartSwitchOff <<\n" + JSON.stringify(msg));
 
-                        console.log(title + ": " + description);
-                        Tools.sendEmbed(message.channel, title, description);
+                    let title = "ERROR";
+                    let description = "";
+                    if (msg.response.error.error === "wrong_type") {
+                        description = "'**" + device[0] + " : " + device[1] + "**' invalid type, this is not a Switch.";
                     }
                     else {
-                        let title = "Successfully Turned Off";
-                        let description = "'**" + device[0] + " : " + device[1] + "**' was turned off.";
-                        console.log(title + ": " + description);
-                        Tools.sendEmbed(message.channel, title, description);
+                        description = "'**" + device[0] + " : " + device[1] + "**' invalid entity ID.";
                     }
-                });
-            }
-        });
+
+                    console.log(title + ": " + description);
+                    Tools.sendEmbed(message.channel, title, description);
+                }
+                else {
+                    let title = "Successfully Turned Off";
+                    let description = "'**" + device[0] + " : " + device[1] + "**' was turned off.";
+                    console.log(title + ": " + description);
+                    Tools.sendEmbed(message.channel, title, description);
+                }
+            });
+        }
 
         return true;
     },
