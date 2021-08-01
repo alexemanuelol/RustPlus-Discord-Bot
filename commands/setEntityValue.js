@@ -39,7 +39,14 @@ module.exports = {
                 console.log(">> Response message : setEntityValue <<\n" + JSON.stringify(msg));
 
                 let title = "ERROR";
-                let description = "'**" + dev + "**' invalid entity ID.";
+                let description = "";
+                if (msg.response.error.error === "wrong_type") {
+                    description = "'**" + device + " : " + dev + "**' invalid type, this is not a Switch.";
+                }
+                else {
+                    description = "'**" + device + " : " + dev + "**' invalid entity ID.";
+                }
+
                 console.log(title + ": " + description);
                 Tools.sendEmbed(message.channel, title, description);
             }
