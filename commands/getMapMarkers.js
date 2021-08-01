@@ -3,12 +3,12 @@ const Tools = require("./../tools/tools.js");
 module.exports = {
     name: "getMapMarkers",
     description: "Get map markers, such as vending machines and cargo/heli.",
-    execute(message, args, discordBot, rustplus) {
+    execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length != 0) {
             let title = "ERROR";
             let description = "No arguments required.";
             console.log(title + ": " + description);
-            Tools.sendEmbed(message.channel, title, description);
+            Tools.sendEmbed(channel, title, description);
             return false;
         }
 
@@ -21,7 +21,7 @@ module.exports = {
                 let title = "ERROR";
                 let description = "SOme error occured while sending the request to the server.";
                 console.log(title + ": " + description);
-                Tools.sendEmbed(message.channel, title, description);
+                Tools.sendEmbed(channel, title, description);
             }
             else {
                 /* TODO: Find a convenient way to display the information. */

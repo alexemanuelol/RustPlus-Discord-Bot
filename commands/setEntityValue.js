@@ -3,12 +3,12 @@ const Tools = require("./../tools/tools.js");
 module.exports = {
     name: "setEntityValue",
     description: "Set the value of a Smart Device.",
-    execute(message, args, discordBot, rustplus) {
+    execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length != 2) {
             let title = "ERROR";
             let description = "2 arguments are required. Example: !setEntityValue @name @value.";
             console.log(title + ": " + description);
-            Tools.sendEmbed(message.channel, title, description);
+            Tools.sendEmbed(channel, title, description);
             return false;
         }
 
@@ -48,13 +48,13 @@ module.exports = {
                 }
 
                 console.log(title + ": " + description);
-                Tools.sendEmbed(message.channel, title, description);
+                Tools.sendEmbed(channel, title, description);
             }
             else {
                 let title = "Successfully Set";
                 let description = "'**" + device + "**' entity value set to: **" + value + "**";
                 console.log(title + ": " + description);
-                Tools.sendEmbed(message.channel, title, description);
+                Tools.sendEmbed(channel, title, description);
             }
 
             return true;

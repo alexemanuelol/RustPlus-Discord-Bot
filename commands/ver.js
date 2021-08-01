@@ -5,7 +5,7 @@ const { version } = require("./../version.json");
 module.exports = {
     name: "ver",
     description: "Obtain the bot version.",
-    execute(message, args, discordBot, rustplus) {
+    execute(author, message, channel, args, discordBot, rustplus) {
         console.log(version);
 
         const embed = new Discord.MessageEmbed()
@@ -16,6 +16,6 @@ module.exports = {
             .setDescription("**" + version + "**")
             .setFooter("By Alexemanuelol");
 
-        message.channel.send(embed);
+        channel.send(embed);
     },
 };

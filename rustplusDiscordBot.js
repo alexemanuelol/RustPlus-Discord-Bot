@@ -59,7 +59,6 @@ function mapMarkerPolling() {
     });
 }
 
-
 bot.on("ready", () => {
     console.log("Logged in as " + bot.user.tag + "!");
 
@@ -83,7 +82,7 @@ bot.on("message", message => {
 
     try {
         /* Execute the command. */
-        bot.commands.get(command).execute(message, args, bot, rustplus);
+        bot.commands.get(command).execute(message.author.username, message.content, message.channel, args, bot, rustplus);
     }
     catch (error) {
         console.error(error);

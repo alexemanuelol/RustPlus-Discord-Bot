@@ -65,12 +65,12 @@ const Monument = {
 module.exports = {
     name: "getMap",
     description: "Fetch map info, which includes a jpeg image.",
-    execute(message, args, discordBot, rustplus) {
+    execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length != 0) {
             let title = "ERROR";
             let description = "No arguments required.";
             console.log(title + ": " + description);
-            Tools.sendEmbed(message.channel, title, description);
+            Tools.sendEmbed(channel, title, description);
             return false;
         }
 
@@ -83,7 +83,7 @@ module.exports = {
                 let title = "ERROR";
                 let description = "Some error occured while sending the request to the server.";
                 console.log(title + ": " + description);
-                Tools.sendEmbed(message.channel, title, description);
+                Tools.sendEmbed(channel, title, description);
             }
             else {
                 /* Write the received image to a file. */
@@ -111,7 +111,7 @@ module.exports = {
                             let title = "ERROR";
                             let description = "Some error occured while sending the request to the server."
                             console.log(title + ": " + description);
-                            Tools.sendEmbed(message.channel, title, description);
+                            Tools.sendEmbed(channel, title, description);
                         }
                         else {
                             rustplus.getMapMarkers((mapMarkers) => {
@@ -122,7 +122,7 @@ module.exports = {
                                     let title = "ERROR";
                                     let description = "Some error occured while sending the request to the server.";
                                     console.log(title + ": " + description);
-                                    Tools.sendEmbed(message.channel, title, description);
+                                    Tools.sendEmbed(channel, title, description);
                                 }
                                 else {
                                     let mapSize = info.response.info.mapSize;
@@ -179,7 +179,7 @@ module.exports = {
                                         markerImage[Tools.MarkerType.Source].write(MarkerImagePath[Tools.MarkerType.Source], (err) => {
                                             const image = fs.readFileSync(MarkerImagePath[Tools.MarkerType.Source]);
                                             const attachment = new Discord.MessageAttachment(image);
-                                            message.channel.send("Server '**" + info.response.info.name + "**' Map:", attachment);
+                                            channel.send("Server '**" + info.response.info.name + "**' Map:", attachment);
 
                                             /* Remove temp image file. */
                                             try {

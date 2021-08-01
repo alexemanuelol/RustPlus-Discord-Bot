@@ -3,12 +3,12 @@ const Tools = require("./../tools/tools.js");
 module.exports = {
     name: "getCameraFrame",
     description: "Get a jpeg image from a CCTV Camera.",
-    execute(message, args, discordBot, rustplus) {
+    execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length != 2) {
             let title = "ERROR";
             let description = "2 arguments are required. Example: !getCameraFrame @name @frame";
             console.log(title + ": " + description);
-            Tools.sendEmbed(message.channel, title, description);
+            Tools.sendEmbed(channel, title, description);
             return false;
         }
 
@@ -25,7 +25,7 @@ module.exports = {
                 let description = "Feature not currently implemented. Might get a successful response if server \
                 admin run the following command in F1 console: **cctvrender.enabled true**";
                 console.log(title + ": " + description);
-                Tools.sendEmbed(message.channel, title, description);
+                Tools.sendEmbed(channel, title, description);
             }
             else {
                 /* TBD */

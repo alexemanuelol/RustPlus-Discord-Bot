@@ -3,12 +3,12 @@ const Tools = require("./../tools/tools.js");
 module.exports = {
     name: "turnOff",
     description: "Turn off a Smart Switch.",
-    execute(message, args, discordBot, rustplus) {
+    execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length === 0) {
             let title = "ERROR";
             let description = "At least 1 argument is required. Example: !turnOff @name/id.";
             console.log(title + ": " + description);
-            Tools.sendEmbed(message.channel, title, description);
+            Tools.sendEmbed(channel, title, description);
             return false;
         }
 
@@ -56,13 +56,13 @@ module.exports = {
                     }
 
                     console.log(title + ": " + description);
-                    Tools.sendEmbed(message.channel, title, description);
+                    Tools.sendEmbed(channel, title, description);
                 }
                 else {
                     let title = "Successfully Turned Off";
                     let description = "'**" + device[0] + " : " + device[1] + "**' was turned off.";
                     console.log(title + ": " + description);
-                    Tools.sendEmbed(message.channel, title, description);
+                    Tools.sendEmbed(channel, title, description);
                 }
             });
         }

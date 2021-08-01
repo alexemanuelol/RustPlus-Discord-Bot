@@ -3,12 +3,12 @@ const Tools = require("./../tools/tools.js");
 module.exports = {
     name: "getEntityInfo",
     description: "Get current state of a Smart Device.",
-    execute(message, args, discordBot, rustplus) {
+    execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length != 1) {
             let title = "ERROR";
             let description = "1 argument required. Example: !getEntityInfo @name/id."
             console.log(title + ": " + description);
-            Tools.sendEmbed(message.channel, title, description);
+            Tools.sendEmbed(channel, title, description);
             return false;
         }
 
@@ -33,7 +33,7 @@ module.exports = {
                 let title = "ERROR";
                 let description = "'**" + dev + "**' invalid entity ID.";
                 console.log(title + ": " + description);
-                Tools.sendEmbed(message.channel, title, description);
+                Tools.sendEmbed(channel, title, description);
             }
             else {
                 let title = "Entity Information";
@@ -44,7 +44,7 @@ module.exports = {
                     "**HasProtection:** " + msg.response.entityInfo.payload.hasProtection + "\n" +
                     "**ProtectionExpiry:** " + msg.response.entityInfo.payload.protectionExpiry;
                 console.log(title + ": " + description);
-                Tools.sendEmbed(message.channel, title, description);
+                Tools.sendEmbed(channel, title, description);
             }
 
             return true;

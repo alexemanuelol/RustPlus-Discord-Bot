@@ -3,12 +3,12 @@ const Tools = require("./../tools/tools.js");
 module.exports = {
     name: "devices",
     description: "Prints all the devices located in the devices.json file.",
-    execute(message, args, discordBot, rustplus) {
+    execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length != 0) {
             let title = "ERROR";
             let description = "No arguments required.";
             console.log(title + ": " + description);
-            Tools.sendEmbed(message.channel, title, description);
+            Tools.sendEmbed(channel, title, description);
             return false;
         }
 
@@ -27,7 +27,7 @@ module.exports = {
         let title = "Registered Devices";
         let description = str;
         console.log(title + ": " + description);
-        Tools.sendEmbed(message.channel, title, "", ["**Devices**", description]);
+        Tools.sendEmbed(channel, title, "", ["**Devices**", description]);
 
         return true;
     },
