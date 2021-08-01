@@ -36,24 +36,9 @@ module.exports = {
                 Tools.sendEmbed(message.channel, title, description);
             }
             else {
-                let deviceType = "";
-                switch (msg.response.entityInfo.type) {
-                    case 1:
-                        deviceType = "Switch";
-                        break;
-                    case 2:
-                        deviceType = "Alarm";
-                        break;
-                    case 3:
-                        deviceType = "StorageMonitor";
-                        break;
-                    default:
-                        deviceType = "Unknown";
-                }
-
                 let title = "Entity Information";
                 let description = "**Name:** " + device + "\n" +
-                    "**Type:** " + deviceType + "\n" +
+                    "**Type:** " + Tools.EntityType[msg.response.entityInfo.type] + "\n" +
                     "**Value:** " + msg.response.entityInfo.payload.value + "\n" +
                     "**Capacity:** " + msg.response.entityInfo.payload.capacity + "\n" +
                     "**HasProtection:** " + msg.response.entityInfo.payload.hasProtection + "\n" +

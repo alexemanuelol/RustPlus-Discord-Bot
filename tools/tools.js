@@ -45,4 +45,10 @@ module.exports = {
         GenericRadius: 7,
         TrainTunnels: 8,
     },
+
+    EntityType: {
+        1: "Switch",
+        2: "Alarm",
+        3: "Storage Monitor"
+    },
 }
