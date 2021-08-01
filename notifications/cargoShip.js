@@ -6,8 +6,6 @@ module.exports = {
     name: "cargoShip",
     description: "Notification function for cargoShip active/inactive.",
     execute(message, channel, discordBot, rustplus) {
-        let config = Tools.readJSON("./config.json");
-
         if (cargoActive === false) {
             for (let marker of message.response.mapMarkers.markers) {
                 if (marker.type === Tools.MarkerType.CargoShip) {
@@ -20,7 +18,7 @@ module.exports = {
                 let title = "NOTIFICATION";
                 let description = "**Cargo Ship** is active.";
                 console.log(title + ": " + description);
-                Tools.sendEmbed(channel, title, description + " @" + config.discordBotTag);
+                Tools.sendEmbed(channel, title, description);
                 rustplus.sendTeamMessage("[NOTIFICATION] Cargo Ship is active.");
             }
         }
@@ -38,7 +36,7 @@ module.exports = {
                 let title = "NOTIFICATION";
                 let description = "**Cargo Ship** just despawned.";
                 console.log(title + ": " + description);
-                Tools.sendEmbed(channel, title, description + " @" + config.discordBotTag);
+                Tools.sendEmbed(channel, title, description);
                 rustplus.sendTeamMessage("[NOTIFICATION] Cargo Ship just despawned.");
             }
         }

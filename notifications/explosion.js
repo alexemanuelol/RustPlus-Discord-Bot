@@ -6,8 +6,6 @@ module.exports = {
     name: "explosion",
     description: "Notification function for explosion detected.",
     execute(message, channel, discordBot, rustplus) {
-        let config = Tools.readJSON("./config.json");
-
         let explosionCounter = 0;
 
         for (let marker of message.response.mapMarkers.markers) {
@@ -20,7 +18,7 @@ module.exports = {
             let title = "NOTIFICATION";
             let description = "**Explosion** detected. Patrol Helicopter or Bradley APC have been taken down."
             console.log(title + ": " + description);
-            Tools.sendEmbed(channel, title, description + " @" + config.discordBotTag);
+            Tools.sendEmbed(channel, title, description);
             rustplus.sendTeamMessage("[NOTIFICATION] Explosion detected. Patrol Helicopter or Bradley APC have " +
                 "been taken down.");
         }

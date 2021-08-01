@@ -6,8 +6,6 @@ module.exports = {
     name: "chinook47",
     description: "Notification function for chinook 47 active/inactive.",
     execute(message, channel, discordBot, rustplus) {
-        let config = Tools.readJSON("./config.json");
-
         let chinookCounter = 0;
 
         for (let marker of message.response.mapMarkers.markers) {
@@ -21,7 +19,7 @@ module.exports = {
             let description = "**Chinook 47** is active. Oilrig might've been triggered or CH47 is ready " +
                 "to drop off a crate at a monument.";
             console.log(title + ": " + description);
-            Tools.sendEmbed(channel, title, description + " @" + config.discordBotTag);
+            Tools.sendEmbed(channel, title, description);
             rustplus.sendTeamMessage("[NOTIFICATION] Chinook 47 is active. Oilrig might've been " +
                 "triggered or CH47 is ready to drop off a crate at a monument.");
         }

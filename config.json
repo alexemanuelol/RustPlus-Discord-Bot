@@ -4,7 +4,6 @@
   "steamId": "",
   "discordToken": "",
   "discordNotificationChannel": "",
-  "discordBotTag": "RustPlusDiscordBot",
   "rustServerIp": "",
   "rustAppPort": "",
   "rustPlayerToken": ""
