@@ -1,4 +1,4 @@
-const Tools = require("../tools/tools.js");
+const Tools = require("./../tools/tools.js");
 
 module.exports = {
     name: "getTime",

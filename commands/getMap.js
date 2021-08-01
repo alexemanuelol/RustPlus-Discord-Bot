@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const Jimp = require("jimp");
 const fs = require("fs");
-const Tools = require("../tools/tools.js");
+const Tools = require("./../tools/tools.js");
 
 const mapName = "temp_map_image.jpg";
 
@@ -109,7 +109,7 @@ module.exports = {
                             console.log(">> Response message : getMap => getInfo <<\n" + JSON.stringify(info));
 
                             let title = "ERROR";
-                            let description = "Some erorr occured while sending the request to the server."
+                            let description = "Some error occured while sending the request to the server."
                             console.log(title + ": " + description);
                             Tools.sendEmbed(message.channel, title, description);
                         }
@@ -177,13 +177,13 @@ module.exports = {
                                         }
 
                                         markerImage[Tools.MarkerType.Source].write(MarkerImagePath[Tools.MarkerType.Source], (err) => {
-                                            const image = fs.readFileSync("./" + MarkerImagePath[Tools.MarkerType.Source]);
+                                            const image = fs.readFileSync(MarkerImagePath[Tools.MarkerType.Source]);
                                             const attachment = new Discord.MessageAttachment(image);
                                             message.channel.send("Server '**" + info.response.info.name + "**' Map:", attachment);
 
                                             /* Remove temp image file. */
                                             try {
-                                                fs.unlinkSync("./" + MarkerImagePath[Tools.MarkerType.Source]);
+                                                fs.unlinkSync(MarkerImagePath[Tools.MarkerType.Source]);
                                             }
                                             catch (err) {
                                                 console.error(err);

@@ -1,6 +1,6 @@
 const Main = require("./../rustplusDiscordBot.js");
 const Discord = require("discord.js");
-const Tools = require("../tools/tools.js");
+const Tools = require("./../tools/tools.js");
 
 module.exports = {
     name: "getTeamInfo",
