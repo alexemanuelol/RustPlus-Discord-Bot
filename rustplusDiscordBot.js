@@ -44,7 +44,7 @@ function mapMarkerPolling() {
             if (config.eventNotifications === "true") {
                 let channel = bot.channels.cache.get(config.discordBotSpamChannel);
                 if (typeof (channel) === "undefined") {
-                    console.log("Discord Notification Channel is invalid in config.json");
+                    console.log("discordBotSpamChannel is invalid in config.json");
                 }
                 else {
                     /* Update notifications */
@@ -125,7 +125,7 @@ rustplus.on("message", (msg) => {
             let channel = bot.channels.cache.get(config.discordBotSpamChannel);
 
             if (typeof (channel) === "undefined") {
-                console.log("Discord Notification Channel is invalid in config.json");
+                console.log("discordBotSpamChannel is invalid in config.json");
                 return;
             }
 
