@@ -114,6 +114,46 @@ rustplus.on('connected', () => {
     }
 });
 
+rustplus.on("message", (msg) => {
+    if (msg.hasOwnProperty("broadcast")) {
+
+        if (msg.broadcast.hasOwnProperty("teamMessage")) {
+            console.log("Broadcast Team Message received: " + JSON.stringify(msg));
+
+            let message = msg.broadcast.teamMessage.message.message;
+            let author = msg.broadcast.teamMessage.message.name;
+            let channel = bot.channels.cache.get(config.discordNotificationChannel);
+
+            if (typeof (channel) === "undefined") {
+                console.log("Discord Notification Channel is invalid in config.json");
+                return;
+            }
+
+            /* If it does not start with the command prefix, ignore. */
+            if (!message.startsWith(config.prefix)) return;
+
+            /* Obtain additional arguments from the command. */
+            const args = message.slice(config.prefix.length).trim().split(/ +/);
+
+            /* Obtain the actual command name. */
+            const command = args.shift();
+
+            /* If the command does not exist, ignore. */
+            if (!bot.commands.has(command)) return;
+
+            try {
+                /* Execute the command. */
+                bot.commands.get(command).execute(author, message, channel, args, bot, rustplus);
+            }
+            catch (error) {
+                console.error(error);
+
+                Tools.sendEmbed(channel, "ERROR", "An error occured while trying to execute that command.");
+            }
+        }
+    }
+});
+
 /* Connect to the rust server */
 rustplus.connect();
 
