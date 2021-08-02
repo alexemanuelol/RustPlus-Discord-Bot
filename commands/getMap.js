@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const Jimp = require("jimp");
 const fs = require("fs");
 const Tools = require("./../tools/tools.js");
+const Main = require("./../rustplusDiscordBot.js");
 
 const mapName = "temp_map_image.jpg";
 
@@ -178,8 +179,18 @@ module.exports = {
 
                                         markerImage[Tools.MarkerType.Source].write(MarkerImagePath[Tools.MarkerType.Source], (err) => {
                                             const image = fs.readFileSync(MarkerImagePath[Tools.MarkerType.Source]);
-                                            const attachment = new Discord.MessageAttachment(image);
-                                            channel.send("Server '**" + info.response.info.name + "**' Map:", attachment);
+                                            const attachment = new Discord.MessageAttachment(image, mapName);
+                                            const embed = new Discord.MessageEmbed()
+                                                .setColor("#ce412b")
+                                                .setThumbnail(Main.THUMBNAIL_URL)
+                                                .setURL(Main.GITHUB_URL)
+                                                .setTitle("Server Map")
+                                                .setDescription("The map of the server '**" + info.response.info.name + "**'.")
+                                                .attachFiles(attachment)
+                                                .setImage("attachment://" + mapName);
+
+
+                                            channel.send(embed);
 
                                             /* Remove temp image file. */
                                             try {
