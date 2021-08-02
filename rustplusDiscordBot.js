@@ -42,7 +42,7 @@ function mapMarkerPolling() {
             let config = Tools.readJSON("./config.json");
 
             if (config.eventNotifications === "true") {
-                let channel = bot.channels.cache.get(config.discordNotificationChannel);
+                let channel = bot.channels.cache.get(config.discordBotSpamChannel);
                 if (typeof (channel) === "undefined") {
                     console.log("Discord Notification Channel is invalid in config.json");
                 }
@@ -122,7 +122,7 @@ rustplus.on("message", (msg) => {
 
             let message = msg.broadcast.teamMessage.message.message;
             let author = msg.broadcast.teamMessage.message.name;
-            let channel = bot.channels.cache.get(config.discordNotificationChannel);
+            let channel = bot.channels.cache.get(config.discordBotSpamChannel);
 
             if (typeof (channel) === "undefined") {
                 console.log("Discord Notification Channel is invalid in config.json");

@@ -3,7 +3,7 @@
   "eventNotifications": "true",
   "steamId": "",
   "discordToken": "",
-  "discordNotificationChannel": "",
+  "discordBotSpamChannel": "",
   "rustServerIp": "",
   "rustAppPort": "",
   "rustPlayerToken": ""
