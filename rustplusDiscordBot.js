@@ -4,13 +4,12 @@ const fs = require("fs");                       /* Node file system module. */
 const config = require("./config.json");        /* Configuration file. */
 const Tools = require("./tools/tools.js");
 
-/* Global variables */
 exports.THUMBNAIL_URL = "https://imgur.com/znQvBMi.png";
 exports.GITHUB_URL = "https://github.com/alexemanuelol/RustPlus-Discord-Bot";
 
 /* Create an instance of a discord client. */
-const bot = new Discord.Client();
-bot.commands = new Discord.Collection();
+const discordBot = new Discord.Client();
+discordBot.commands = new Discord.Collection();
 var notifications = [];
 
 /* Create an instance of RustPlus */
@@ -25,7 +24,7 @@ const notificationFiles = fs.readdirSync("./notifications").filter(file => file.
 /* Add a new item to the Collection. Key = command name, Value = the exported module. */
 for (const file of commandFiles) {
     const command = require("./commands/" + file);
-    bot.commands.set(command.name, command);
+    discordBot.commands.set(command.name, command);
 }
 
 for (const file of notificationFiles) {
@@ -42,14 +41,14 @@ function mapMarkerPolling() {
             let config = Tools.readJSON("./config.json");
 
             if (config.eventNotifications === "true") {
-                let channel = bot.channels.cache.get(config.discordBotSpamChannel);
+                let channel = discordBot.channels.cache.get(config.discordBotSpamChannel);
                 if (typeof (channel) === "undefined") {
                     console.log("discordBotSpamChannel is invalid in config.json");
                 }
                 else {
                     /* Update notifications */
                     for (const notification of notifications) {
-                        notification.execute(msg, channel, bot, rustplus);
+                        notification.execute(msg, channel, discordBot, rustplus);
                     }
                 }
             }
@@ -59,15 +58,15 @@ function mapMarkerPolling() {
     });
 }
 
-bot.on("ready", () => {
-    console.log("Logged in as " + bot.user.tag + "!");
+discordBot.on("ready", () => {
+    console.log("Logged in as " + discordBot.user.tag + "!");
 
     /* Set the BOT activity text. */
-    bot.user.setActivity("commands!", { type: "LISTENING" });
+    discordBot.user.setActivity("commands!", { type: "LISTENING" });
 });
 
 /* Called whenever a new message is sent in the guild. */
-bot.on("message", message => {
+discordBot.on("message", message => {
     /* If it does not start with the command prefix or if message comes from another bot, ignore. */
     if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
@@ -78,11 +77,11 @@ bot.on("message", message => {
     const command = args.shift();
 
     /* If the command does not exist, ignore. */
-    if (!bot.commands.has(command)) return;
+    if (!discordBot.commands.has(command)) return;
 
     try {
         /* Execute the command. */
-        bot.commands.get(command).execute(message.author.username, message.content, message.channel, args, bot, rustplus);
+        discordBot.commands.get(command).execute(message.author.username, message.content, message.channel, args, discordBot, rustplus);
     }
     catch (error) {
         console.error(error);
@@ -92,7 +91,7 @@ bot.on("message", message => {
 });
 
 /* Login to the discord bot. */
-bot.login(config.discordToken);
+discordBot.login(config.discordToken);
 
 /* Wait until connected before sending commands. */
 rustplus.on('connected', () => {
@@ -121,7 +120,7 @@ rustplus.on("message", (msg) => {
 
             let message = msg.broadcast.teamMessage.message.message;
             let author = msg.broadcast.teamMessage.message.name;
-            let channel = bot.channels.cache.get(config.discordBotSpamChannel);
+            let channel = discordBot.channels.cache.get(config.discordBotSpamChannel);
 
             if (typeof (channel) === "undefined") {
                 console.log("discordBotSpamChannel is invalid in config.json");
@@ -138,11 +137,11 @@ rustplus.on("message", (msg) => {
             const command = args.shift();
 
             /* If the command does not exist, ignore. */
-            if (!bot.commands.has(command)) return;
+            if (!discordBot.commands.has(command)) return;
 
             try {
                 /* Execute the command. */
-                bot.commands.get(command).execute(author, message, channel, args, bot, rustplus);
+                discordBot.commands.get(command).execute(author, message, channel, args, discordBot, rustplus);
             }
             catch (error) {
                 console.error(error);
