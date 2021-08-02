@@ -16,12 +16,12 @@ module.exports = {
         let devs = [];
         for (let arg of args) {
             if (devices.hasOwnProperty(arg)) {
-                devs.push([arg, parseInt(devices[arg])]);
+                devs.push([arg, parseInt(devices[arg].id)]);
             }
             else if (arg.includes("*")) {
                 for (let d in devices) {
                     if (Tools.wildcardMatch(d, arg)) {
-                        devs.push([d, parseInt(devices[d])]);
+                        devs.push([d, parseInt(devices[d].id)]);
                     }
                 }
             }

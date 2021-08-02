@@ -96,19 +96,18 @@ bot.login(config.discordToken);
 
 /* Wait until connected before sending commands. */
 rustplus.on('connected', () => {
-    /* Ready to send requests. */
-    rustplus.sendTeamMessage("RustPlus-Discord-Bot now enabled!");
+    /* RustPlus-Discord-Bot now enabled! */
 
     /* Go through all devices in devices.json to enable broadcast. */
     console.log("Go through devices.json and validate.");
     let devices = Tools.readJSON("./devices.json");
     for (let device in devices) {
-        rustplus.getEntityInfo(parseInt(devices[device]), (msg) => {
+        rustplus.getEntityInfo(parseInt(devices[device].id), (msg) => {
             if (msg.response.hasOwnProperty("error")) {
-                console.log(device + " : " + parseInt(devices[device]) + " is INVALID.")
+                console.log(device + " : " + parseInt(devices[device].id) + " is INVALID.")
             }
             else {
-                console.log(device + " : " + parseInt(devices[device]) + " is VALID.")
+                console.log(device + " : " + parseInt(devices[device].id) + " is VALID.")
             }
         });
     }

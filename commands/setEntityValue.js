@@ -26,7 +26,7 @@ module.exports = {
         let dev;
 
         if (devices.hasOwnProperty(device)) {
-            dev = parseInt(devices[device]);
+            dev = parseInt(devices[device].id);
         }
         else {
             dev = parseInt(device);

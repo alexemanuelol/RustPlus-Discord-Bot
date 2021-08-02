@@ -17,7 +17,19 @@ module.exports = {
         let str = "";
 
         for (let key in devices) {
-            str += "**" + key + "** : " + devices[key] + "\n";
+            str += "**" + Tools.EntityType[devices[key].type] + "** ";
+            str += "named **" + key + "** with ";
+            str += "id: **" + devices[key].id + "**";
+
+            if (devices[key].type === 1) { /* Switch */
+                str += ".\n";
+            }
+            else if (devices[key].type === 2) { /* Alarm */
+                str += " and with the alarm message: **" + devices[key].alarmMessage + "**.\n";
+            }
+            else if (devices[key].type === 3) { /* Storage Monitor */
+                str += ".\n";
+            }
         }
 
         if (str === "") {
