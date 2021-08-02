@@ -127,7 +127,7 @@ rustplus.on("message", (msg) => {
     if (msg.hasOwnProperty("broadcast")) {
 
         if (msg.broadcast.hasOwnProperty("teamMessage")) {
-            console.log("Broadcast Team Message received: " + JSON.stringify(msg));
+            console.log("Broadcast teamMessage received.");
 
             let message = msg.broadcast.teamMessage.message.message;
             let author = msg.broadcast.teamMessage.message.name;
@@ -139,6 +139,39 @@ rustplus.on("message", (msg) => {
             }
 
             parseCommand(author, message, channel, true);
+        }
+        else if (msg.broadcast.hasOwnProperty("entityChanged")) {
+            console.log("Broadcast entityChanged triggered.");
+
+            let devices = Tools.readJSON("./devices.json");
+            let channel = discordBot.channels.cache.get(config.discordBotSpamChannel);
+
+            if (typeof (channel) === "undefined") {
+                console.log("discordBotSpamChannel is invalid in config.json");
+                return;
+            }
+
+            for (let device in devices) {
+                if (devices[device].id === msg.broadcast.entityChanged.entityId) {
+                    if (devices[device].type === 1) { /* Switch */
+                        break;
+                    }
+                    else if (devices[device].type === 2) { /* Alarm */
+                        if (msg.broadcast.entityChanged.payload.value === true) {
+                            let title = "ALARM";
+                            let description = devices[device].alarmMessage;
+                            console.log(title + ": " + description);
+                            Tools.sendEmbed(channel, title, description);
+                            rustplus.sendTeamMessage("[" + title + "] " + description);
+                        }
+                        break;
+                    }
+                    else if (devices[device].type === 3) { /* Storage Monitor */
+                        break;
+                    }
+
+                }
+            }
         }
     }
 });
