@@ -58,6 +58,34 @@ function mapMarkerPolling() {
     });
 }
 
+function parseCommand(author, message, channel, ingamecall = false) {
+    /* If it does not start with the command prefix or if message comes from another bot, ignore. */
+    if (!message.startsWith(config.prefix)) return;
+
+    /* Obtain additional arguments from the command. */
+    const args = message.slice(config.prefix.length).trim().split(/ +/);
+
+    /* Obtain the actual command name. */
+    const command = args.shift();
+
+    /* If the command does not exist, ignore. */
+    if (!discordBot.commands.has(command)) return;
+
+    if (ingamecall) {
+        channel.send("**" + author + "** just called command from in-game: **" + message + "**");
+    }
+
+    try {
+        /* Execute the command. */
+        discordBot.commands.get(command).execute(author, message, channel, args, discordBot, rustplus);
+    }
+    catch (error) {
+        console.error(error);
+
+        Tools.sendEmbed(channel, "ERROR", "An error occured while trying to execute that command.");
+    }
+}
+
 discordBot.on("ready", () => {
     console.log("Logged in as " + discordBot.user.tag + "!");
 
@@ -67,27 +95,10 @@ discordBot.on("ready", () => {
 
 /* Called whenever a new message is sent in the guild. */
 discordBot.on("message", message => {
-    /* If it does not start with the command prefix or if message comes from another bot, ignore. */
-    if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+    /* If messages comes from another bot, ignore */
+    if (message.author.bot) return;
 
-    /* Obtain additional arguments from the command. */
-    const args = message.content.slice(config.prefix.length).trim().split(/ +/);
-
-    /* Obtain the actual command name. */
-    const command = args.shift();
-
-    /* If the command does not exist, ignore. */
-    if (!discordBot.commands.has(command)) return;
-
-    try {
-        /* Execute the command. */
-        discordBot.commands.get(command).execute(message.author.username, message.content, message.channel, args, discordBot, rustplus);
-    }
-    catch (error) {
-        console.error(error);
-
-        Tools.sendEmbed(message.channel, "ERROR", "An error occured while trying to execute that command.");
-    }
+    parseCommand(message.author.username, message.content, message.channel);
 });
 
 /* Login to the discord bot. */
@@ -127,27 +138,7 @@ rustplus.on("message", (msg) => {
                 return;
             }
 
-            /* If it does not start with the command prefix, ignore. */
-            if (!message.startsWith(config.prefix)) return;
-
-            /* Obtain additional arguments from the command. */
-            const args = message.slice(config.prefix.length).trim().split(/ +/);
-
-            /* Obtain the actual command name. */
-            const command = args.shift();
-
-            /* If the command does not exist, ignore. */
-            if (!discordBot.commands.has(command)) return;
-
-            try {
-                /* Execute the command. */
-                discordBot.commands.get(command).execute(author, message, channel, args, discordBot, rustplus);
-            }
-            catch (error) {
-                console.error(error);
-
-                Tools.sendEmbed(channel, "ERROR", "An error occured while trying to execute that command.");
-            }
+            parseCommand(author, message, channel, true);
         }
     }
 });
