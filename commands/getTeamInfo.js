@@ -27,7 +27,7 @@ module.exports = {
                 .setTitle("Team Information");
 
             let title = "Team Information";
-            let description = "";
+            let description = "\n";
 
             for (let member of msg.response.teamInfo.members) {
                 let field = "**" + member.name + "** (" + member.steamId + ")";
@@ -42,7 +42,7 @@ module.exports = {
                 embed.addField(field, str);
             }
 
-            console.log(title + ":\n" + description);
+            Tools.print(title, description);
             channel.send(embed);
         });
 

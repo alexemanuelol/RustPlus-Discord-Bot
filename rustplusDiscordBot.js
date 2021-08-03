@@ -86,7 +86,7 @@ function parseCommand(author, message, channel, ingamecall = false) {
 }
 
 discordBot.on("ready", () => {
-    console.log("Logged in as " + discordBot.user.tag + "!");
+    Tools.print("DISCORD", "Logged in as " + discordBot.user.tag + "!");
 
     /* Set the BOT activity text. */
     discordBot.user.setActivity("commands!", { type: "LISTENING" });
@@ -108,15 +108,15 @@ rustplus.on('connected', () => {
     /* RustPlus-Discord-Bot now enabled! */
 
     /* Go through all devices in devices.json to enable broadcast. */
-    console.log("Go through devices.json and validate.");
+    Tools.print("DEVICES", "Go through devices.json and validate.");
     let devices = Tools.readJSON("./devices.json");
     for (let device in devices) {
         rustplus.getEntityInfo(parseInt(devices[device].id), (msg) => {
             if (msg.response.hasOwnProperty("error")) {
-                console.log(device + " : " + parseInt(devices[device].id) + " is INVALID.")
+                Tools.print("DEVICES", device + " : " + parseInt(devices[device].id) + " is INVALID.");
             }
             else {
-                console.log(device + " : " + parseInt(devices[device].id) + " is VALID.")
+                Tools.print("DEVICES", device + " : " + parseInt(devices[device].id) + " is VALID.");
             }
         });
     }

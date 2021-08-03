@@ -13,7 +13,7 @@ module.exports = {
 
         let title = "Help Information";
         let description = "Command prefix: **" + Config.prefix + "**";
-        console.log(title + ":\n" + description + "\n**Available Commands:**\n" + str);
+        Tools.print(title, description + "\n**Available Commands:**\n" + str);
         Tools.sendEmbed(channel, title, description, ["**Available Commands:**", str]);
 
         return true;

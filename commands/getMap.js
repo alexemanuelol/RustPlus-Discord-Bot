@@ -187,7 +187,7 @@ module.exports = {
                                 }
                             });
                         }).catch(function (err) {
-                            console.log(err);
+                            Tools.print("ERROR", err);
                         });
                     });
                 });
