@@ -5,10 +5,7 @@ module.exports = {
     description: "Set the value of a Smart Device.",
     execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length != 2) {
-            let title = "ERROR";
-            let description = "2 arguments are required. Example: !setEntityValue @name @value.";
-            console.log(title + ": " + description);
-            Tools.sendEmbed(channel, title, description);
+            Tools.print("ERROR", "2 arguments required. Example: !setEntityValue @name @value.", channel);
             return false;
         }
 
@@ -33,31 +30,14 @@ module.exports = {
         }
 
         rustplus.setEntityValue(dev, value, (msg) => {
-            console.log(">> Request : setEntityValue <<");
+            Tools.print("REQUEST", "setEntityValue");
 
-            if (msg.response.hasOwnProperty("error")) {
-                console.log(">> Response message : setEntityValue <<\n" + JSON.stringify(msg));
-
-                let title = "ERROR";
-                let description = "";
-                if (msg.response.error.error === "wrong_type") {
-                    description = "'**" + device + " : " + dev + "**' invalid type, this is not a Switch.";
-                }
-                else {
-                    description = "'**" + device + " : " + dev + "**' invalid entity ID.";
-                }
-
-                console.log(title + ": " + description);
-                Tools.sendEmbed(channel, title, description);
-            }
-            else {
-                let title = "Successfully Set";
-                let description = "'**" + device + "**' entity value set to: **" + value + "**";
-                console.log(title + ": " + description);
-                Tools.sendEmbed(channel, title, description);
+            if (!Tools.validateResponse(msg, channel)) {
+                Tools.print("RESPONSE", "setEntityValue\n" + JSON.stringify(msg));
+                return false;
             }
 
-            return true;
+            Tools.print("Successfully Set", "'**" + device + "**' entity value set to: **" + value + "**", channel);
         });
 
         return true;

@@ -5,10 +5,7 @@ module.exports = {
     description: "Sends a message to the team in-game.",
     execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length === 0) {
-            let title = "ERROR";
-            let description = "Empty message.";
-            console.log(title + ": " + description);
-            Tools.sendEmbed(channel, title, description);
+            Tools.print("ERROR", "Empty message.", channel);
             return false;
         }
 
@@ -17,8 +14,7 @@ module.exports = {
         let title = "Successfully Sent";
         let description = "[" + author + "] " + "sent the message '**" + msg + "**'.";
         rustplus.sendTeamMessage("[" + author + "] " + msg);
-        console.log(description);
-        Tools.sendEmbed(channel, title, description);
+        Tools.print(title, description, channel);
         return true;
     },
 };

@@ -15,11 +15,7 @@ module.exports = {
             }
 
             if (cargoActive) {
-                let title = "NOTIFICATION";
-                let description = "**Cargo Ship** is active.";
-                console.log(title + ": " + description);
-                Tools.sendEmbed(channel, title, description);
-                rustplus.sendTeamMessage("[NOTIFICATION] Cargo Ship is active.");
+                Tools.print("NOTIFICATION", "Cargo Ship is active.", channel, rustplus);
             }
         }
         else {
@@ -33,11 +29,7 @@ module.exports = {
 
             if (cargoLeft) {
                 cargoActive = false;
-                let title = "NOTIFICATION";
-                let description = "**Cargo Ship** just despawned.";
-                console.log(title + ": " + description);
-                Tools.sendEmbed(channel, title, description);
-                rustplus.sendTeamMessage("[NOTIFICATION] Cargo Ship just despawned.");
+                Tools.print("NOTIFICATION", "Cargo Ship just despawned.", channel, rustplus);
             }
         }
 

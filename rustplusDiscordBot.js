@@ -34,22 +34,23 @@ for (const file of notificationFiles) {
 
 function mapMarkerPolling() {
     rustplus.getMapMarkers((msg) => {
-        if (msg.response.hasOwnProperty("error")) {
-            console.log("Some error occured, check response message above.");
-        }
-        else {
-            let config = Tools.readJSON("./config.json");
+        Tools.print("mapMarkerPolling", "Poll");
 
-            if (config.eventNotifications === "true") {
-                let channel = discordBot.channels.cache.get(config.discordBotSpamChannel);
-                if (typeof (channel) === "undefined") {
-                    console.log("discordBotSpamChannel is invalid in config.json");
-                }
-                else {
-                    /* Update notifications */
-                    for (const notification of notifications) {
-                        notification.execute(msg, channel, discordBot, rustplus);
-                    }
+        if (!Tools.validateResponse(msg, null)) {
+            Tools.print("RESPONSE", "getEntityInfo\n" + JSON.stringify(msg));
+        }
+
+        let config = Tools.readJSON("./config.json");
+
+        if (config.eventNotifications === "true") {
+            let channel = discordBot.channels.cache.get(config.discordBotSpamChannel);
+            if (typeof (channel) === "undefined") {
+                Tools.print("ERROR", "discordBotSpamChannel is invalid in config.json.");
+            }
+            else {
+                /* Update notifications */
+                for (const notification of notifications) {
+                    notification.execute(msg, channel, discordBot, rustplus);
                 }
             }
         }
@@ -80,9 +81,7 @@ function parseCommand(author, message, channel, ingamecall = false) {
         discordBot.commands.get(command).execute(author, message, channel, args, discordBot, rustplus);
     }
     catch (error) {
-        console.error(error);
-
-        Tools.sendEmbed(channel, "ERROR", "An error occured while trying to execute that command.");
+        Tools.print("ERROR", error, channel);
     }
 }
 
@@ -127,27 +126,27 @@ rustplus.on("message", (msg) => {
     if (msg.hasOwnProperty("broadcast")) {
 
         if (msg.broadcast.hasOwnProperty("teamMessage")) {
-            console.log("Broadcast teamMessage received.");
+            Tools.print("BROADCAST", "teamMessage received.");
 
             let message = msg.broadcast.teamMessage.message.message;
             let author = msg.broadcast.teamMessage.message.name;
             let channel = discordBot.channels.cache.get(config.discordBotSpamChannel);
 
             if (typeof (channel) === "undefined") {
-                console.log("discordBotSpamChannel is invalid in config.json");
+                Tools.print("ERROR", "discordBotSpamChannel is invalid in config.json.");
                 return;
             }
 
             parseCommand(author, message, channel, true);
         }
         else if (msg.broadcast.hasOwnProperty("entityChanged")) {
-            console.log("Broadcast entityChanged triggered.");
+            Tools.print("BROADCAST", "entityChanged triggered.");
 
             let devices = Tools.readJSON("./devices.json");
             let channel = discordBot.channels.cache.get(config.discordBotSpamChannel);
 
             if (typeof (channel) === "undefined") {
-                console.log("discordBotSpamChannel is invalid in config.json");
+                Tools.print("ERROR", "discordBotSpamChannel is invalid in config.json.");
                 return;
             }
 
@@ -158,11 +157,7 @@ rustplus.on("message", (msg) => {
                     }
                     else if (devices[device].type === 2) { /* Alarm */
                         if (msg.broadcast.entityChanged.payload.value === true) {
-                            let title = "ALARM";
-                            let description = devices[device].alarmMessage;
-                            console.log(title + ": " + description);
-                            Tools.sendEmbed(channel, title, description);
-                            rustplus.sendTeamMessage("[" + title + "] " + description);
+                            Tools.print("ALARM", devices[device].alarmMessage, channel, rustplus);
                         }
                         break;
                     }

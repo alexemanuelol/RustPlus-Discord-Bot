@@ -5,10 +5,7 @@ module.exports = {
     description: "Turn off a Smart Switch.",
     execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length === 0) {
-            let title = "ERROR";
-            let description = "At least 1 argument is required. Example: !turnOff @name/id.";
-            console.log(title + ": " + description);
-            Tools.sendEmbed(channel, title, description);
+            Tools.print("ERROR", "At least 1 arguments required. Example: !turnOff @name/id.", channel);
             return false;
         }
 
@@ -41,29 +38,14 @@ module.exports = {
 
         for (let device of finalDevices) {
             rustplus.turnSmartSwitchOff(device[1], (msg) => {
-                console.log(">> Request : turnSmartSwitchOff <<");
+                Tools.print("REQUEST", "turnSmartSwitchOff");
 
-                if (msg.response.hasOwnProperty("error")) {
-                    console.log(">> Response message : turnSmartSwitchOff <<\n" + JSON.stringify(msg));
-
-                    let title = "ERROR";
-                    let description = "";
-                    if (msg.response.error.error === "wrong_type") {
-                        description = "'**" + device[0] + " : " + device[1] + "**' invalid type, this is not a Switch.";
-                    }
-                    else {
-                        description = "'**" + device[0] + " : " + device[1] + "**' invalid entity ID.";
-                    }
-
-                    console.log(title + ": " + description);
-                    Tools.sendEmbed(channel, title, description);
+                if (!Tools.validateResponse(msg, channel)) {
+                    Tools.print("RESPONSE", "turnSmartSwitchOff\n" + JSON.stringify(msg));
+                    return false;
                 }
-                else {
-                    let title = "Successfully Turned Off";
-                    let description = "'**" + device[0] + " : " + device[1] + "**' was turned off.";
-                    console.log(title + ": " + description);
-                    Tools.sendEmbed(channel, title, description);
-                }
+
+                Tools.print("Successfully Turned Off", "'**" + device[0] + " : " + device[1] + "**' was turned off.", channel);
             });
         }
 

@@ -5,10 +5,7 @@ module.exports = {
     description: "Get a jpeg image from a CCTV Camera.",
     execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length != 2) {
-            let title = "ERROR";
-            let description = "2 arguments are required. Example: !getCameraFrame @name @frame";
-            console.log(title + ": " + description);
-            Tools.sendEmbed(channel, title, description);
+            Tools.print("ERROR", "2 arguments required. Example: !getCameraFrame @name @frame.", channel);
             return false;
         }
 
@@ -16,16 +13,14 @@ module.exports = {
         var frame = parseInt(args[1]);
 
         rustplus.getCameraFrame(device, frame, (msg => {
-            console.log(">> Request : getCameraFrame <<");
+            Tools.print("REQUEST", "getCameraFrame");
 
             if (msg.response.hasOwnProperty("error")) {
-                console.log(">> Response message : getCameraFrame <<\n" + JSON.stringify(msg));
+                Tools.print("RESPONSE", "getCameraFrame\n" + JSON.stringify(msg));
 
-                let title = "ERROR";
                 let description = "Feature not currently implemented. Might get a successful response if server \
                 admin run the following command in F1 console: **cctvrender.enabled true**";
-                console.log(title + ": " + description);
-                Tools.sendEmbed(channel, title, description);
+                Tools.print("ERROR", description, channel);
             }
             else {
                 /* TBD */

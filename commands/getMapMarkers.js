@@ -5,27 +5,19 @@ module.exports = {
     description: "Get map markers, such as vending machines and cargo/heli.",
     execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length != 0) {
-            let title = "ERROR";
-            let description = "No arguments required.";
-            console.log(title + ": " + description);
-            Tools.sendEmbed(channel, title, description);
+            Tools.print("ERROR", "No arguments required.", channel);
             return false;
         }
 
         rustplus.getMapMarkers((msg) => {
-            console.log(">> Request : getMapMarkers <<");
+            Tools.print("REQUEST", "getMapMarkers");
 
-            if (msg.response.hasOwnProperty("error")) {
-                console.log(">> Response message : getMapMarkers <<\n" + JSON.stringify(msg));
+            if (!Tools.validateResponse(msg, channel)) {
+                Tools.print("RESPONSE", "getMapMarkers\n" + JSON.stringify(msg));
+                return false;
+            }
 
-                let title = "ERROR";
-                let description = "SOme error occured while sending the request to the server.";
-                console.log(title + ": " + description);
-                Tools.sendEmbed(channel, title, description);
-            }
-            else {
-                /* TODO: Find a convenient way to display the information. */
-            }
+            /* TODO: Find a convenient way to display the information. */
         });
 
         return true;

@@ -16,12 +16,8 @@ module.exports = {
 
         if (chinookCounter > numberOfActiveChinook) {
             let title = "NOTIFICATION";
-            let description = "**Chinook 47** is active. Oilrig might've been triggered or CH47 is ready " +
-                "to drop off a crate at a monument.";
-            console.log(title + ": " + description);
-            Tools.sendEmbed(channel, title, description);
-            rustplus.sendTeamMessage("[NOTIFICATION] Chinook 47 is active. Oilrig might've been " +
-                "triggered or CH47 is ready to drop off a crate at a monument.");
+            let description = "Chinook 47 is active. Oilrig might've been triggered or CH47 is ready to drop off a crate at a monument.";
+            Tools.print(title, description, channel, rustplus);
         }
 
         numberOfActiveChinook = chinookCounter;

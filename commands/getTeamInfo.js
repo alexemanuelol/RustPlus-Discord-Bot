@@ -7,50 +7,42 @@ module.exports = {
     description: "Get list of team members and positions on map.",
     execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length != 0) {
-            let title = "ERROR";
-            let description = "No arguments required.";
-            console.log(title + ": " + description);
-            Tools.sendEmbed(channel, title, description);
+            Tools.print("ERROR", "No arguments required.", channel);
             return false;
         }
 
         rustplus.getTeamInfo((msg) => {
-            console.log(">> Request : getTeamInfo <<");
+            Tools.print("REQUEST", "getTeamInfo");
 
-            if (msg.response.hasOwnProperty("error")) {
-                console.log(">> Response message : getTeamInfo <<\n" + JSON.stringify(msg));
-
-                let title = "ERROR";
-                let description = "Some error occured while sending the request to the server.";
-                console.log(title + ": " + description);
-                Tools.sendEmbed(channel, title, description);
+            if (!Tools.validateResponse(msg, channel)) {
+                Tools.print("RESPONSE", "getTeamInfo\n" + JSON.stringify(msg));
+                return false;
             }
-            else {
-                const embed = new Discord.MessageEmbed()
-                    .setColor("#ce412b")
-                    .setThumbnail(Main.THUMBNAIL_URL)
-                    .setURL(Main.GITHUB_URL)
-                    .setTitle("Team Information");
 
-                let title = "Team Information";
-                let description = "";
+            const embed = new Discord.MessageEmbed()
+                .setColor("#ce412b")
+                .setThumbnail(Main.THUMBNAIL_URL)
+                .setURL(Main.GITHUB_URL)
+                .setTitle("Team Information");
 
-                for (let member of msg.response.teamInfo.members) {
-                    let field = "**" + member.name + "** (" + member.steamId + ")";
-                    let str = "**IsOnline:** " + member.isOnline + "\n" +
-                        "**IsAlive:** " + member.isAlive + "\n" +
-                        "**SpawnTime:** " + member.spawnTime + "\n" +
-                        "**DeathTime:** " + member.deathTime + "\n" +
-                        "**X-cord:** " + member.x + "\n" +
-                        "**Y-cord:** " + member.y;
+            let title = "Team Information";
+            let description = "";
 
-                    description += field + "\n" + str + "\n";
-                    embed.addField(field, str);
-                }
+            for (let member of msg.response.teamInfo.members) {
+                let field = "**" + member.name + "** (" + member.steamId + ")";
+                let str = "**IsOnline:** " + member.isOnline + "\n" +
+                    "**IsAlive:** " + member.isAlive + "\n" +
+                    "**SpawnTime:** " + member.spawnTime + "\n" +
+                    "**DeathTime:** " + member.deathTime + "\n" +
+                    "**X-cord:** " + member.x + "\n" +
+                    "**Y-cord:** " + member.y;
 
-                console.log(title + ":\n" + description);
-                channel.send(embed);
+                description += field + "\n" + str + "\n";
+                embed.addField(field, str);
             }
+
+            console.log(title + ":\n" + description);
+            channel.send(embed);
         });
 
         return true;

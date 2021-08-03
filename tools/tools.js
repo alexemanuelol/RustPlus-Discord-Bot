@@ -34,6 +34,31 @@ module.exports = {
         return new RegExp("^" + rule.split("*").map(escapeRegex).join(".*") + "$").test(str);
     },
 
+    print: function (title, description, channel = null, rustplus = null) {
+        /* Print to console. */
+        console.log("[" + title + "] " + description);
+
+        /* If team message enabled. */
+        if (rustplus !== null) {
+            rustplus.sendTeamMessage("[" + title + "] " + description);
+        }
+
+        /* If discord message enabled. */
+        if (channel !== null) {
+            module.exports.sendEmbed(channel, title, description);
+        }
+    },
+
+    validateResponse: function (response, channel) {
+        if (response.response.hasOwnProperty("error")) {
+            module.exports.print("ERROR", "The response message include errors, Make sure that command inputs are valid.", channel);
+            return false;
+        }
+        else {
+            return true;
+        }
+    },
+
     MarkerType: {
         Source: 0,
         Player: 1,

@@ -5,10 +5,7 @@ module.exports = {
     description: "Get current state of a Smart Device.",
     execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length != 1) {
-            let title = "ERROR";
-            let description = "1 argument required. Example: !getEntityInfo @name/id."
-            console.log(title + ": " + description);
-            Tools.sendEmbed(channel, title, description);
+            Tools.print("ERROR", "1 argument required. Example: !getEntityInfo @name/id.", channel);
             return false;
         }
 
@@ -25,29 +22,21 @@ module.exports = {
         }
 
         rustplus.getEntityInfo(dev, (msg) => {
-            console.log(">> Request : getEntityInfo <<");
+            Tools.print("REQUEST", "getEntityInfo");
 
-            if (msg.response.hasOwnProperty("error")) {
-                console.log(">> Response message : getEntityInfo <<\n" + JSON.stringify(msg));
-
-                let title = "ERROR";
-                let description = "'**" + dev + "**' invalid entity ID.";
-                console.log(title + ": " + description);
-                Tools.sendEmbed(channel, title, description);
-            }
-            else {
-                let title = "Entity Information";
-                let description = "**Name:** " + device + "\n" +
-                    "**Type:** " + Tools.EntityType[msg.response.entityInfo.type] + "\n" +
-                    "**Value:** " + msg.response.entityInfo.payload.value + "\n" +
-                    "**Capacity:** " + msg.response.entityInfo.payload.capacity + "\n" +
-                    "**HasProtection:** " + msg.response.entityInfo.payload.hasProtection + "\n" +
-                    "**ProtectionExpiry:** " + msg.response.entityInfo.payload.protectionExpiry;
-                console.log(title + ": " + description);
-                Tools.sendEmbed(channel, title, description);
+            if (!Tools.validateResponse(msg, channel)) {
+                Tools.print("RESPONSE", "getEntityInfo\n" + JSON.stringify(msg));
+                return false;
             }
 
-            return true;
+            let title = "Entity Information";
+            let description = "**Name:** " + device + "\n" +
+                "**Type:** " + Tools.EntityType[msg.response.entityInfo.type] + "\n" +
+                "**Value:** " + msg.response.entityInfo.payload.value + "\n" +
+                "**Capacity:** " + msg.response.entityInfo.payload.capacity + "\n" +
+                "**HasProtection:** " + msg.response.entityInfo.payload.hasProtection + "\n" +
+                "**ProtectionExpiry:** " + msg.response.entityInfo.payload.protectionExpiry;
+            Tools.print(title, description, channel)
         });
 
         return true;

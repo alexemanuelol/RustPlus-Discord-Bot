@@ -16,11 +16,8 @@ module.exports = {
 
         if (explosionCounter > numberOfExplosions) {
             let title = "NOTIFICATION";
-            let description = "**Explosion** detected. Patrol Helicopter or Bradley APC have been taken down."
-            console.log(title + ": " + description);
-            Tools.sendEmbed(channel, title, description);
-            rustplus.sendTeamMessage("[NOTIFICATION] Explosion detected. Patrol Helicopter or Bradley APC have " +
-                "been taken down.");
+            let description = "Explosion detected. Patrol Helicopter or Bradley APC have been taken down.";
+            Tools.print(title, description, channel, rustplus);
         }
 
         numberOfExplosions = explosionCounter;

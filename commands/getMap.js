@@ -68,147 +68,129 @@ module.exports = {
     description: "Fetch map info, which includes a jpeg image.",
     execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length != 0) {
-            let title = "ERROR";
-            let description = "No arguments required.";
-            console.log(title + ": " + description);
-            Tools.sendEmbed(channel, title, description);
+            Tools.print("ERROR", "No arguments required.", channel);
             return false;
         }
 
         rustplus.getMap((msg) => {
-            console.log(">> Request : getMap <<");
+            Tools.print("REQUEST", "getMap");
 
-            if (msg.response.hasOwnProperty("error")) {
-                console.log(">> Response message : getMap <<\n" + JSON.stringify(msg));
-
-                let title = "ERROR";
-                let description = "Some error occured while sending the request to the server.";
-                console.log(title + ": " + description);
-                Tools.sendEmbed(channel, title, description);
+            if (!Tools.validateResponse(msg, channel)) {
+                Tools.print("RESPONSE", "getMap\n" + JSON.stringify(msg));
+                return false;
             }
-            else {
-                /* Write the received image to a file. */
-                fs.writeFileSync(MarkerImagePath[Tools.MarkerType.Source], msg.response.map.jpgImage);
 
-                var jimps = [];
-                for (var i = 0; i < MarkerImagePath.length; i++) {
-                    jimps.push(Jimp.read(MarkerImagePath[i]));
+            /* Write the received image to a file. */
+            fs.writeFileSync(MarkerImagePath[Tools.MarkerType.Source], msg.response.map.jpgImage);
+
+            var jimps = [];
+            for (var i = 0; i < MarkerImagePath.length; i++) {
+                jimps.push(Jimp.read(MarkerImagePath[i]));
+            }
+
+            Promise.all(jimps).then(function (markerImage) {
+                return Promise.all(jimps);
+            }).then(function (markerImage) {
+                for (var i = 1; i < markerImage.length; i++) {
+                    var size = MarkerImageSize[i];
+                    markerImage[i].resize(size, size);
                 }
 
-                Promise.all(jimps).then(function (markerImage) {
-                    return Promise.all(jimps);
-                }).then(function (markerImage) {
-                    for (var i = 1; i < markerImage.length; i++) {
-                        var size = MarkerImageSize[i];
-                        markerImage[i].resize(size, size);
+                rustplus.getInfo((info) => {
+                    Tools.print("REQUEST", "getInfo");
+
+                    if (!Tools.validateResponse(info, channel)) {
+                        Tools.print("RESPONSE", "getMap => getInfo\n" + JSON.stringify(info));
+                        return false;
                     }
 
-                    rustplus.getInfo((info) => {
-                        console.log(">> Request : getInfo <<");
+                    rustplus.getMapMarkers((mapMarkers) => {
+                        Tools.print("REQUEST", "getMapMarkers");
 
-                        if (info.response.hasOwnProperty("error")) {
-                            console.log(">> Response message : getMap => getInfo <<\n" + JSON.stringify(info));
-
-                            let title = "ERROR";
-                            let description = "Some error occured while sending the request to the server."
-                            console.log(title + ": " + description);
-                            Tools.sendEmbed(channel, title, description);
+                        if (!Tools.validateResponse(mapMarkers, channel)) {
+                            Tools.print("RESPONSE", "getMap => getMapMarkers\n" + JSON.stringify(mapMarkers));
+                            return false;
                         }
-                        else {
-                            rustplus.getMapMarkers((mapMarkers) => {
-                                console.log(">> Request : getMapMarkers <<");
-                                if (mapMarkers.response.hasOwnProperty("error")) {
-                                    console.log(">> Response message : getMap => getMapMarkers <<\n" + JSON.stringify(mapMarkers));
 
-                                    let title = "ERROR";
-                                    let description = "Some error occured while sending the request to the server.";
-                                    console.log(title + ": " + description);
-                                    Tools.sendEmbed(channel, title, description);
-                                }
-                                else {
-                                    let mapSize = info.response.info.mapSize;
-                                    let width = msg.response.map.width;
-                                    let height = msg.response.map.height;
-                                    let oceanMargin = msg.response.map.oceanMargin;
+                        let mapSize = info.response.info.mapSize;
+                        let width = msg.response.map.width;
+                        let height = msg.response.map.height;
+                        let oceanMargin = msg.response.map.oceanMargin;
 
-                                    for (let marker of mapMarkers.response.mapMarkers.markers) {
-                                        var x = marker.x * ((width - 2 * oceanMargin) / mapSize) + oceanMargin;
-                                        var n = height - 2 * oceanMargin;
-                                        var y = height - (marker.y * (n / mapSize) + oceanMargin);
+                        for (let marker of mapMarkers.response.mapMarkers.markers) {
+                            var x = marker.x * ((width - 2 * oceanMargin) / mapSize) + oceanMargin;
+                            var n = height - 2 * oceanMargin;
+                            var y = height - (marker.y * (n / mapSize) + oceanMargin);
 
-                                        /* Compensate rotations */
-                                        if (marker.type === Tools.MarkerType.CargoShip) {
-                                            x -= 20;
-                                            y -= 20;
-                                        }
+                            /* Compensate rotations */
+                            if (marker.type === Tools.MarkerType.CargoShip) {
+                                x -= 20;
+                                y -= 20;
+                            }
 
-                                        try {
-                                            var size = MarkerImageSize[marker.type];
+                            try {
+                                var size = MarkerImageSize[marker.type];
 
-                                            /* Rotate */
-                                            markerImage[marker.type].rotate(marker.rotation);
+                                /* Rotate */
+                                markerImage[marker.type].rotate(marker.rotation);
 
-                                            markerImage[Tools.MarkerType.Source].composite(markerImage[marker.type], x - (size / 2), y - (size / 2));
-                                        }
-                                        catch (err) {
-                                            /* Ignore */
-                                        }
+                                markerImage[Tools.MarkerType.Source].composite(markerImage[marker.type], x - (size / 2), y - (size / 2));
+                            }
+                            catch (err) {
+                                /* Ignore */
+                            }
+                        }
+
+                        Jimp.loadFont("./fonts/PermanentMarker.fnt").then(function (font) {
+                            for (let monument of msg.response.map.monuments) {
+                                var x = monument.x * ((width - 2 * oceanMargin) / mapSize) + oceanMargin;
+                                var n = height - 2 * oceanMargin;
+                                var y = height - (monument.y * (n / mapSize) + oceanMargin);
+
+                                try {
+                                    if (monument.token === "train_tunnel_display_name") {
+                                        var size = MarkerImageSize[Tools.MarkerType.TrainTunnels];
+                                        markerImage[Tools.MarkerType.Source].composite(markerImage[Tools.MarkerType.TrainTunnels], x - (size / 2), y - (size / 2));
                                     }
+                                    else {
+                                        /* Compensate for the text placement */
+                                        var posCompensation = Monument[monument.token].length * 5;
+                                        markerImage[Tools.MarkerType.Source].print(font, x - posCompensation, y - 10, Monument[monument.token]);
+                                    }
+                                }
+                                catch (err) {
+                                    /* Ignore */
+                                }
+                            }
 
-                                    Jimp.loadFont("./fonts/PermanentMarker.fnt").then(function (font) {
-                                        for (let monument of msg.response.map.monuments) {
-                                            var x = monument.x * ((width - 2 * oceanMargin) / mapSize) + oceanMargin;
-                                            var n = height - 2 * oceanMargin;
-                                            var y = height - (monument.y * (n / mapSize) + oceanMargin);
+                            markerImage[Tools.MarkerType.Source].write(MarkerImagePath[Tools.MarkerType.Source], (err) => {
+                                const image = fs.readFileSync(MarkerImagePath[Tools.MarkerType.Source]);
+                                const attachment = new Discord.MessageAttachment(image, mapName);
+                                const embed = new Discord.MessageEmbed()
+                                    .setColor("#ce412b")
+                                    .setThumbnail(Main.THUMBNAIL_URL)
+                                    .setURL(Main.GITHUB_URL)
+                                    .setTitle("Server Map")
+                                    .setDescription("The map of the server '**" + info.response.info.name + "**'.")
+                                    .attachFiles(attachment)
+                                    .setImage("attachment://" + mapName);
 
-                                            try {
-                                                if (monument.token === "train_tunnel_display_name") {
-                                                    var size = MarkerImageSize[Tools.MarkerType.TrainTunnels];
-                                                    markerImage[Tools.MarkerType.Source].composite(markerImage[Tools.MarkerType.TrainTunnels], x - (size / 2), y - (size / 2));
-                                                }
-                                                else {
-                                                    /* Compensate for the text placement */
-                                                    var posCompensation = Monument[monument.token].length * 5;
-                                                    markerImage[Tools.MarkerType.Source].print(font, x - posCompensation, y - 10, Monument[monument.token]);
-                                                }
-                                            }
-                                            catch (err) {
-                                                /* Ignore */
-                                            }
-                                        }
+                                channel.send(embed);
 
-                                        markerImage[Tools.MarkerType.Source].write(MarkerImagePath[Tools.MarkerType.Source], (err) => {
-                                            const image = fs.readFileSync(MarkerImagePath[Tools.MarkerType.Source]);
-                                            const attachment = new Discord.MessageAttachment(image, mapName);
-                                            const embed = new Discord.MessageEmbed()
-                                                .setColor("#ce412b")
-                                                .setThumbnail(Main.THUMBNAIL_URL)
-                                                .setURL(Main.GITHUB_URL)
-                                                .setTitle("Server Map")
-                                                .setDescription("The map of the server '**" + info.response.info.name + "**'.")
-                                                .attachFiles(attachment)
-                                                .setImage("attachment://" + mapName);
-
-
-                                            channel.send(embed);
-
-                                            /* Remove temp image file. */
-                                            try {
-                                                fs.unlinkSync(MarkerImagePath[Tools.MarkerType.Source]);
-                                            }
-                                            catch (err) {
-                                                console.error(err);
-                                            }
-                                        });
-                                    }).catch(function (err) {
-                                        console.log(err);
-                                    });
+                                /* Remove temp image file. */
+                                try {
+                                    fs.unlinkSync(MarkerImagePath[Tools.MarkerType.Source]);
+                                }
+                                catch (err) {
+                                    console.error(err);
                                 }
                             });
-                        }
+                        }).catch(function (err) {
+                            console.log(err);
+                        });
                     });
                 });
-            }
+            });
         });
 
         return true;

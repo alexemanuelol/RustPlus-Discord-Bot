@@ -5,33 +5,24 @@ module.exports = {
     description: "Get the current in game time.",
     execute(author, message, channel, args, discordBot, rustplus) {
         if (args.length != 0) {
-            let title = "ERROR";
-            let description = "No arguments required."
-            console.log(title + ": " + description);
-            Tools.sendEmbed(channel, title, description);
+            Tools.print("ERROR", "No arguments required.", channel);
             return false;
         }
 
         rustplus.getTime((msg) => {
-            console.log(">> Request : getTime <<");
+            Tools.print("REQUEST", "getTime");
 
-            if (msg.response.hasOwnProperty("error")) {
-                console.log(">> Response message: getTime <<\n" + JSON.stringify(msg));
+            if (!Tools.validateResponse(msg, channel)) {
+                Tools.print("RESPONSE", "getTime\n" + JSON.stringify(msg));
+                return false;
+            }
 
-                let title = "ERROR";
-                let description = "Some error occured while sending the request to the server.";
-                console.log(title + ": " + description);
-                Tools.sendEmbed(channel, title, description);
-            }
-            else {
-                let title = "Time Information";
-                let description = "**Current time:** " + msg.response.time.time + "\n" +
-                    "**Total daylight (minutes):** " + msg.response.time.dayLengthMinutes + "\n" +
-                    "**Sunrise:** " + msg.response.time.sunrise + "\n" +
-                    "**Sunset:** " + msg.response.time.sunset;
-                console.log(title + ":\n" + description);
-                Tools.sendEmbed(channel, title, description);
-            }
+            let title = "Time Information";
+            let description = "\n**Current time:** " + msg.response.time.time + "\n" +
+                "**Total daylight (minutes):** " + msg.response.time.dayLengthMinutes + "\n" +
+                "**Sunrise:** " + msg.response.time.sunrise + "\n" +
+                "**Sunset:** " + msg.response.time.sunset;
+            Tools.print(title, description, channel);
         });
 
         return true;
