@@ -14,11 +14,11 @@ module.exports = {
         fs.writeFileSync(path, JSON.stringify(jsonObj, null, 2));
     },
 
-    sendEmbed: function (discordChannel, title, description, field = null) {
+    sendEmbed: function (discordChannel, title, description, field = null, attachment = Main.THUMBNAIL_DEFAULT, thumbnailName = "rust_logo.png") {
         const embed = new Discord.MessageEmbed()
             .setColor("#ce412b")
-            .attachFiles(Main.THUMBNAIL_ATTACH)
-            .setThumbnail("attachment://logo.png")
+            .attachFiles(attachment)
+            .setThumbnail("attachment://" + thumbnailName)
             .setURL(Main.GITHUB_URL)
             .setTitle(title)
             .setDescription(description);
@@ -35,7 +35,7 @@ module.exports = {
         return new RegExp("^" + rule.split("*").map(escapeRegex).join(".*") + "$").test(str);
     },
 
-    print: function (title, description, channel = null, rustplus = null) {
+    print: function (title, description, channel = null, rustplus = null, attachment = Main.THUMBNAIL_DEFAULT, thumbnailName = "rust_logo.png") {
         let date = new Date();
         let hours = date.getHours() < 10 ? ("0" + date.getHours()) : date.getHours();
         let minutes = date.getMinutes() < 10 ? ("0" + date.getMinutes()) : date.getMinutes();
@@ -53,7 +53,7 @@ module.exports = {
 
         /* If discord message enabled. */
         if (channel !== null) {
-            module.exports.sendEmbed(channel, title, description);
+            module.exports.sendEmbed(channel, title, description, null, attachment, thumbnailName);
         }
     },
 

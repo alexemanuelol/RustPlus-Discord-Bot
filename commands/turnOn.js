@@ -1,4 +1,8 @@
 const Tools = require("./../tools/tools.js");
+const Discord = require("discord.js");
+
+const thumbnailName = "smart_switch.png";
+const attachment = new Discord.MessageAttachment("./images/" + thumbnailName, thumbnailName);
 
 module.exports = {
     name: "turnOn",
@@ -45,7 +49,7 @@ module.exports = {
                     return false;
                 }
 
-                Tools.print("Successfully Turned On", "'**" + device[0] + " : " + device[1] + "**' was turned on.", channel);
+                Tools.print("Successfully Turned On", "'**" + device[0] + " : " + device[1] + "**' was turned on.", channel, null, attachment, thumbnailName);
             });
         }
 

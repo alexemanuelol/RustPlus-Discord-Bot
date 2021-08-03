@@ -21,8 +21,8 @@ module.exports = {
 
             const embed = new Discord.MessageEmbed()
                 .setColor("#ce412b")
-                .attachFiles(Main.THUMBNAIL_ATTACH)
-                .setThumbnail("attachment://logo.png")
+                .attachFiles(Main.THUMBNAIL_DEFAULT)
+                .setThumbnail("attachment://rust_logo.png")
                 .setURL(Main.GITHUB_URL)
                 .setTitle("Team Information");
 

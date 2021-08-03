@@ -168,8 +168,8 @@ module.exports = {
                                 const attachment = new Discord.MessageAttachment(image, mapName);
                                 const embed = new Discord.MessageEmbed()
                                     .setColor("#ce412b")
-                                    .attachFiles(Main.THUMBNAIL_ATTACH)
-                                    .setThumbnail("attachment://logo.png")
+                                    .attachFiles(Main.THUMBNAIL_DEFAULT)
+                                    .setThumbnail("attachment://rust_logo.png")
                                     .setURL(Main.GITHUB_URL)
                                     .setTitle("Server Map")
                                     .setDescription("The map of the server '**" + info.response.info.name + "**'.")

@@ -1,4 +1,8 @@
 const Tools = require("./../tools/tools.js");
+const Discord = require("discord.js");
+
+const thumbnailName = "explosion_marker.png";
+const attachment = new Discord.MessageAttachment("./images/" + thumbnailName, thumbnailName);
 
 var numberOfExplosions = 0;
 
@@ -22,10 +26,10 @@ module.exports = {
             let title = "NOTIFICATION";
             let description = "Explosion detected. Patrol Helicopter or Bradley APC have been taken down.";
             if (config.notifications.inGame === "true") {
-                Tools.print(title, description, channel, rustplus);
+                Tools.print(title, description, channel, rustplus, attachment, thumbnailName);
             }
             else {
-                Tools.print(title, description, channel);
+                Tools.print(title, description, channel, null, attachment, thumbnailName);
             }
         }
 

@@ -1,4 +1,8 @@
 const Tools = require("./../tools/tools.js");
+const Discord = require("discord.js");
+
+const thumbnailName = "smart_switch.png";
+const attachment = new Discord.MessageAttachment("./images/" + thumbnailName, thumbnailName);
 
 module.exports = {
     name: "setEntityValue",
@@ -37,7 +41,7 @@ module.exports = {
                 return false;
             }
 
-            Tools.print("Successfully Set", "'**" + device + "**' entity value set to: **" + value + "**", channel);
+            Tools.print("Successfully Set", "'**" + device + "**' entity value set to: **" + value + "**", channel, null, attachment, thumbnailName);
         });
 
         return true;

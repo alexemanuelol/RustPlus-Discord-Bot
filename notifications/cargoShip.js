@@ -1,4 +1,8 @@
 const Tools = require("./../tools/tools.js");
+const Discord = require("discord.js");
+
+const thumbnailName = "cargoShip.png";
+const attachment = new Discord.MessageAttachment("./images/" + thumbnailName, thumbnailName);
 
 var cargoActive = false;
 
@@ -20,10 +24,10 @@ module.exports = {
 
             if (cargoActive) {
                 if (config.notifications.inGame === "true") {
-                    Tools.print("NOTIFICATION", "Cargo Ship is active.", channel, rustplus);
+                    Tools.print("NOTIFICATION", "Cargo Ship is active.", channel, rustplus, attachment, thumbnailName);
                 }
                 else {
-                    Tools.print("NOTIFICATION", "Cargo Ship is active.", channel);
+                    Tools.print("NOTIFICATION", "Cargo Ship is active.", channel, null, attachment, thumbnailName);
                 }
             }
         }
@@ -39,10 +43,10 @@ module.exports = {
             if (cargoLeft) {
                 cargoActive = false;
                 if (config.notifications.inGame === "true") {
-                    Tools.print("NOTIFICATION", "Cargo Ship just despawned.", channel, rustplus);
+                    Tools.print("NOTIFICATION", "Cargo Ship just despawned.", channel, rustplus, attachment, thumbnailName);
                 }
                 else {
-                    Tools.print("NOTIFICATION", "Cargo Ship just despawned.", channel);
+                    Tools.print("NOTIFICATION", "Cargo Ship just despawned.", channel, null, attachment, thumbnailName);
                 }
             }
         }

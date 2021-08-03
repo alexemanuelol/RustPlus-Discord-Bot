@@ -3,8 +3,9 @@ const RustPlus = require("rustplus.js");        /* RustPlus module. */
 const fs = require("fs");                       /* Node file system module. */
 const Tools = require("./tools/tools.js");
 
-exports.THUMBNAIL_ATTACH = new Discord.MessageAttachment("./images/logo.png", "logo.png");
+exports.THUMBNAIL_DEFAULT = new Discord.MessageAttachment("./images/rust_logo.png", "rust_logo.png");
 exports.GITHUB_URL = "https://github.com/alexemanuelol/RustPlus-Discord-Bot";
+const alarmAttachment = new Discord.MessageAttachment("./images/smart_alarm.png", "smart_alarm.png");
 
 var config = Tools.readJSON("./config.json");
 
@@ -164,10 +165,10 @@ rustplus.on("message", (msg) => {
 
                         if (msg.broadcast.entityChanged.payload.value === true) {
                             if (config.alarms.inGame === "true") {
-                                Tools.print("ALARM", devices[device].alarmMessage, channel, rustplus);
+                                Tools.print("ALARM", devices[device].alarmMessage, channel, rustplus, alarmAttachment, "smart_alarm.png");
                             }
                             else {
-                                Tools.print("ALARM", devices[device].alarmMessage, channel);
+                                Tools.print("ALARM", devices[device].alarmMessage, channel, null, alarmAttachment, "smart_alarm.png");
                             }
                         }
                         break;
