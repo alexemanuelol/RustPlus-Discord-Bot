@@ -8,6 +8,8 @@ module.exports = {
     execute(message, channel, discordBot, rustplus) {
         let config = Tools.readJSON("./config.json");
 
+        if (config.notifications.explosion !== "true") return true;
+
         let explosionCounter = 0;
 
         for (let marker of message.response.mapMarkers.markers) {

@@ -8,6 +8,8 @@ module.exports = {
     execute(message, channel, discordBot, rustplus) {
         let config = Tools.readJSON("./config.json");
 
+        if (config.notifications.cargoShip !== "true") return true;
+
         if (cargoActive === false) {
             for (let marker of message.response.mapMarkers.markers) {
                 if (marker.type === Tools.MarkerType.CargoShip) {

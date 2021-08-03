@@ -8,6 +8,8 @@ module.exports = {
     execute(message, channel, discordBot, rustplus) {
         let config = Tools.readJSON("./config.json");
 
+        if (config.notifications.chinook47 !== "true") return true;
+
         let chinookCounter = 0;
 
         for (let marker of message.response.mapMarkers.markers) {

@@ -5,7 +5,10 @@
   },
   "notifications": {
     "enabled": "true",
-    "inGame": "true"
+    "inGame": "true",
+    "cargoShip": "true",
+    "chinook47": "true",
+    "explosion": "true"
   },
   "alarms": {
     "enabled": "true",
