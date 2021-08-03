@@ -4,7 +4,7 @@ const fs = require("fs");                       /* Node file system module. */
 const config = require("./config.json");        /* Configuration file. */
 const Tools = require("./tools/tools.js");
 
-exports.THUMBNAIL_URL = "https://imgur.com/znQvBMi.png";
+exports.THUMBNAIL_ATTACH = new Discord.MessageAttachment("./images/logo.png", "logo.png");
 exports.GITHUB_URL = "https://github.com/alexemanuelol/RustPlus-Discord-Bot";
 
 /* Create an instance of a discord client. */
