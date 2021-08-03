@@ -160,8 +160,15 @@ rustplus.on("message", (msg) => {
                         break;
                     }
                     else if (devices[device].type === 2) { /* Alarm */
+                        if (config.alarms.enabled === "false") break;
+
                         if (msg.broadcast.entityChanged.payload.value === true) {
-                            Tools.print("ALARM", devices[device].alarmMessage, channel, rustplus);
+                            if (config.alarms.inGame === "true") {
+                                Tools.print("ALARM", devices[device].alarmMessage, channel, rustplus);
+                            }
+                            else {
+                                Tools.print("ALARM", devices[device].alarmMessage, channel);
+                            }
                         }
                         break;
                     }

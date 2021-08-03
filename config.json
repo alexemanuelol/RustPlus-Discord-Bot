@@ -4,7 +4,12 @@
     "steamId": ""
   },
   "notifications": {
-    "enabled": "true"
+    "enabled": "true",
+    "inGame": "true"
+  },
+  "alarms": {
+    "enabled": "true",
+    "inGame": "true"
   },
   "discord": {
     "token": "",

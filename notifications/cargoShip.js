@@ -6,6 +6,8 @@ module.exports = {
     name: "cargoShip",
     description: "Notification function for cargoShip active/inactive.",
     execute(message, channel, discordBot, rustplus) {
+        let config = Tools.readJSON("./config.json");
+
         if (cargoActive === false) {
             for (let marker of message.response.mapMarkers.markers) {
                 if (marker.type === Tools.MarkerType.CargoShip) {
@@ -15,7 +17,12 @@ module.exports = {
             }
 
             if (cargoActive) {
-                Tools.print("NOTIFICATION", "Cargo Ship is active.", channel, rustplus);
+                if (config.notifications.inGame === "true") {
+                    Tools.print("NOTIFICATION", "Cargo Ship is active.", channel, rustplus);
+                }
+                else {
+                    Tools.print("NOTIFICATION", "Cargo Ship is active.", channel);
+                }
             }
         }
         else {
@@ -29,7 +36,12 @@ module.exports = {
 
             if (cargoLeft) {
                 cargoActive = false;
-                Tools.print("NOTIFICATION", "Cargo Ship just despawned.", channel, rustplus);
+                if (config.notifications.inGame === "true") {
+                    Tools.print("NOTIFICATION", "Cargo Ship just despawned.", channel, rustplus);
+                }
+                else {
+                    Tools.print("NOTIFICATION", "Cargo Ship just despawned.", channel);
+                }
             }
         }
 
