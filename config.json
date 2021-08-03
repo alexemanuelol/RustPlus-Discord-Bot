@@ -1,10 +1,18 @@
 {
-  "prefix": "!",
-  "eventNotifications": "true",
-  "steamId": "",
-  "discordToken": "",
-  "discordBotSpamChannel": "",
-  "rustServerIp": "",
-  "rustAppPort": "",
-  "rustPlayerToken": ""
+  "general": {
+    "prefix": "!",
+    "steamId": ""
+  },
+  "notifications": {
+    "enabled": "true"
+  },
+  "discord": {
+    "token": "",
+    "botSpamChannel": ""
+  },
+  "rust": {
+    "serverIp": "",
+    "appPort": "",
+    "playerToken": ""
+  }
 }

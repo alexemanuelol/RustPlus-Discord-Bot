@@ -1,11 +1,12 @@
 const Discord = require("discord.js");          /* Discord module. */
 const RustPlus = require("rustplus.js");        /* RustPlus module. */
 const fs = require("fs");                       /* Node file system module. */
-const config = require("./config.json");        /* Configuration file. */
 const Tools = require("./tools/tools.js");
 
 exports.THUMBNAIL_ATTACH = new Discord.MessageAttachment("./images/logo.png", "logo.png");
 exports.GITHUB_URL = "https://github.com/alexemanuelol/RustPlus-Discord-Bot";
+
+var config = Tools.readJSON("./config.json");
 
 /* Create an instance of a discord client. */
 const discordBot = new Discord.Client();
@@ -13,7 +14,7 @@ discordBot.commands = new Discord.Collection();
 var notifications = [];
 
 /* Create an instance of RustPlus */
-var rustplus = new RustPlus(config.rustServerIp, config.rustAppPort, config.steamId, config.rustPlayerToken);
+var rustplus = new RustPlus(config.rust.serverIp, config.rust.appPort, config.general.steamId, config.rust.playerToken);
 
 /* Extract all the command files from the commands directory. */
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -40,12 +41,12 @@ function mapMarkerPolling() {
             Tools.print("RESPONSE", "getEntityInfo\n" + JSON.stringify(msg));
         }
 
-        let config = Tools.readJSON("./config.json");
+        config = Tools.readJSON("./config.json");
 
-        if (config.eventNotifications === "true") {
-            let channel = discordBot.channels.cache.get(config.discordBotSpamChannel);
+        if (config.notifications.enabled === "true") {
+            let channel = discordBot.channels.cache.get(config.discord.botSpamChannel);
             if (typeof (channel) === "undefined") {
-                Tools.print("ERROR", "discordBotSpamChannel is invalid in config.json.");
+                Tools.print("ERROR", "botSpamChannel is invalid in config.json.");
             }
             else {
                 /* Update notifications */
@@ -60,11 +61,13 @@ function mapMarkerPolling() {
 }
 
 function parseCommand(author, message, channel, ingamecall = false) {
+    config = Tools.readJSON("./config.json");
+
     /* If it does not start with the command prefix or if message comes from another bot, ignore. */
-    if (!message.startsWith(config.prefix)) return;
+    if (!message.startsWith(config.general.prefix)) return;
 
     /* Obtain additional arguments from the command. */
-    const args = message.slice(config.prefix.length).trim().split(/ +/);
+    const args = message.slice(config.general.prefix.length).trim().split(/ +/);
 
     /* Obtain the actual command name. */
     const command = args.shift();
@@ -101,7 +104,7 @@ discordBot.on("message", message => {
 });
 
 /* Login to the discord bot. */
-discordBot.login(config.discordToken);
+discordBot.login(config.discord.token);
 
 /* Wait until connected before sending commands. */
 rustplus.on('connected', () => {
@@ -124,13 +127,14 @@ rustplus.on('connected', () => {
 
 rustplus.on("message", (msg) => {
     if (msg.hasOwnProperty("broadcast")) {
+        config = Tools.readJSON("./config.json");
 
         if (msg.broadcast.hasOwnProperty("teamMessage")) {
             Tools.print("BROADCAST", "teamMessage received.");
 
             let message = msg.broadcast.teamMessage.message.message;
             let author = msg.broadcast.teamMessage.message.name;
-            let channel = discordBot.channels.cache.get(config.discordBotSpamChannel);
+            let channel = discordBot.channels.cache.get(config.discord.botSpamChannel);
 
             if (typeof (channel) === "undefined") {
                 Tools.print("ERROR", "discordBotSpamChannel is invalid in config.json.");
@@ -143,7 +147,7 @@ rustplus.on("message", (msg) => {
             Tools.print("BROADCAST", "entityChanged triggered.");
 
             let devices = Tools.readJSON("./devices.json");
-            let channel = discordBot.channels.cache.get(config.discordBotSpamChannel);
+            let channel = discordBot.channels.cache.get(config.discord.botSpamChannel);
 
             if (typeof (channel) === "undefined") {
                 Tools.print("ERROR", "discordBotSpamChannel is invalid in config.json.");
