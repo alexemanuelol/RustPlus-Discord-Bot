@@ -4,45 +4,57 @@ module.exports = {
     name: "addDevice",
     description: "Add a new device to devices.json file.",
     execute(author, message, channel, args, discordBot, rustplus) {
+        /* Verify that the number of arguments is at least 2. */
         if (args.length < 2) {
             Tools.print("ERROR", "At least 2 arguments required. Example: !addDevice @name @id.", channel);
             return false;
         }
 
-        var key = args[0];
-        var value = parseInt(args[1]);
+        /* Extract device name and id from args. */
+        var name = args[0];
+        var id = parseInt(args[1]);
 
-        if (isNaN(value)) {
-            Tools.print("ERROR", "Could not convert '" + args[1] + "' to integer", channel);
+        /* Check if the ID is of integer type. */
+        if (isNaN(id)) {
+            Tools.print("ERROR", "Could not convert **" + args[1] + "** to integer", channel);
             return false;
         }
 
-        rustplus.getEntityInfo(value, (msg) => {
+        /* Send the rustplus.js request: getEntityInfo */
+        rustplus.getEntityInfo(id, (msg) => {
             Tools.print("REQUEST", "getEntityInfo");
 
+            /* Validate that the response message does not include any errors. */
             if (!Tools.validateResponse(msg, channel)) {
                 Tools.print("RESPONSE", "getEntityInfo\n" + JSON.stringify(msg));
                 return false;
             }
 
-            if (msg.response.entityInfo.type === 1) { /* Switch */
-                Tools.writeJSON("./devices.json", key, { id: value, type: msg.response.entityInfo.type, alarmMessage: "" });
-                Tools.print("Successfully Added", "Switch '**" + key + " : " + value + "**' was added to devices.", channel);
+            /* Smart Switch */
+            if (msg.response.entityInfo.type === 1) {
+                let device = { id: id, type: msg.response.entityInfo.type, alarmMessage: "" };
+                Tools.writeJSON("./devices.json", name, device);
+                Tools.print("Successfully Added", "Switch **" + name + " : " + id + "** was added to devices.",
+                    channel);
             }
-            else if (msg.response.entityInfo.type === 2) { /* Alarm */
+            /* Smart Alarm */
+            else if (msg.response.entityInfo.type === 2) {
                 let alarmMessage = "";
 
                 if (args.length === 2) {
-                    alarmMessage = "Alarm '" + key + "' was triggered.";
+                    alarmMessage = "Alarm '" + name + "' was triggered.";
                 }
                 else {
                     alarmMessage = message.replace("!addDevice " + args[0] + " " + args[1] + " ", "");
                 }
 
-                Tools.writeJSON("./devices.json", key, { id: value, type: msg.response.entityInfo.type, alarmMessage: alarmMessage });
-                Tools.print("Successfully Added", "Alarm '**" + key + " : " + value + "**' was added to devices with message: '**" + alarmMessage + "**'.", channel);
+                let device = { id: id, type: msg.response.entityInfo.type, alarmMessage: alarmMessage };
+                Tools.writeJSON("./devices.json", name, device);
+                Tools.print("Successfully Added", "Alarm **" + name + " : " + id +
+                    "** was added to devices with message: **" + alarmMessage + "**.", channel);
             }
-            else if (msg.response.entityInfo.type === 3) { /* Storage Monitor */
+            /* Storage Monitor */
+            else if (msg.response.entityInfo.type === 3) {
 
             }
             else {

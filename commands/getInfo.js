@@ -4,14 +4,17 @@ module.exports = {
     name: "getInfo",
     description: "Get info about the Rust Server.",
     execute(author, message, channel, args, discordBot, rustplus) {
+        /* Verify that there are no arguments. */
         if (args.length != 0) {
             Tools.print("ERROR", "No arguments required.", channel);
             return false;
         }
 
+        /* Send the rustplus.js request: getInfo */
         rustplus.getInfo((msg) => {
             Tools.print("REQUEST", "getInfo");
 
+            /* Validate that the response message does not include any errors. */
             if (!Tools.validateResponse(msg, channel)) {
                 Tools.print("RESPONSE", "getInfo\n" + JSON.stringify(msg));
                 return false;

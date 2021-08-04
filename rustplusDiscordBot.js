@@ -1,47 +1,24 @@
-const Discord = require("discord.js");          /* Discord module. */
-const RustPlus = require("rustplus.js");        /* RustPlus module. */
-const fs = require("fs");                       /* Node file system module. */
+const Discord = require("discord.js");
+const RustPlus = require("rustplus.js");
+const fs = require("fs");
+
 const Tools = require("./tools/tools.js");
 
 exports.THUMBNAIL_DEFAULT = new Discord.MessageAttachment("./images/rust_logo.png", "rust_logo.png");
 exports.GITHUB_URL = "https://github.com/alexemanuelol/RustPlus-Discord-Bot";
 const alarmAttachment = new Discord.MessageAttachment("./images/smart_alarm.png", "smart_alarm.png");
 
-var config = Tools.readJSON("./config.json");
-
-/* Create an instance of a discord client. */
-const discordBot = new Discord.Client();
-discordBot.commands = new Discord.Collection();
-var notifications = [];
-
-/* Create an instance of RustPlus */
-var rustplus = new RustPlus(config.rust.serverIp, config.rust.appPort, config.general.steamId, config.rust.playerToken);
-
-/* Extract all the command files from the commands directory. */
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-/* Extract all the notification files from the notifications directory. */
-const notificationFiles = fs.readdirSync("./notifications").filter(file => file.endsWith(".js"));
-
-/* Add a new item to the Collection. Key = command name, Value = the exported module. */
-for (const file of commandFiles) {
-    const command = require("./commands/" + file);
-    discordBot.commands.set(command.name, command);
-}
-
-for (const file of notificationFiles) {
-    const notification = require("./notifications/" + file);
-    notifications.push(notification);
-}
-
 function mapMarkerPolling() {
+    /* Send the rustplus.js request: getMapMarkers */
     rustplus.getMapMarkers((msg) => {
         Tools.print("mapMarkerPolling", "Poll");
 
+        /* Validate that the response message does not include any errors. */
         if (!Tools.validateResponse(msg, null)) {
             Tools.print("RESPONSE", "getEntityInfo\n" + JSON.stringify(msg));
         }
 
+        /* Read the config.json file. */
         config = Tools.readJSON("./config.json");
 
         if (config.notifications.enabled === "true") {
@@ -61,7 +38,8 @@ function mapMarkerPolling() {
     });
 }
 
-function parseCommand(author, message, channel, ingamecall = false) {
+function parseCommand(author, message, channel, ingameCall = false) {
+    /* Read the config.json file. */
     config = Tools.readJSON("./config.json");
 
     /* If it does not start with the command prefix or if message comes from another bot, ignore. */
@@ -76,7 +54,7 @@ function parseCommand(author, message, channel, ingamecall = false) {
     /* If the command does not exist, ignore. */
     if (!discordBot.commands.has(command)) return;
 
-    if (ingamecall) {
+    if (ingameCall) {
         channel.send("**" + author + "** just called command from in-game: **" + message + "**");
     }
 
@@ -87,6 +65,34 @@ function parseCommand(author, message, channel, ingamecall = false) {
     catch (error) {
         Tools.print("ERROR", error, channel);
     }
+}
+
+/* Read the config.json file. */
+var config = Tools.readJSON("./config.json");
+
+/*
+ *  DISCORD
+ */
+
+/* Create an instance of a discord client. */
+const discordBot = new Discord.Client();
+discordBot.commands = new Discord.Collection();
+var notifications = [];
+
+/* Extract all the command files from the commands directory. */
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+/* Add a new item to the Collection. Key = command name, Value = the exported module. */
+for (const file of commandFiles) {
+    const command = require("./commands/" + file);
+    discordBot.commands.set(command.name, command);
+}
+
+/* Extract all the notification files from the notifications directory. */
+const notificationFiles = fs.readdirSync("./notifications").filter(file => file.endsWith(".js"));
+/* Add the file to notifications list. */
+for (const file of notificationFiles) {
+    const notification = require("./notifications/" + file);
+    notifications.push(notification);
 }
 
 discordBot.on("ready", () => {
@@ -106,6 +112,14 @@ discordBot.on("message", message => {
 
 /* Login to the discord bot. */
 discordBot.login(config.discord.token);
+
+
+/*
+ *  RUSTPLUS
+ */
+
+/* Create an instance of RustPlus */
+var rustplus = new RustPlus(config.rust.serverIp, config.rust.appPort, config.general.steamId, config.rust.playerToken);
 
 /* Wait until connected before sending commands. */
 rustplus.on('connected', () => {

@@ -1,5 +1,6 @@
-const Tools = require("./../tools/tools.js");
 const Discord = require("discord.js");
+
+const Tools = require("./../tools/tools.js");
 
 const thumbnailName = "explosion_marker.png";
 const attachment = new Discord.MessageAttachment("./images/" + thumbnailName, thumbnailName);
@@ -10,9 +11,10 @@ module.exports = {
     name: "explosion",
     description: "Notification function for explosion detected.",
     execute(message, channel, discordBot, rustplus) {
+        /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");
 
-        if (config.notifications.explosion !== "true") return true;
+        if (config.notifications.explosion !== "true") return;
 
         let explosionCounter = 0;
 

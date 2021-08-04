@@ -1,6 +1,7 @@
-const Tools = require("./../tools/tools.js");
-const Main = require("./../rustplusDiscordBot.js");
 const Discord = require("discord.js");
+
+const Main = require("./../rustplusDiscordBot.js");
+const Tools = require("./../tools/tools.js");
 const { version } = require("./../version.json");
 
 module.exports = {

@@ -1,9 +1,13 @@
+const Discord = require("discord.js");
+
+const Main = require("./../rustplusDiscordBot.js");
 const Tools = require("./../tools/tools.js");
 
 module.exports = {
     name: "devices",
     description: "Prints all the devices located in the devices.json file.",
     execute(author, message, channel, args, discordBot, rustplus) {
+        /* Verify that there are no arguments. */
         if (args.length != 0) {
             Tools.print("ERROR", "No arguments required.", channel);
             return false;
@@ -11,31 +15,42 @@ module.exports = {
 
         /* Read the devices.json file. */
         let devices = Tools.readJSON("./devices.json");
-        let description = "";
 
-        for (let key in devices) {
-            description += "**" + Tools.EntityType[devices[key].type] + "** ";
-            description += "named **" + key + "** with ";
-            description += "id: **" + devices[key].id + "**";
+        const embed = new Discord.MessageEmbed()
+            .setColor("#ce412b")
+            .attachFiles(Main.THUMBNAIL_DEFAULT)
+            .setThumbnail("attachment://rust_logo.png")
+            .setURL(Main.GITHUB_URL)
+            .setTitle("Registered Devices");
 
-            if (devices[key].type === 1) { /* Switch */
-                description += ".\n";
+        let switchStr, alarmStr, storageStr;
+        switchStr = alarmStr = storageStr = "";
+
+        for (let device in devices) {
+            if (devices[device].type === 1) {
+                switchStr += "**-** " + device + " : " + devices[device].id + "\n";
             }
-            else if (devices[key].type === 2) { /* Alarm */
-                description += " and with the alarm message: **" + devices[key].alarmMessage + "**.\n";
+            else if (devices[device].type === 2) {
+                alarmStr += "**-** " + device + " : " + devices[device].id + " with message: '" +
+                    devices[device].alarmMessage + "'\n";
             }
-            else if (devices[key].type === 3) { /* Storage Monitor */
-                description += ".\n";
+            else if (devices[device].type === 3) {
+                storageStr += "**-** " + device + " : " + devices[device].id + "\n";
             }
         }
 
-        if (description === "") {
-            description = "No registered devices.";
+        if (switchStr !== "") {
+            embed.addField("**Smart Switches**", switchStr);
+        }
+        if (alarmStr !== "") {
+            embed.addField("**Smart Alarms**", alarmStr);
+        }
+        if (storageStr !== "") {
+            embed.addField("**Storage Containers**", storageStr);
         }
 
-        let title = "Registered Devices";
-        Tools.print(title, description);
-        Tools.sendEmbed(channel, title, "", ["**Devices**", description]);
+        Tools.print("Registered Devices",);
+        channel.send(embed);
 
         return true;
     },

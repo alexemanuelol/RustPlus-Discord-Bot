@@ -1,5 +1,6 @@
-const Tools = require("./../tools/tools.js");
 const Discord = require("discord.js");
+
+const Tools = require("./../tools/tools.js");
 
 const thumbnailName = "cargoShip.png";
 const attachment = new Discord.MessageAttachment("./images/" + thumbnailName, thumbnailName);
@@ -10,9 +11,10 @@ module.exports = {
     name: "cargoShip",
     description: "Notification function for cargoShip active/inactive.",
     execute(message, channel, discordBot, rustplus) {
+        /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");
 
-        if (config.notifications.cargoShip !== "true") return true;
+        if (config.notifications.cargoShip !== "true") return;
 
         if (cargoActive === false) {
             for (let marker of message.response.mapMarkers.markers) {

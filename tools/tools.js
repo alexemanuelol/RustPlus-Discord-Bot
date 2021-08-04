@@ -80,8 +80,8 @@ module.exports = {
     },
 
     EntityType: {
-        1: "Switch",
-        2: "Alarm",
+        1: "Smart Switch",
+        2: "Smart Alarm",
         3: "Storage Monitor"
     },
 }

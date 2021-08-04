@@ -1,5 +1,6 @@
-const Tools = require("./../tools/tools.js");
 const Discord = require("discord.js");
+
+const Tools = require("./../tools/tools.js");
 
 const thumbnailName = "chinook47.png";
 const attachment = new Discord.MessageAttachment("./images/" + thumbnailName, thumbnailName);
@@ -10,9 +11,10 @@ module.exports = {
     name: "chinook47",
     description: "Notification function for chinook 47 active/inactive.",
     execute(message, channel, discordBot, rustplus) {
+        /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");
 
-        if (config.notifications.chinook47 !== "true") return true;
+        if (config.notifications.chinook47 !== "true") return;
 
         let chinookCounter = 0;
 
