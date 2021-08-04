@@ -1,4 +1,10 @@
+const Discord = require("discord.js");
+
 const Tools = require("./../tools/tools.js");
+
+const switchAttach = new Discord.MessageAttachment("./images/smart_switch.png", "smart_switch.png");
+const alarmAttach = new Discord.MessageAttachment("./images/smart_alarm.png", "smart_alarm.png");
+const storageAttach = new Discord.MessageAttachment("./images/storage_monitor.png", "storage_monitor.png");
 
 module.exports = {
     name: "getEntityInfo",
@@ -40,7 +46,16 @@ module.exports = {
                 "**Capacity:** " + msg.response.entityInfo.payload.capacity + "\n" +
                 "**HasProtection:** " + msg.response.entityInfo.payload.hasProtection + "\n" +
                 "**ProtectionExpiry:** " + msg.response.entityInfo.payload.protectionExpiry;
-            Tools.print(title, description, channel)
+
+            if (msg.response.entityInfo.type === 1) {
+                Tools.print(title, description, channel, null, switchAttach, "smart_switch.png");
+            }
+            else if (msg.response.entityInfo.type === 2) {
+                Tools.print(title, description, channel, null, alarmAttach, "smart_alarm.png");
+            }
+            else if (msg.response.entityInfo.type === 3) {
+                Tools.print(title, description, channel, null, storageAttach, "storage_monitor.png");
+            }
         });
 
         return true;
