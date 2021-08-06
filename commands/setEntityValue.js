@@ -44,7 +44,7 @@ module.exports = {
                 return false;
             }
 
-            Tools.print("Successfully Set", "**" + device + "** entity value set to: **" + value + "**",
+            Tools.print("Successfully Set", "**" + args[0] + "** entity value set to: **" + value + "**",
                 channel, null, attachment, thumbnailName);
         });
 
