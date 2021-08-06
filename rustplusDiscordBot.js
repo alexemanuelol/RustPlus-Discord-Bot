@@ -9,7 +9,15 @@ exports.GITHUB_URL = "https://github.com/alexemanuelol/RustPlus-Discord-Bot";
 const alarmAttachment = new Discord.MessageAttachment("./images/smart_alarm.png", "smart_alarm.png");
 const storageAttachment = new Discord.MessageAttachment("./images/storage_monitor.png", "storage_monitor.png");
 
+var connected = false;
+
 function mapMarkerPolling() {
+    if (!connected) {
+        /* The connection must be closed. Continue polling till connected again. */
+        setTimeout(mapMarkerPolling, 10000);
+        return;
+    }
+
     /* Send the rustplus.js request: getMapMarkers */
     rustplus.getMapMarkers((msg) => {
         Tools.print("mapMarkerPolling", "Poll");
@@ -17,6 +25,8 @@ function mapMarkerPolling() {
         /* Validate that the response message does not include any errors. */
         if (!Tools.validateResponse(msg, null)) {
             Tools.print("RESPONSE", "getEntityInfo\n" + JSON.stringify(msg));
+            setTimeout(mapMarkerPolling, 10000);
+            return false;
         }
 
         /* Read the config.json file. */
@@ -35,11 +45,31 @@ function mapMarkerPolling() {
             }
         }
 
-        setTimeout(mapMarkerPolling, 10000);
     });
+
+    setTimeout(mapMarkerPolling, 10000);
+}
+
+function reconnectRustplus() {
+    Tools.print("RECONNECTING", "Reconnecting Attempt " + (reconnectAttempts + 1) + "...");
+    reconnectAttempts += 1;
+    reconnection = true;
+    rustplus.disconnect();
+    rustplus.connect();
+}
+
+function destroyBot() {
+    rustplus.disconnect();
+    discordBot.destroy();
+    process.exit(1);
 }
 
 function parseCommand(author, message, channel, ingameCall = false) {
+    /* The connection must be closed. Do nothing. */
+    if (!connected) {
+        return;
+    }
+
     /* Read the config.json file. */
     config = Tools.readJSON("./config.json");
 
@@ -123,23 +153,72 @@ discordBot.login(config.discord.token);
 var rustplus = new RustPlus(config.rust.serverIp, config.rust.appPort, config.general.steamId,
     config.rust.playerToken);
 
+var reconnectAttempts = 0;
+var reconnection = false;
+
 /* Wait until connected before sending commands. */
 rustplus.on('connected', () => {
     /* RustPlus-Discord-Bot now enabled! */
+    connected = true;
+    reconnectAttempts = 0;
 
-    /* Go through all devices in devices.json to enable broadcast. */
-    Tools.print("DEVICES", "Go through devices.json and validate.");
-    let devices = Tools.readJSON("./devices.json");
-    for (let device in devices) {
-        rustplus.getEntityInfo(parseInt(devices[device].id), (msg) => {
-            if (msg.response.hasOwnProperty("error")) {
-                Tools.print("DEVICES", device + " : " + parseInt(devices[device].id) + " is INVALID.");
-            }
-            else {
-                Tools.print("DEVICES", device + " : " + parseInt(devices[device].id) + " is VALID.");
-            }
-        });
+    if (reconnection) {
+        reconnection = false;
+        let channel = discordBot.channels.cache.get(config.discord.botSpamChannel);
+
+        if (typeof (channel) === "undefined") {
+            Tools.print("ERROR", "discordBotSpamChannel is invalid in config.json.");
+            return;
+        }
+
+        Tools.print("Reconnection Successful", "Reconnection to the rust server was successful!", channel);
     }
+    else {
+        /* Go through all devices in devices.json to enable broadcast. */
+        Tools.print("DEVICES", "Go through devices.json and validate.");
+        let devices = Tools.readJSON("./devices.json");
+        for (let device in devices) {
+            rustplus.getEntityInfo(parseInt(devices[device].id), (msg) => {
+                if (msg.response.hasOwnProperty("error")) {
+                    Tools.print("DEVICES", device + " : " + parseInt(devices[device].id) + " is INVALID.");
+                }
+                else {
+                    Tools.print("DEVICES", device + " : " + parseInt(devices[device].id) + " is VALID.");
+                }
+            });
+        }
+    }
+});
+
+/* Whenever the rust server disconnects. */
+rustplus.on("disconnected", () => {
+    let channel = discordBot.channels.cache.get(config.discord.botSpamChannel);
+
+    if (connected) {
+        connected = false;
+
+        if (typeof (channel) === "undefined") {
+            Tools.print("ERROR", "discordBotSpamChannel is invalid in config.json.");
+            return;
+        }
+
+        Tools.print("ATTENTION", "RustPlus-Discord-Bot lost connection to the rust server... " +
+            "Will attempt to reconnect...", channel);
+    }
+
+    if ((reconnectAttempts === parseInt(config.general.reconnectAttempts)) &&
+        (parseInt(config.general.reconnectAttempts) !== 0)) {
+        Tools.print("Reconnection Failed", "RustPlus-Discord-Bot failed to reconnect to the rust server, exiting...", channel);
+        setTimeout(destroyBot, 3000);
+        return;
+    }
+
+    reconnectRustplus();
+});
+
+/* Whenever an error occurs. */
+rustplus.on("error", (err) => {
+    Tools.print("ERROR", err);
 });
 
 rustplus.on("message", (msg) => {
