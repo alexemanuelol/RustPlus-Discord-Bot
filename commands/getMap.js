@@ -61,6 +61,7 @@ const Monument = {
     "swamp_c": "ABANDONED CABINS",
     "train_tunnel_display_name": "",
     "train_yard_display_name": "TRAIN YARD",
+    "underwater_lab": "UNDERWATER LAB",
     "water_treatment_plant_display_name": "WATER TREATMENT PLANT"
 }
 
