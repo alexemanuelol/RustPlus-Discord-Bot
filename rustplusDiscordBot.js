@@ -7,6 +7,7 @@ const Tools = require("./tools/tools.js");
 exports.THUMBNAIL_DEFAULT = new Discord.MessageAttachment("./images/rust_logo.png", "rust_logo.png");
 exports.GITHUB_URL = "https://github.com/alexemanuelol/RustPlus-Discord-Bot";
 const alarmAttachment = new Discord.MessageAttachment("./images/smart_alarm.png", "smart_alarm.png");
+const storageAttachment = new Discord.MessageAttachment("./images/storage_monitor.png", "storage_monitor.png");
 
 function mapMarkerPolling() {
     /* Send the rustplus.js request: getMapMarkers */
@@ -119,7 +120,8 @@ discordBot.login(config.discord.token);
  */
 
 /* Create an instance of RustPlus */
-var rustplus = new RustPlus(config.rust.serverIp, config.rust.appPort, config.general.steamId, config.rust.playerToken);
+var rustplus = new RustPlus(config.rust.serverIp, config.rust.appPort, config.general.steamId,
+    config.rust.playerToken);
 
 /* Wait until connected before sending commands. */
 rustplus.on('connected', () => {
@@ -179,15 +181,77 @@ rustplus.on("message", (msg) => {
 
                         if (msg.broadcast.entityChanged.payload.value === true) {
                             if (config.alarms.inGame === "true") {
-                                Tools.print("ALARM", devices[device].alarmMessage, channel, rustplus, alarmAttachment, "smart_alarm.png");
+                                Tools.print("ALARM", devices[device].alarmMessage, channel, rustplus, alarmAttachment,
+                                    "smart_alarm.png");
                             }
                             else {
-                                Tools.print("ALARM", devices[device].alarmMessage, channel, null, alarmAttachment, "smart_alarm.png");
+                                Tools.print("ALARM", devices[device].alarmMessage, channel, null, alarmAttachment,
+                                    "smart_alarm.png");
                             }
                         }
                         break;
                     }
                     else if (devices[device].type === 3) { /* Storage Monitor */
+                        if (config.storageMonitors.enabled === "false") break;
+
+                        /* Make sure that we only trigger on one of the two, either true or false. */
+                        if (msg.broadcast.entityChanged.payload.value === false) {
+                            let items = Tools.readJSON("./tools/items.json");
+                            let summed = {};
+
+                            if (msg.broadcast.entityChanged.payload.hasOwnProperty("items")) {
+                                for (let item of msg.broadcast.entityChanged.payload.items) {
+                                    if (item.itemId in summed) {
+                                        summed[item.itemId] += item.quantity;
+                                    }
+                                    else {
+                                        summed[item.itemId] = item.quantity;
+                                    }
+                                }
+                            }
+
+                            let title = "Storage Monitor";
+                            let description = "";
+                            const embed = new Discord.MessageEmbed()
+                                .setColor("#ce412b")
+                                .attachFiles(storageAttachment)
+                                .setThumbnail("attachment://storage_monitor.png")
+                                .setURL(this.GITHUB_URL)
+                                .setTitle(title);
+
+                            /* If a 'Tool Cupboard'. */
+                            if (msg.broadcast.entityChanged.payload.capacity === 24) {
+                                description = "Content of the Tool Cupboard **" + device + "** have changed.";
+                            }
+                            /* If a 'Large Wood Box' or a 'Vending Machine'. */
+                            else if (msg.broadcast.entityChanged.payload.capacity === 30) {
+                                description = "Content of the Large Wood Box/ Vending Machine **" + device +
+                                    "** have changed.";
+                            }
+
+                            embed.setDescription(description)
+
+                            let field = "**Items in '" + device + "':**";
+                            let str = "";
+                            for (let item in summed) {
+                                if (item in items) {
+                                    str += summed[item] + "x of **" + items[item].name + "**\n";
+                                }
+                                else {
+                                    str += summed[item] + "x of **Unknown Item**\n";
+                                }
+                            }
+
+                            if (str === "") {
+                                str = "No items.";
+                            }
+
+                            description += "\n" + field + "\n" + str;
+                            embed.addField(field, str);
+
+                            Tools.print(title, description);
+                            channel.send(embed);
+                        }
                         break;
                     }
 

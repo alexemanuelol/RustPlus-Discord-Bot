@@ -55,7 +55,10 @@ module.exports = {
             }
             /* Storage Monitor */
             else if (msg.response.entityInfo.type === 3) {
-
+                let device = { id: id, type: msg.response.entityInfo.type, alarmMessage: "" };
+                Tools.writeJSON("./devices.json", name, device);
+                Tools.print("Successfully Added", "Storage Monitor **" + name + " : " + id +
+                    "** was added to devices.", channel);
             }
             else {
                 Tools.print("ERROR", "Invalid type.");
