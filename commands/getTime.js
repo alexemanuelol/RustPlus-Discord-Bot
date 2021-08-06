@@ -21,10 +21,10 @@ module.exports = {
             }
 
             let title = "Time Information";
-            let description = "\n**Current time:** " + msg.response.time.time + "\n" +
+            let description = "\n**Current time:** " + Tools.convertToHoursMinutes(msg.response.time.time) + "\n" +
                 "**Total daylight (minutes):** " + msg.response.time.dayLengthMinutes + "\n" +
-                "**Sunrise:** " + msg.response.time.sunrise + "\n" +
-                "**Sunset:** " + msg.response.time.sunset;
+                "**Sunrise:** " + Tools.convertToHoursMinutes(msg.response.time.sunrise) + "\n" +
+                "**Sunset:** " + Tools.convertToHoursMinutes(msg.response.time.sunset);
             Tools.print(title, description, channel);
         });
 

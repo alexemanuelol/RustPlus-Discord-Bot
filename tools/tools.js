@@ -67,6 +67,17 @@ module.exports = {
         }
     },
 
+    convertToHoursMinutes: function (value) {
+        let seconds = value * 3600;
+        let hours = Math.floor(value);
+        let minutes = Math.floor((value - hours) * 60);
+
+        hours = (hours < 10) ? ("0" + hours).toString() : hours.toString();
+        minutes = (minutes < 10) ? ("0" + minutes).toString() : minutes.toString();
+
+        return hours + ":" + minutes;
+    },
+
     MarkerType: {
         Source: 0,
         Player: 1,
