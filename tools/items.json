@@ -259,6 +259,11 @@
         "name": "High Quality Metal",
         "description": "High quality metal suitable for armor and weapons construction."
     },
+    "342438846": {
+        "shortname": "fish.anchovy",
+        "name": "Anchovy",
+        "description": "A small bony fish commonly found in large schools."
+    },
     "349762871": {
         "shortname": "ammo.grenadelauncher.he",
         "name": "40mm HE Grenade",
@@ -493,6 +498,11 @@
         "shortname": "xmas.door.garland",
         "name": "Festive Doorway Garland",
         "description": "A Festive decoration to spruce up your  doorway during the holdiays!"
+    },
+    "680234026": {
+        "shortname": "fish.yellowperch",
+        "name": "Yellow Perch",
+        "description": "A Yellow Perch, commonly found in freshwater rivers."
     },
     "696029452": {
         "shortname": "map",
@@ -743,6 +753,11 @@
         "shortname": "geiger.counter",
         "name": "Geiger Counter",
         "description": "A geiger counter used by scientists"
+    },
+    "1015352446": {
+        "shortname": "submarineduo",
+        "name": "Duo Submarine",
+        "description": "A small two-person submarine."
     },
     "1052926200": {
         "shortname": "mining.quarry",
@@ -997,7 +1012,7 @@
     "1324203999": {
         "shortname": "firework.boomer.champagne",
         "name": "Champagne Boomer",
-        "description": "A very large mortar type firework with an massive champagne colored explosion followed by smaller orange starbusrts"
+        "description": "A very large mortar type firework with an massive champagne colored explosion followed by smaller orange starbursts"
     },
     "1326180354": {
         "shortname": "salvaged.sword",
@@ -1252,7 +1267,7 @@
     "1569882109": {
         "shortname": "fishingrod.handmade",
         "name": "Handmade Fishing Rod",
-        "description": "FIsh for fish"
+        "description": "Use [attack2] to cast out the line and wait for a bite. Requires bait."
     },
     "1581210395": {
         "shortname": "planter.large",
@@ -1268,6 +1283,11 @@
         "shortname": "drone",
         "name": "Drone",
         "description": "A remote controlled drone."
+    },
+    "1601468620": {
+        "shortname": "jumpsuit.suit.blue",
+        "name": "Blue Jumpsuit",
+        "description": "A Blue Jumpsuit"
     },
     "1602646136": {
         "shortname": "spear.stone",
@@ -1428,6 +1448,11 @@
         "shortname": "easter.silveregg",
         "name": "Silver Egg",
         "description": "A Silver Egg. Contains medium level loot, Collect 10 to upgrade to a gold Egg"
+    },
+    "1770475779": {
+        "shortname": "worm",
+        "name": "Worm",
+        "description": "A small, writhing worm that can be used for bait. Could also be eaten in desperate situations."
     },
     "1770744540": {
         "shortname": "vehicle.chassis",
@@ -2279,10 +2304,40 @@
         "name": "Violet Volcano Firework",
         "description": "Emits a beautiful shower of Violet sparks"
     },
+    "-587989372": {
+        "shortname": "fish.catfish",
+        "name": "Catfish",
+        "description": "A large, whiskered fresh water based predator. Eats everything, so you never know what you'll find in it's stomach."
+    },
+    "-1698937385": {
+        "shortname": "fish.herring",
+        "name": "Herring",
+        "description": "A small fish commonly found in a variety of water sources."
+    },
     "-542577259": {
         "shortname": "fish.minnows",
         "name": "Minnows",
         "description": "A Small group of edible fish."
+    },
+    "-1904821376": {
+        "shortname": "fish.orangeroughy",
+        "name": "Orange Roughy",
+        "description": "A rare fish found in the depths of the ocean. Eats everything, so you never know what you'll find in it's stomach."
+    },
+    "-851988960": {
+        "shortname": "fish.salmon",
+        "name": "Salmon",
+        "description": "A large Salmon, found in fresh and salt water. Eats everything, so you never know what you'll find in it's stomach."
+    },
+    "-1654233406": {
+        "shortname": "fish.sardine",
+        "name": "Sardine",
+        "description": "A small oily fish, commonly found in large schools."
+    },
+    "-1768880890": {
+        "shortname": "fish.smallshark",
+        "name": "Small Shark",
+        "description": "A small, surprisingly aggressive deep sea predator. Eats everything, so you never know what you'll find in it's stomach."
     },
     "-1878764039": {
         "shortname": "fish.troutsmall",
@@ -2403,6 +2458,11 @@
         "shortname": "granolabar",
         "name": "Granola Bar",
         "description": "Granola Bar found as loot. Eating it provides a small boost to health, hunger."
+    },
+    "-568419968": {
+        "shortname": "grub",
+        "name": "Grub",
+        "description": "A pale, fleshy insect that can be used for bait. Could also be eaten in desperate situations."
     },
     "-265876753": {
         "shortname": "gunpowder",
@@ -2872,7 +2932,7 @@
     "-173268131": {
         "shortname": "rustige_egg_c",
         "name": "Rustigé Egg - Purple",
-        "description": "A beautiful hand crafted purple egg with gold lace, a miniature offstore monument is contained inside."
+        "description": "A beautiful hand crafted purple egg with gold lace, a miniature offshore monument is contained inside."
     },
     "-173268126": {
         "shortname": "rustige_egg_d",
@@ -3139,6 +3199,16 @@
         "name": "Medium Quality Spark Plugs",
         "description": "Medium quality spark plugs for a combustion engine. Spark plugs ignite the fuel/air mixture to move the pistons."
     },
+    "-1517740219": {
+        "shortname": "speargun",
+        "name": "Speargun",
+        "description": "A speargun which can only be fired underwater. Excellent for hunting Sharks."
+    },
+    "-1800345240": {
+        "shortname": "speargun.spear",
+        "name": "Speargun Spear",
+        "description": "Ammunition for a speargun."
+    },
     "-92759291": {
         "shortname": "spikes.floor",
         "name": "Wooden Floor Spikes",
@@ -3168,6 +3238,21 @@
         "shortname": "stones",
         "name": "Stones",
         "description": "Harvested from rocks using tools, basic building material."
+    },
+    "-239306133": {
+        "shortname": "submarine.torpedo.rising",
+        "name": "Surface torpedo",
+        "description": "A torpedo for use in a submarine. Fires ahead while rising to the water's surface."
+    },
+    "-1671551935": {
+        "shortname": "submarine.torpedo.straight",
+        "name": "Direct Torpedo",
+        "description": "A torpedo for use in a submarine. Fires ahead in a straight line."
+    },
+    "-187031121": {
+        "shortname": "submarinesolo",
+        "name": "Solo Submarine",
+        "description": "A small one-person submarine."
     },
     "-1581843485": {
         "shortname": "sulfur",
