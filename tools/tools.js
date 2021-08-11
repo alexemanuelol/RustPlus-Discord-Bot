@@ -120,6 +120,12 @@ module.exports = {
         return costs[s2.length];
     },
 
+    isStringBool: function (arg) {
+        if (arg === "true" || arg === "false") return true;
+
+        return false;
+    },
+
     MarkerType: {
         Source: 0,
         Player: 1,
