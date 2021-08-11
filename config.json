@@ -9,6 +9,7 @@
     "inGame": "true",
     "cargoShip": "true",
     "chinook47": "true",
+    "crate": "false",
     "explosion": "true"
   },
   "alarms": {
@@ -16,7 +17,7 @@
     "inGame": "true"
   },
   "storageMonitors": {
-    "enabled": "false"
+    "enabled": "true"
   },
   "discord": {
     "token": "",
