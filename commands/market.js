@@ -8,7 +8,7 @@ const attachment = new Discord.MessageAttachment("./images/" + thumbnailName, th
 
 const prefix = Tools.readJSON("./config.json").general.prefix;
 const help = `\
-This command goes through all vending machines of the server and look for the specified item.
+This command goes through all vending machines on the server and look for the specified item.
 
 **To look through all items on the market, type**:
     ${prefix}market
@@ -16,7 +16,7 @@ This command goes through all vending machines of the server and look for the sp
 **To look for a specific item, type**:
     ${prefix}market Assault Rifle
 
-**Or if you dont know the full name, part of the full name will be fine**:
+**Or if you dont know the full name, part of the name will be fine**:
     ${prefix}market assa`
 
 module.exports = {

@@ -4,7 +4,7 @@ const prefix = Tools.readJSON("./config.json").general.prefix;
 const help = `\
 This command lets you add different devices to the devices.json located on the bot server.
 
-**To add a Smart Switches**:
+**To add a Smart Switch**:
     ${prefix}addDevice nameOfSwitch entityId
     Example:
         ${prefix}addDevice switch1 1234567
