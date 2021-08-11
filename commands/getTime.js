@@ -1,8 +1,12 @@
 const Tools = require("./../tools/tools.js");
 
+const help = `\
+This command gathers the in-game time of the server and prints it to discord.`
+
 module.exports = {
     name: "getTime",
     description: "Get the current in game time.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Verify that there are no arguments. */
         if (args.length != 0) {

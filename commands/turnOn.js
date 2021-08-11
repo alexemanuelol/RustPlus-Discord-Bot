@@ -5,9 +5,25 @@ const Tools = require("./../tools/tools.js");
 const thumbnailName = "smart_switch.png";
 const attachment = new Discord.MessageAttachment("./images/" + thumbnailName, thumbnailName);
 
+const prefix = Tools.readJSON("./config.json").general.prefix;
+const help = `\
+This command lets you turn on Smart Switches.
+
+**To turn on Smart Switch 'turret'**:
+    ${prefix}turnOn turret
+
+**To turn on Smart Switches 'turret1', 'turret2' and 'turret3'**:
+    ${prefix}turnOn turret*
+        or
+    ${prefix}turnOn turret1 turret2 turret3
+
+**To turn on Smart Switch with entityId 1234567**:
+    ${prefix}turnOn 1234567`
+
 module.exports = {
     name: "turnOn",
     description: "Turn on a Smart Switch.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");

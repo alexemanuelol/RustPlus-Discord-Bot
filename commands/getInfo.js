@@ -1,8 +1,12 @@
 const Tools = require("./../tools/tools.js");
 
+const help = `\
+This command prints information about the server.`
+
 module.exports = {
     name: "getInfo",
     description: "Get info about the Rust Server.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Verify that there are no arguments. */
         if (args.length != 0) {

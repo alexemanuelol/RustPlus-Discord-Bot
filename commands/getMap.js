@@ -65,9 +65,13 @@ const Monument = {
     "water_treatment_plant_display_name": "WATER TREATMENT PLANT"
 }
 
+const help = `\
+This command gathers a jpeg image of the server map and all it's monuments and sends it to discord.`
+
 module.exports = {
     name: "getMap",
     description: "Fetch map info, which includes a jpeg image.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Verify that there are no arguments. */
         if (args.length != 0) {

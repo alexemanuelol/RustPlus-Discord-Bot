@@ -6,9 +6,20 @@ const switchAttach = new Discord.MessageAttachment("./images/smart_switch.png", 
 const alarmAttach = new Discord.MessageAttachment("./images/smart_alarm.png", "smart_alarm.png");
 const storageAttach = new Discord.MessageAttachment("./images/storage_monitor.png", "storage_monitor.png");
 
+const prefix = Tools.readJSON("./config.json").general.prefix;
+const help = `\
+This command gathers information about a smart device and prints it to discord.
+
+**To get the entity information from Smart Switch 1234567 (Made up)**:
+    ${prefix}getEntityInfo 1234567
+
+**To get the entity information from Smart Alarm 'oilrig' defined in devices.json**:
+    ${prefix}getEntityInfo oilrig`
+
 module.exports = {
     name: "getEntityInfo",
     description: "Get current state of a Smart Device.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");

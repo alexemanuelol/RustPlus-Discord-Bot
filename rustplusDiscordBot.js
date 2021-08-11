@@ -85,6 +85,12 @@ function parseCommand(author, message, channel, ingameCall = false) {
     /* If the command does not exist, ignore. */
     if (!discordBot.commands.has(command)) return;
 
+    /* Check if it is a help command with arguments. */
+    if (command === "help" && args.length === 1 && discordBot.commands.has(args[0])) {
+        Tools.print("Help " + args[0], discordBot.commands.get(args[0]).help, channel);
+        return;
+    }
+
     if (ingameCall) {
         channel.send("**" + author + "** just called command from in-game: **" + message + "**");
     }

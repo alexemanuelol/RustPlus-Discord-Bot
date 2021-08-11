@@ -2,9 +2,20 @@ const fs = require("fs");
 
 const Tools = require("./../tools/tools.js");
 
+const prefix = Tools.readJSON("./config.json").general.prefix;
+const help = `\
+This command lets you set the Alarm Notifications to enable/disable.
+
+**To turn off Alarm Notifications**:
+    ${prefix}setAlarmNotifications false
+
+**To turn on Alarm Notifications**:
+    ${prefix}setAlarmNotifications true`
+
 module.exports = {
     name: "setAlarmNotifications",
     description: "Set Alarm Notifications enable/disable.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");

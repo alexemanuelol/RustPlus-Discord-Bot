@@ -2,9 +2,20 @@ const fs = require("fs");
 
 const Tools = require("./../tools/tools.js");
 
+const prefix = Tools.readJSON("./config.json").general.prefix;
+const help = `\
+This command lets you set the Cargo Ship Notifications to enable/disable.
+
+**To turn off Cargo Ship Notifications**:
+    ${prefix}setCargoShipNotifications false
+
+**To turn on Cargo Ship Notifications**:
+    ${prefix}setCargoShipNotifications true`
+
 module.exports = {
     name: "setCargoShipNotifications",
     description: "Set Cargo Ship Notifications enable/disable.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");

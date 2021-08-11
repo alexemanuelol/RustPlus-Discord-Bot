@@ -2,9 +2,20 @@ const fs = require("fs");
 
 const Tools = require("./../tools/tools.js");
 
+const prefix = Tools.readJSON("./config.json").general.prefix;
+const help = `\
+This command lets you set the Explosion Notifications to enable/disable.
+
+**To turn off Explosion Notifications**:
+    ${prefix}setExplosionNotifications false
+
+**To turn on Explosion Notifications**:
+    ${prefix}setExplosionNotifications true`
+
 module.exports = {
     name: "setExplosionNotifications",
     description: "Set Explosion Notifications enable/disable.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");

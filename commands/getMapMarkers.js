@@ -1,8 +1,13 @@
 const Tools = require("./../tools/tools.js");
 
+const help = `\
+This command gathers all the map markers of the server map.
+(**NOTE**: Currently not useful for anything by itself).`
+
 module.exports = {
     name: "getMapMarkers",
     description: "Get map markers, such as vending machines and cargo/heli.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Verify that there are no arguments. */
         if (args.length != 0) {

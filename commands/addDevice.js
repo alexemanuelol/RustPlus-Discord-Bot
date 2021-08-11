@@ -1,8 +1,28 @@
 const Tools = require("./../tools/tools.js");
 
+const prefix = Tools.readJSON("./config.json").general.prefix;
+const help = `\
+This command lets you add different devices to the devices.json located on the bot server.
+
+**To add a Smart Switches**:
+    ${prefix}addDevice nameOfSwitch entityId
+    Example:
+        ${prefix}addDevice switch1 1234567
+
+**To add a Smart Alarm**:
+    ${prefix}addDevice nameOfAlarm entityId theAlarmMessage
+    Example:
+        ${prefix}addDevice oilrig 1234567 Oilrig was just triggered!
+
+**To add a Storage Monitor**:
+    ${prefix}addDevice nameOfSM entityId
+    Example:
+        ${prefix}addDevice toolcupboard 1234567`
+
 module.exports = {
     name: "addDevice",
     description: "Add a new device to devices.json file.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");

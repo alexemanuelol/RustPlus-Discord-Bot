@@ -4,9 +4,13 @@ const Main = require("./../rustplusDiscordBot.js");
 const Tools = require("./../tools/tools.js");
 const { version } = require("./../version.json");
 
+const help = `\
+This command prints this bots current version.`
+
 module.exports = {
     name: "ver",
     description: "Obtain the bot version.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         Tools.print("VERSION", version);
 

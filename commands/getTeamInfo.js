@@ -3,9 +3,13 @@ const Discord = require("discord.js");
 const Main = require("./../rustplusDiscordBot.js");
 const Tools = require("./../tools/tools.js");
 
+const help = `\
+This command gathers information about the team and prints it to discord.`
+
 module.exports = {
     name: "getTeamInfo",
     description: "Get list of team members and positions on map.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Verify that there are no arguments. */
         if (args.length != 0) {

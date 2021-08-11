@@ -3,9 +3,13 @@ const Discord = require("discord.js");
 const Main = require("./../rustplusDiscordBot.js");
 const Tools = require("./../tools/tools.js");
 
+const help = `\
+This command prints all the registered devices in the devices.json located on the bot server.`
+
 module.exports = {
     name: "devices",
     description: "Prints all the devices located in the devices.json file.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Verify that there are no arguments. */
         if (args.length != 0) {

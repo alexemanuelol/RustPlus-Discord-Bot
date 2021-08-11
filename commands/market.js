@@ -6,9 +6,23 @@ const Tools = require("./../tools/tools.js");
 const thumbnailName = "vending_machine.png";
 const attachment = new Discord.MessageAttachment("./images/" + thumbnailName, thumbnailName);
 
+const prefix = Tools.readJSON("./config.json").general.prefix;
+const help = `\
+This command goes through all vending machines of the server and look for the specified item.
+
+**To look through all items on the market, type**:
+    ${prefix}market
+
+**To look for a specific item, type**:
+    ${prefix}market Assault Rifle
+
+**Or if you dont know the full name, part of the full name will be fine**:
+    ${prefix}market assa`
+
 module.exports = {
     name: "market",
     description: "Search for items for sale in vending machines all over the server.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");

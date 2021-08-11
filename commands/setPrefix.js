@@ -2,9 +2,16 @@ const fs = require("fs");
 
 const Tools = require("./../tools/tools.js");
 
+const help = `\
+This command lets you change the command prefix for the bot.
+
+**To change the prefix to / from !**:
+    !setPrefix /`
+
 module.exports = {
     name: "setPrefix",
     description: "Set the command prefix.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");

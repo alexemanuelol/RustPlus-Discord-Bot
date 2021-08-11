@@ -3,9 +3,13 @@ const Discord = require("discord.js");
 const Main = require("./../rustplusDiscordBot.js");
 const Tools = require("./../tools/tools.js");
 
+const help = `\
+This command gathers all the public settings from the config.json file and prints it to discord.`
+
 module.exports = {
     name: "getSettings",
     description: "Get the current config settings.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");

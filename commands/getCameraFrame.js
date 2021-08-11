@@ -1,8 +1,17 @@
 const Tools = require("./../tools/tools.js");
 
+const prefix = Tools.readJSON("./config.json").general.prefix;
+const help = `\
+This command gathers a jpeg frame from a camera in-game and sends it to discord.
+(**NOTE**: Feature not currently supported).
+
+**Get a frame from 'CASINO' camera at Bandit Camp**:
+    ${prefix}getCameraFrame CASINO 0`
+
 module.exports = {
     name: "getCameraFrame",
     description: "Get a jpeg image from a CCTV Camera.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");

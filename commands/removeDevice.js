@@ -1,9 +1,17 @@
 const fs = require("fs");
 const Tools = require("./../tools/tools.js");
 
+const prefix = Tools.readJSON("./config.json").general.prefix;
+const help = `\
+This command will remove the specified device from devices.json located on the bot server.
+
+**To remove Smart Switch 'Switch1'**:
+    ${prefix}removeDevice Switch1`
+
 module.exports = {
     name: "removeDevice",
     description: "Removes a device from the devices.json file.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");

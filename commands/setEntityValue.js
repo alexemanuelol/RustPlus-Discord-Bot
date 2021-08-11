@@ -5,9 +5,20 @@ const Tools = require("./../tools/tools.js");
 const thumbnailName = "smart_switch.png";
 const attachment = new Discord.MessageAttachment("./images/" + thumbnailName, thumbnailName);
 
+const prefix = Tools.readJSON("./config.json").general.prefix;
+const help = `\
+This command lets you change the entity value of a Smart Switch.
+
+**To set the entity value of Smart Switch 'light' to false**:
+    ${prefix}setEntityValue light false
+
+**To set the entity value of Smart Switch 'light' to true**:
+    ${prefix}setEntityValue light true`
+
 module.exports = {
     name: "setEntityValue",
     description: "Set the value of a Smart Device.",
+    help: help,
     execute(author, message, channel, args, discordBot, rustplus) {
         /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");
