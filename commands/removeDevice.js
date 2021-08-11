@@ -5,9 +5,13 @@ module.exports = {
     name: "removeDevice",
     description: "Removes a device from the devices.json file.",
     execute(author, message, channel, args, discordBot, rustplus) {
+        /* Read the config.json file. */
+        let config = Tools.readJSON("./config.json");
+
         /* Verify that the number of arguments is 1. */
         if (args.length != 1) {
-            Tools.print("ERROR", "1 argument required. Example: !removeDevice @name.", channel);
+            Tools.print("ERROR", "1 argument required. Example: " + config.general.prefix +
+                "removeDevice @name.", channel);
             return false;
         }
 

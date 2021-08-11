@@ -9,9 +9,13 @@ module.exports = {
     name: "turnOff",
     description: "Turn off a Smart Switch.",
     execute(author, message, channel, args, discordBot, rustplus) {
+        /* Read the config.json file. */
+        let config = Tools.readJSON("./config.json");
+
         /* Verify that the number of arguments is at least 1. */
         if (args.length === 0) {
-            Tools.print("ERROR", "At least 1 arguments required. Example: !turnOff @name/id.", channel);
+            Tools.print("ERROR", "At least 1 arguments required. Example: " + config.general.prefix +
+                "turnOff @name/id.", channel);
             return false;
         }
 

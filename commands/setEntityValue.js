@@ -9,9 +9,13 @@ module.exports = {
     name: "setEntityValue",
     description: "Set the value of a Smart Device.",
     execute(author, message, channel, args, discordBot, rustplus) {
+        /* Read the config.json file. */
+        let config = Tools.readJSON("./config.json");
+
         /* Verify that the number of arguments is 2. */
         if (args.length != 2) {
-            Tools.print("ERROR", "2 arguments required. Example: !setEntityValue @name @value.", channel);
+            Tools.print("ERROR", "2 arguments required. Example: " + config.general.prefix +
+                "setEntityValue @name @value.", channel);
             return false;
         }
 

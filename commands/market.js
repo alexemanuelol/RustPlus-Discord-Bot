@@ -10,6 +10,9 @@ module.exports = {
     name: "market",
     description: "Search for items for sale in vending machines all over the server.",
     execute(author, message, channel, args, discordBot, rustplus) {
+        /* Read the config.json file. */
+        let config = Tools.readJSON("./config.json");
+
         /* Send the rustplus.js request: getMapMarkers */
         rustplus.getMapMarkers((msg) => {
             Tools.print("REQUEST", "getMapMarkers");
@@ -26,7 +29,7 @@ module.exports = {
             let originalSearchItemName = "";
             let searchItem = "";
             if (args.length !== 0) {
-                originalSearchItemName = message.replace("!market ", "");
+                originalSearchItemName = message.replace(config.general.prefix + "market ", "");
                 searchItem = originalSearchItemName.toLowerCase();
             }
 
@@ -117,7 +120,7 @@ module.exports = {
 
             if (!resultsFound) {
                 description = "No market items found named **" + originalSearchItemName + "**.\nTry to run the " +
-                    "command *!market* without any arguments to get all market items.";
+                    "command *" + config.general.prefix + "market* without any arguments to get all market items.";
                 embed.setDescription(description);
             }
 

@@ -4,9 +4,13 @@ module.exports = {
     name: "getCameraFrame",
     description: "Get a jpeg image from a CCTV Camera.",
     execute(author, message, channel, args, discordBot, rustplus) {
+        /* Read the config.json file. */
+        let config = Tools.readJSON("./config.json");
+
         /* Verify that the number of arguments is 2. */
         if (args.length != 2) {
-            Tools.print("ERROR", "2 arguments required. Example: !getCameraFrame @name @frame.", channel);
+            Tools.print("ERROR", "2 arguments required. Example: " + config.general.prefix +
+                "getCameraFrame @name @frame.", channel);
             return false;
         }
 

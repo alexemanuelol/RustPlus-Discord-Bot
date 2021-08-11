@@ -4,9 +4,13 @@ module.exports = {
     name: "addDevice",
     description: "Add a new device to devices.json file.",
     execute(author, message, channel, args, discordBot, rustplus) {
+        /* Read the config.json file. */
+        let config = Tools.readJSON("./config.json");
+
         /* Verify that the number of arguments is at least 2. */
         if (args.length < 2) {
-            Tools.print("ERROR", "At least 2 arguments required. Example: !addDevice @name @id.", channel);
+            Tools.print("ERROR", "At least 2 arguments required. Example: " + config.general.prefix
+                + "addDevice @name @id.", channel);
             return false;
         }
 
@@ -45,7 +49,8 @@ module.exports = {
                     alarmMessage = "Alarm '" + name + "' was triggered.";
                 }
                 else {
-                    alarmMessage = message.replace("!addDevice " + args[0] + " " + args[1] + " ", "");
+                    alarmMessage = message.replace(config.general.prefix + "addDevice " + args[0] + " " +
+                        args[1] + " ", "");
                 }
 
                 let device = { id: id, type: msg.response.entityInfo.type, alarmMessage: alarmMessage };

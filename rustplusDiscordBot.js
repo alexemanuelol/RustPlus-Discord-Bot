@@ -129,8 +129,11 @@ for (const file of notificationFiles) {
 discordBot.on("ready", () => {
     Tools.print("DISCORD", "Logged in as " + discordBot.user.tag + "!");
 
+    /* Read the config.json file. */
+    config = Tools.readJSON("./config.json");
+
     /* Set the BOT activity text. */
-    discordBot.user.setActivity("commands!", { type: "LISTENING" });
+    discordBot.user.setActivity(config.general.prefix + "help", { type: "LISTENING" });
 });
 
 /* Called whenever a new message is sent in the guild. */
