@@ -23,6 +23,11 @@
     "token": "",
     "botSpamChannel": ""
   },
+  "rustplus": {
+    "fcmListener": "true",
+    "pairingNotifications": "true",
+    "inGamePairingNotifications": "true"
+  },
   "rust": {
     "serverIp": "",
     "appPort": "",
