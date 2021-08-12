@@ -19,6 +19,7 @@
     "dependencies": {
         "discord.js": "^12.5.3",
         "rustplus.js": "github:liamcottle/rustplus.js",
-        "jimp": "^0.16.1"
+        "jimp": "^0.16.1",
+        "push-receiver": "^2.1.0"
     }
 }

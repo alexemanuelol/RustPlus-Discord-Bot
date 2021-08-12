@@ -3,6 +3,7 @@ const RustPlus = require("rustplus.js");
 const fs = require("fs");
 
 const Tools = require("./tools/tools.js");
+const FcmListener = require("./tools/fcmListener.js");
 
 exports.THUMBNAIL_DEFAULT = new Discord.MessageAttachment("./images/rust_logo.png", "rust_logo.png");
 exports.GITHUB_URL = "https://github.com/alexemanuelol/RustPlus-Discord-Bot";
@@ -44,7 +45,6 @@ function mapMarkerPolling() {
                 }
             }
         }
-
     });
 
     setTimeout(mapMarkerPolling, 10000);
@@ -62,6 +62,11 @@ function destroyBot() {
     rustplus.disconnect();
     discordBot.destroy();
     process.exit(1);
+}
+
+function setFcmReady() {
+    Tools.print("ATTENTION", "Listening for FCM Notifications.");
+    FcmListener.fcmReady = true;
 }
 
 function parseCommand(author, message, channel, ingameCall = false) {
@@ -107,6 +112,20 @@ function parseCommand(author, message, channel, ingameCall = false) {
 /* Read the config.json file. */
 var config = Tools.readJSON("./config.json");
 
+/* Check if fcmListener is enabled in config and if the rustplus.config.json file exist. */
+if (config.rustplus.fcmListener === "true") {
+    if (fs.existsSync("./rustplus.config.json")) {
+        Tools.print("SUCCESS", "rustplus.config.json file was found!");
+    }
+    else {
+        Tools.print("ERROR", "rustplus.config.json file does not exist inside root folder.\n" +
+            "Try running the command: 'npx @liamcottle/rustplus.js fcm-register' and then place the output " +
+            "'rustplus.config.json' file in the root folder of the RustPlus-Discord-Bot.");
+        process.exit(1);
+    }
+}
+
+
 /*
  *  DISCORD
  */
@@ -140,6 +159,12 @@ discordBot.on("ready", () => {
 
     /* Set the BOT activity text. */
     discordBot.user.setActivity(config.general.prefix + "help", { type: "LISTENING" });
+
+    /* Start pairing listener. */
+    if (config.rustplus.fcmListener === "true") {
+        FcmListener.fcmListener(discordBot, rustplus);
+        setTimeout(setFcmReady, 5000);
+    }
 });
 
 /* Called whenever a new message is sent in the guild. */
