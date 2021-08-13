@@ -2,7 +2,8 @@
   "general": {
     "prefix": "!",
     "steamId": "",
-    "reconnectAttempts": "30"
+    "reconnectAttempts": "30",
+    "inGameCommands": "true"
   },
   "notifications": {
     "enabled": "true",

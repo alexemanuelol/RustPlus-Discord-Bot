@@ -68,7 +68,7 @@ function setFcmReady() {
     FcmListener.fcmReady = true;
 }
 
-function parseCommand(author, message, channel, ingameCall = false) {
+function parseCommand(author, message, channel, inGameCall = false) {
     /* The connection must be closed. Do nothing. */
     if (!connected) {
         return;
@@ -76,6 +76,11 @@ function parseCommand(author, message, channel, ingameCall = false) {
 
     /* Read the config.json file. */
     config = Tools.readJSON("./config.json");
+
+    if (inGameCall === true && config.general.inGameCommands === "false") {
+        /* In-Game commands is not possible. */
+        return;
+    }
 
     /* If it does not start with the command prefix or if message comes from another bot, ignore. */
     if (!message.startsWith(config.general.prefix)) return;
@@ -95,7 +100,7 @@ function parseCommand(author, message, channel, ingameCall = false) {
         return;
     }
 
-    if (ingameCall) {
+    if (inGameCall) {
         channel.send("**" + author + "** just called command from in-game: **" + message + "**");
     }
 

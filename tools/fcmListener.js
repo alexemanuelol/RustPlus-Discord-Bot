@@ -37,6 +37,12 @@ module.exports = {
                 if (config.rustplus.pairingNotifications === "true") {
                     if (body.hasOwnProperty("entityType")) {
                         let channel = discordBot.channels.cache.get(config.discord.botSpamChannel);
+
+                        if (typeof (channel) === "undefined") {
+                            Tools.print("ERROR", "discordBotSpamChannel is invalid in config.json.");
+                            return;
+                        }
+
                         let type = Tools.EntityType[body.entityType];
                         let id = parseInt(body.entityId);
 
