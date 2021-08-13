@@ -1,6 +1,11 @@
 const { register, listen } = require('push-receiver');
+const Discord = require("discord.js");
 
 const Tools = require("./tools.js");
+
+const switchAttachment = new Discord.MessageAttachment("./images/smart_switch.png", "smart_switch.png");
+const alarmAttachment = new Discord.MessageAttachment("./images/smart_alarm.png", "smart_alarm.png");
+const storageAttachment = new Discord.MessageAttachment("./images/storage_monitor.png", "storage_monitor.png");
 
 var fcmClient;
 
@@ -35,6 +40,17 @@ module.exports = {
                         let type = Tools.EntityType[body.entityType];
                         let id = parseInt(body.entityId);
 
+                        /* If it is a Smart Alarm, we do not need to add it to devices.json. */
+                        if (body.entityType === "2") {
+                            Tools.print("PAIRING", "Smart Alarm with entityId **'" + id + "'** have been paired. " +
+                                "No need to add to devices.", channel, null, alarmAttachment, "smart_alarm.png");
+                            if (config.rustplus.inGamePairingNotifications === "true") {
+                                rustplus.sendTeamMessage("[PAIRING] Smart Alarm with entityId '" + id + "' have been paired. No need to " +
+                                    "add to devices.");
+                            }
+                            return;
+                        }
+
                         for (let device in devices) {
                             if (devices[device].id === id) {
                                 /* Already exist in devices.json */
@@ -43,20 +59,38 @@ module.exports = {
                                 return;
                             }
                         }
+                        let att;
+                        let name;
+                        if (body.entityType === "1") {
+                            att = switchAttachment;
+                            name = "smart_switch.png";
+                        }
+                        else if (body.entityType === "3") {
+                            att = storageAttachment;
+                            name = "storage_monitor.png";
+                        }
 
-                        Tools.print("PAIRING", "A **" + type + "** with the entityId **'" + id + "'** was paired " +
-                            "in-game, add to devices?", channel);
+                        Tools.print("PAIRING", "A **" + type + "** with the entityId **'" + id + "'** was paired" +
+                            ", add to devices?", channel, null, att, name);
                         if (config.rustplus.inGamePairingNotifications === "true") {
                             rustplus.sendTeamMessage("[PAIRING] A " + type + " with entityId '" + id +
-                                "' was paired in-game, add to devices?");
+                                "' was paired, add to devices?");
                         }
                     }
                 }
             }
             else if (data.channelId === "alarm") {
+                if (config.alarms.enabled === "true") {
+                    let channel = discordBot.channels.cache.get(config.discord.botSpamChannel);
+                    let title = data.title;
+                    let message = data.message;
 
+                    Tools.print("ALARM '" + title + "'", message, channel, null, alarmAttachment, "smart_alarm.png");
+                    if (config.alarms.inGame === "true") {
+                        rustplus.sendTeamMessage("[ALARM '" + title + "'] " + message);
+                    }
+                }
             }
-
         });
     },
 };

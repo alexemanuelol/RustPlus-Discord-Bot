@@ -1,4 +1,10 @@
+const Discord = require("discord.js");
+
 const Tools = require("./../tools/tools.js");
+
+const switchAttachment = new Discord.MessageAttachment("./images/smart_switch.png", "smart_switch.png");
+const alarmAttachment = new Discord.MessageAttachment("./images/smart_alarm.png", "smart_alarm.png");
+const storageAttachment = new Discord.MessageAttachment("./images/storage_monitor.png", "storage_monitor.png");
 
 const prefix = Tools.readJSON("./config.json").general.prefix;
 const help = `\
@@ -10,9 +16,9 @@ This command lets you add different devices to the devices.json located on the b
         ${prefix}addDevice switch1 1234567
 
 **To add a Smart Alarm**:
-    ${prefix}addDevice nameOfAlarm entityId theAlarmMessage
+    ${prefix}addDevice nameOfAlarm entityId
     Example:
-        ${prefix}addDevice oilrig 1234567 Oilrig was just triggered!
+        ${prefix}addDevice oilrig 1234567
 
 **To add a Storage Monitor**:
     ${prefix}addDevice nameOfSM entityId
@@ -27,9 +33,9 @@ module.exports = {
         /* Read the config.json file. */
         let config = Tools.readJSON("./config.json");
 
-        /* Verify that the number of arguments is at least 2. */
-        if (args.length < 2) {
-            Tools.print("ERROR", "At least 2 arguments required. Example: " + config.general.prefix
+        /* Verify that the number of arguments is 2. */
+        if (args.length !== 2) {
+            Tools.print("ERROR", "2 arguments required. Example: " + config.general.prefix
                 + "addDevice @name @id.", channel);
             return false;
         }
@@ -56,34 +62,24 @@ module.exports = {
 
             /* Smart Switch */
             if (msg.response.entityInfo.type === 1) {
-                let device = { id: id, type: msg.response.entityInfo.type, alarmMessage: "" };
+                let device = { id: id, type: msg.response.entityInfo.type };
                 Tools.writeJSON("./devices.json", name, device);
-                Tools.print("Successfully Added", "Switch **" + name + " : " + id + "** was added to devices.",
-                    channel);
+                Tools.print("Successfully Added", "Smart Switch **" + name + " : " + id + "** was added to devices.",
+                    channel, null, switchAttachment, "smart_switch.png");
             }
             /* Smart Alarm */
             else if (msg.response.entityInfo.type === 2) {
-                let alarmMessage = "";
-
-                if (args.length === 2) {
-                    alarmMessage = "Alarm '" + name + "' was triggered.";
-                }
-                else {
-                    alarmMessage = message.replace(config.general.prefix + "addDevice " + args[0] + " " +
-                        args[1] + " ", "");
-                }
-
-                let device = { id: id, type: msg.response.entityInfo.type, alarmMessage: alarmMessage };
+                let device = { id: id, type: msg.response.entityInfo.type };
                 Tools.writeJSON("./devices.json", name, device);
-                Tools.print("Successfully Added", "Alarm **" + name + " : " + id +
-                    "** was added to devices with message: **" + alarmMessage + "**.", channel);
+                Tools.print("Successfully Added", "Smart Alarm **" + name + " : " + id +
+                    "** was added to devices.", channel, null, alarmAttachment, "smart_alarm.png");
             }
             /* Storage Monitor */
             else if (msg.response.entityInfo.type === 3) {
-                let device = { id: id, type: msg.response.entityInfo.type, alarmMessage: "" };
+                let device = { id: id, type: msg.response.entityInfo.type };
                 Tools.writeJSON("./devices.json", name, device);
                 Tools.print("Successfully Added", "Storage Monitor **" + name + " : " + id +
-                    "** was added to devices.", channel);
+                    "** was added to devices.", channel, storageAttachment, "storage_monitor.png");
             }
             else {
                 Tools.print("ERROR", "Invalid type.");

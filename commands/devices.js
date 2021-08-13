@@ -35,8 +35,7 @@ module.exports = {
                 switchStr += "**-** " + device + " : " + devices[device].id + "\n";
             }
             else if (devices[device].type === 2) {
-                alarmStr += "**-** " + device + " : " + devices[device].id + " with message: '" +
-                    devices[device].alarmMessage + "'\n";
+                alarmStr += "**-** " + device + " : " + devices[device].id + "\n";
             }
             else if (devices[device].type === 3) {
                 storageStr += "**-** " + device + " : " + devices[device].id + "\n";
@@ -51,6 +50,10 @@ module.exports = {
         }
         if (storageStr !== "") {
             embed.addField("**Storage Containers**", storageStr);
+        }
+
+        if (switchStr === "" && alarmStr === "" && storageStr === "") {
+            embed.setDescription("No registered devices.");
         }
 
         Tools.print("Registered Devices",);

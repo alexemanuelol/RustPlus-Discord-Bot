@@ -7,7 +7,6 @@ const FcmListener = require("./tools/fcmListener.js");
 
 exports.THUMBNAIL_DEFAULT = new Discord.MessageAttachment("./images/rust_logo.png", "rust_logo.png");
 exports.GITHUB_URL = "https://github.com/alexemanuelol/RustPlus-Discord-Bot";
-const alarmAttachment = new Discord.MessageAttachment("./images/smart_alarm.png", "smart_alarm.png");
 const storageAttachment = new Discord.MessageAttachment("./images/storage_monitor.png", "storage_monitor.png");
 
 var connected = false;
@@ -163,7 +162,7 @@ discordBot.on("ready", () => {
     /* Start pairing listener. */
     if (config.rustplus.fcmListener === "true") {
         FcmListener.fcmListener(discordBot, rustplus);
-        setTimeout(setFcmReady, 5000);
+        setTimeout(setFcmReady, 3000);
     }
 });
 
@@ -286,22 +285,10 @@ rustplus.on("message", (msg) => {
 
             for (let device in devices) {
                 if (devices[device].id === msg.broadcast.entityChanged.entityId) {
-                    if (devices[device].type === 1) { /* Switch */
+                    if (devices[device].type === 1) { /* Smart Switch */
                         break;
                     }
-                    else if (devices[device].type === 2) { /* Alarm */
-                        if (config.alarms.enabled === "false") break;
-
-                        if (msg.broadcast.entityChanged.payload.value === true) {
-                            if (config.alarms.inGame === "true") {
-                                Tools.print("ALARM", devices[device].alarmMessage, channel, rustplus, alarmAttachment,
-                                    "smart_alarm.png");
-                            }
-                            else {
-                                Tools.print("ALARM", devices[device].alarmMessage, channel, null, alarmAttachment,
-                                    "smart_alarm.png");
-                            }
-                        }
+                    else if (devices[device].type === 2) { /* Smart Alarm */
                         break;
                     }
                     else if (devices[device].type === 3) { /* Storage Monitor */
