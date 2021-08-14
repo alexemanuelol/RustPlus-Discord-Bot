@@ -1,60 +1,109 @@
-![Rust+ Discord icon](images/rustplus_discord.png)
+<p align="center">
+<img src="./rustplusDiscordBot.png" width="500"></a>
+</p>
 
-# RustPlus-Discord-Bot
-This is an NodeJS Discord Bot that uses the rustplus.js library to interact with Smart Devices in the PC game [Rust](https://store.steampowered.com/app/252490/Rust/).
+<p align="center">
+<a><img src="https://img.shields.io/badge/Discord-Alexemanuelol%238259-%237289DA?style=flat&logo=discord" alt="discord"/></a>
+<a href="https://www.reddit.com/user/Alexemanuelol"><img src="https://img.shields.io/badge/Reddit-Alexemanuelol-FF4500?style=flat&logo=reddit" alt="reddit"/></a>
+<a href="https://ko-fi.com/alexemanuelol"><img src="https://img.shields.io/badge/Donate%20a%20Coffee-alexemanuelol-yellow?style=flat&logo=buy-me-a-coffee" alt="donate on ko-fi"/></a>
 
+<h1 align="center">RustPlus-Discord-Bot</h1>
+</p>
 
-## Install
+A NodeJS Discord Bot that uses the rustplus.js library to interact with Smart Devices, search for items for sale in vending machines, notify about in-game events such as Cargo Ship spawning or trigger of oilrig and other methods that is available through the [Rust](https://store.steampowered.com/app/252490/Rust/)+ companion app.
 
-To clone the repository:
+# How-To Setup
+
+## Setup Video
+
+[How to setup the RustPlus-Discord-Bot](https://youtu.be/7cdn1dPMEKU)
+## Required Software
+
+Follow the instructions for your operating system.
+
+### Windows
+Download the following:
+
+- NodeJS - [Link to download page.](https://nodejs.org/en/download/)
+- Git - [Link to download page.](https://git-scm.com/downloads)
+
+### Ubuntu
+Run the following commands:
+
+    $ sudo apt update
+    $ sudo apt install nodejs npm git
+
+### Arch Linux
+Run the following command:
+
+    $ sudo pacman -S nodejs npm git
+
+## Setup the BOT
+
+Open a terminal and run the following commands to clone the repository and install the required packages:
 
     $ git clone https://github.com/alexemanuelol/RustPlus-Discord-Bot.git
-
-Install the required nodejs modules:
-
     $ cd RustPlus-Discord-Bot
     $ npm install
 
+Run the following command to register with FCM, Expo and link your Steam Account with Rust+.
 
-## Setup
+    $ npx @liamcottle/rustplus.js fcm-register
 
-To be able to run the bot there are a few configuration parameters that needs to be set in the config.json file located at *src/config.json*:
+**NOTE:** Chrome/ Chromium is required for this step to work. It will open up an instance of the browser where you will have to sign in with your Steam Account and link with Rust+:
 
-1. **discordToken** - Follow [this](https://realpython.com/how-to-make-a-discord-bot-python/) guide for how to setup an application, bot creation for the discord server and how to access the token.
-2. **rustServerIp** - The server IP address.
-3. **rustAppPort** - Rust app port for communicating via App WebSocket.
-4. **steamId** - Your steam ID.
-5. **rustPlayerToken** - Rust player token from server pairing.
+This will generate the configuration file *rustplus.config.json* which should remain in the same folder as the *rustplusDiscordBot.js* script.
 
-### Obtaining rustAppPort, rustPlayerToken and smart devices entity ids
+Before we can start the BOT, we need to sort out the config.json file. There are some properties that needs to be filled out, these are:
+- **steamId**
+- **serverIp**
+- **appPort**
+- **playerToken**
+- **token**
+- **botSpamChannel**
 
-To obtain the rustAppPort and rustPlayerToken, follow ![this](https://github.com/liamcottle/rustplus.js/blob/master/README.md#pairing) guide.
+The first 4 properties can easily be accessed by running the script:
 
-When the fcm-listen is running, you simply pair up the smart devices you have in-game and the notifications will appear in the fcm-listen terminal.
+    $ node tools/external/copy_server_details_to_config.js
 
-## Discord Bot Commands
+While this script is running, you simply join the rust server you want to play on, enter the menu and click on 'Rust+' and then press either 'PAIR WITH SERVER' or 'RESEND'. This will trigger a FCM notification that includes **steamId**, **serverIp**, **appPort**, **playerToken** and will automatically be copied into your config.json file.
 
-Default command prefix: **!**
+**token** property can be gained by creating a [Discord BOT](https://discordpy.readthedocs.io/en/stable/discord.html) for your Discord Server and copying the bot token into the config.json file.
 
-- **addDevice @name @id** - Add a device to the devices.json file.
-- **devices** - Print all registered devices in the devices.json file.
-- **getCameraFrame @name @frame** - Get a jpeg image from a CCTV Camera.
-- **getEntityInfo @name** - Get the current state of a Smart Device.
-- **getInfo** - Get info about the Rust Server.
-- **getMap** - Fetch map info, which includes a jpeg image.
-- **getMapMarkers** - Get map markers, such as vending machines and cargo/heli.
-- **getTeamInfo** - Get list of team members and positions on map.
-- **getTime** - Get the current in game time.
-- **help** - Print a help message.
-- **removeAllDevices** - Remove all devices in the devices.json file.
-- **removeDevice @name** - Remove a device from the devices.json file.
-- **sendTeamMessage** - Send messages to Team Chat.
-- **setEntityValue @name @value** - Set the value of a Smart Device.
-- **turnOff @name/id ...** - Turn off a Smart Switch.
-- **turnOn @name/id ...** - Turn on a Smart Switch.
-- **ver** - Print the current version of the bot.
+**botSpamChannel** property can be gained by choosing one of the text channels in your Discord Server and simply copy the channel ID into the config.json file.
 
 
-## Thanks to
-- **liamcottle** - for the rustplus.js API
-    - https://github.com/liamcottle/rustplus.js
+
+# Documentation
+
+*docs/documentation.md* includes a detailed guide to all available commands.
+
+[Documentation](docs/documentation.md)
+
+
+# Screenshots and GIFs
+
+## TurnOn Smart Switches
+![Turn on Smart Switches](screenshots/turnOn.gif)
+
+## Pairing with Smart Devices
+![Pairing with Smart Devices](screenshots/pairing.gif)
+
+## Running the help command
+![Help command](screenshots/help.png)
+
+## Running the getMap command
+![getMap command](screenshots/getMap.png)
+
+## Running the market command with assault as keyword
+![Market search](screenshots/market.png)
+
+## CargoShip active notification
+![Cargo Ship active](screenshots/cargoShip.png)
+
+## Explosion detected notification
+![Explosion detected](screenshots/explosion.png)
+
+# Thanks to
+
+**liamcottle**@GitHub - for the [rustplus.js](https://github.com/liamcottle/rustplus.js) library
