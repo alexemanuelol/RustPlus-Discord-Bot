@@ -76,7 +76,7 @@ While this script is running, you simply join the rust server you want to play o
 
 # Documentation
 
-*docs/documentation.md* includes a detailed guide to all available commands.
+*docs/documentation.md* includes a detailed guide to all available commands and all the configuration settings.
 
 [Documentation](docs/documentation.md)
 
