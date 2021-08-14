@@ -32,7 +32,9 @@ module.exports = {
         description += "Explosion Notifications: **" + config.notifications.explosion + "**\n\n";
         description += "Alarm Notifications: **" + config.alarms.enabled + "**\n";
         description += "In-Game Alarm Notifications : **" + config.alarms.inGame + "**\n\n";
-        description += "Storage Monitor Notifications: **" + config.storageMonitors.enabled + "**";
+        description += "Storage Monitor Notifications: **" + config.storageMonitors.enabled + "**\n\n";
+        description += "pairingNotifications: **" + config.rustplus.pairingNotifications + "**\n";
+        description += "inGamePairingNotifications: **" + config.rustplus.inGamePairingNotifications + "**";
 
         Tools.print(title, description, channel);
 
