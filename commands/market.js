@@ -73,9 +73,16 @@ module.exports = {
                 if (marker.type === Tools.MarkerType.VendingMachine) {
                     if (marker.hasOwnProperty("sellOrders")) {
                         let field = marker.name;
+                        if (marker.name === "") {
+                            field = "A Shop";
+                        }
                         let str = "";
 
                         for (let order of marker.sellOrders) {
+                            if (order.amountInStock === 0) {
+                                continue;
+                            }
+
                             let selling = (order.itemId in items) ? items[order.itemId].name : "Unknown";
                             let quantity = order.quantity;
                             let currency = (order.currencyId in items) ? items[order.currencyId].name : "Unknown";
