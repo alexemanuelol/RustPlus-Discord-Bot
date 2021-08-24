@@ -79,7 +79,7 @@ module.exports = {
                 let device = { id: id, type: msg.response.entityInfo.type };
                 Tools.writeJSON("./devices.json", name, device);
                 Tools.print("Successfully Added", "Storage Monitor **" + name + " : " + id +
-                    "** was added to devices.", channel, storageAttachment, "storage_monitor.png");
+                    "** was added to devices.", channel, null, storageAttachment, "storage_monitor.png");
             }
             else {
                 Tools.print("ERROR", "Invalid type.");
