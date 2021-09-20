@@ -31,12 +31,12 @@ Download the following:
 Run the following commands:
 
     $ sudo apt update
-    $ sudo apt install nodejs npm git
+    $ sudo apt install nodejs=14.17.3 npm=6.14.13 git
 
 ### Arch Linux
 Run the following command:
 
-    $ sudo pacman -S nodejs npm git
+    $ sudo pacman -S nodejs=14.17.3 npm=6.14.13 git
 
 ## Setup the BOT
 

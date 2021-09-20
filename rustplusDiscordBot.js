@@ -24,8 +24,7 @@ function mapMarkerPolling() {
 
         /* Validate that the response message does not include any errors. */
         if (!Tools.validateResponse(msg, null)) {
-            Tools.print("RESPONSE", "getEntityInfo\n" + JSON.stringify(msg));
-            setTimeout(mapMarkerPolling, 10000);
+            Tools.print("RESPONSE", "getMapMarkers\n" + JSON.stringify(msg));
             return false;
         }
 
