@@ -42,8 +42,8 @@ module.exports = {
                 let field = "**" + member.name + "** (" + member.steamId + ")";
                 let str = "**IsOnline:** " + member.isOnline + "\n" +
                     "**IsAlive:** " + member.isAlive + "\n" +
-                    "**SpawnTime:** " + member.spawnTime + "\n" +
-                    "**DeathTime:** " + member.deathTime + "\n" +
+                    "**SpawnTime:** " + Tools.convertToStringDate(Tools.convertUnixTimestampToDate(member.spawnTime)) + "\n" +
+                    "**DeathTime:** " + Tools.convertToStringDate(Tools.convertUnixTimestampToDate(member.deathTime)) + "\n" +
                     "**X-cord:** " + member.x + "\n" +
                     "**Y-cord:** " + member.y;
 

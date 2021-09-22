@@ -30,7 +30,7 @@ module.exports = {
                 "**URL:** " + info.url + "\n" +
                 "**Map:** " + info.map + "\n" +
                 "**Map Size:** " + info.mapSize + "\n" +
-                "**Wipe Time:** " + info.wipeTime + "\n" +
+                "**Wipe Time:** " + Tools.convertToStringDate(Tools.convertUnixTimestampToDate(info.wipeTime)) + "\n" +
                 "**Online Players:** (" + info.players + "/" + info.maxPlayers + ")\n" +
                 "**Queued Players:** " + info.queuedPlayers + "\n" +
                 "**Seed:** " + info.seed + "\n" +
