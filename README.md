@@ -72,6 +72,13 @@ While this script is running, you simply join the rust server you want to play o
 
 **botSpamChannel** property can be gained by choosing one of the text channels in your Discord Server and simply copy the channel ID into the config.json file.
 
+# How to update the repository
+
+Run the following commands:
+
+    $ git stash
+    $ git pull --rebase
+    $ git stash pop
 
 
 # Documentation
