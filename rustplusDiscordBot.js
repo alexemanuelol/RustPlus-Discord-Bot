@@ -325,7 +325,26 @@ rustplus.on("message", (msg) => {
 
                             /* If a 'Tool Cupboard'. */
                             if (msg.broadcast.entityChanged.payload.capacity === 24) {
-                                description = "Content of the Tool Cupboard **" + device + "** have changed.";
+                                description = "Content of the Tool Cupboard **" + device + "** have changed.\n";
+                                timeLeft = msg.broadcast.entityChanged.payload.protectionExpiry;
+                                description += "Time left before decay: ";
+
+                                if (timeLeft === 0) {
+                                    description += "**DECAYING**";
+                                }
+                                else {
+                                    let day = 86400;
+                                    let hour = 3600;
+                                    let minute = 60;
+
+                                    let totSeconds = Math.floor((Tools.convertUnixTimestampToDate(timeLeft) - Date.now()) / 1000);
+                                    let days = Math.floor(totSeconds / day);
+                                    let hours = Math.floor((totSeconds - days * day) / hour);
+                                    let minutes = Math.floor((totSeconds - days * day - hours * hour) / minute);
+                                    let seconds = totSeconds - days * day - hours * hour - minutes * minute;
+
+                                    description += "**" + days + "d " + hours + "h " + minutes + "m " + seconds + "s**";
+                                }
                             }
                             /* If a 'Large Wood Box' or a 'Vending Machine'. */
                             else if (msg.broadcast.entityChanged.payload.capacity === 30) {
@@ -370,3 +389,6 @@ rustplus.connect();
 
 /* Start the map marker polling */
 setTimeout(mapMarkerPolling, 10000);
+
+
+// https://stackoverflow.com/questions/13894632/get-time-difference-between-two-dates-in-seconds
