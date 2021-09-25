@@ -370,7 +370,7 @@ Having this set to true allows alarms in discord. Alarms are triggered via in-ga
 Having this set to true allows alarms to be forwarded to in-game team chat.
 
 ### **storageMonitor.enabled**
-Having this set to true allows Storage Monitors to notify whenever it changes it's content and prints the content to discord.
+Having this set to true allows Storage Monitors to notify whenever it changes it's content and prints the content to discord. It also give you an approximation of time left before decaying if the storage monitor is set on a Tool Cupboard. NOTE: The time left before decaying seem to be one step behind so whenever something gets added or removed from it shows the time left before the content was moved.
 
 ### **discord.token**
 This is the Discord Bot Token.
