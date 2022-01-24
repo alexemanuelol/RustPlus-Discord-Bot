@@ -64,6 +64,7 @@ Before we can start the BOT, we need to sort out the config.json file. There are
 
 The first 4 properties can easily be accessed by running the script:
 
+    $ cd tools/external
     $ node tools/external/copy_server_details_to_config.js
 
 While this script is running, you simply join the rust server you want to play on, enter the menu and click on 'Rust+' and then press either 'PAIR WITH SERVER' or 'RESEND'. This will trigger a FCM notification that includes **steamId**, **serverIp**, **appPort**, **playerToken** and will automatically be copied into your config.json file.
