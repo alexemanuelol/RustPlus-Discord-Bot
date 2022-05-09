@@ -10,6 +10,8 @@
 <h1 align="center">RustPlus-Discord-Bot</h1>
 </p>
 
+**NOTE** This is the old project, the newer and more advanced can be found [here](https://github.com/alexemanuelol/rustPlusPlus).
+<br><br>
 A NodeJS Discord Bot that uses the rustplus.js library to interact with Smart Devices, search for items for sale in vending machines, notify about in-game events such as Cargo Ship spawning or trigger of oilrig and other methods that is available through the [Rust](https://store.steampowered.com/app/252490/Rust/)+ companion app.
 
 # How-To Setup
